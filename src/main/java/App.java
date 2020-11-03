@@ -5,5 +5,6 @@ public class App {
 		System.out.println("funguje2");
 		System.out.println("funguje2");
 		System.out.println("funguje2");
+		System.out.println("nefunguje");
 	}
 }
