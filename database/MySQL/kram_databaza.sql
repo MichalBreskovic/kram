@@ -86,6 +86,8 @@ INSERT INTO answers(title) VALUES ("6");
 INSERT INTO answers(title) VALUES ("7");
 INSERT INTO answers(title) VALUES ("10");
 INSERT INTO answers(title) VALUES ("11");
+INSERT INTO answers(title) VALUES ("12");
+INSERT INTO answers(title) VALUES ("13");
 
 INSERT INTO questions_answers(question_id, answer_id, correct) VALUES(1,1, false);
 INSERT INTO questions_answers(question_id, answer_id, correct) VALUES(1,2, false);
