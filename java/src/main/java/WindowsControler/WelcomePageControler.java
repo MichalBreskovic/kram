@@ -15,18 +15,7 @@ public class WelcomePageControler {
 	private Button hurrabutton1;
 	 
 	 @FXML
-		void initialize() {
-
-			
-		 hurrabutton.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("dame");
-
-				}
-			});
-			
-
-		}
+	void initialize() {
+		 
+	 }
 }
