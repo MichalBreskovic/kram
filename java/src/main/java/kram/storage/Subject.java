@@ -3,7 +3,7 @@ package kram.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import prezencka.storage.Student;
+//import prezencka.storage.Student;
 
 public class Subject {
 	private Long idSubject;
