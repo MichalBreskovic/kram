@@ -1,12 +1,10 @@
 package kram.appka;
 
-import WindowsControler.WelcomePageControler;
+import WindowsControler.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -14,14 +12,16 @@ import javafx.stage.Stage;
 public class App extends Application {
 	
 	public void start(Stage stage) throws Exception {
-		WelcomePageControler controller = new WelcomePageControler();
+		
 		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("WelcomePageCurrent.fxml"));
+		WelcomePageControler controller = new WelcomePageControler(stage);
 		fxmlLoader.setController(controller);
 		Parent rootPane = fxmlLoader.load();
 		Scene scene = new Scene(rootPane);
-		stage.setTitle("Hello World");
+		stage.setTitle("KRAM");
 		stage.setScene(scene);
 		stage.show();
+		
 	}
 	
 	/*public void start(Stage stage) throws Exception {

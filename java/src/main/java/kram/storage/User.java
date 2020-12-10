@@ -6,6 +6,7 @@ import java.util.List;
 public class User {
 	private Long idUser;
 	private String name;
+	private String username;
 	private String surname;
 	private String heslo;
 	private boolean teacher;
@@ -14,6 +15,9 @@ public class User {
 	
 	
 	
+	public User() {
+	}
+
 	//constructor all parameters
 	public User(Long idUser, String name, String surname, String heslo, boolean teacher) {
 		this.idUser = idUser;
@@ -42,15 +46,26 @@ public class User {
 	
 
 
-	public User(Long idUser, String name, String surname, String heslo, boolean teacher, List<Test> testy,
-			List<Question> questions) {
+
+	
+
+	public User(Long idUser, String name, String username, String surname, String heslo, boolean teacher,
+			List<Test> testy) {
 		this.idUser = idUser;
 		this.name = name;
+		this.username = username;
 		this.surname = surname;
 		this.heslo = heslo;
 		this.teacher = teacher;
 		this.testy = testy;
-		this.questions = questions;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Long getIdUser() {

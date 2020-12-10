@@ -7,6 +7,7 @@ public class Question {
 	private Long idGusetion;
 	private String title;
 	private List<Option> options = new ArrayList<Option>();
+	
 	public Question(Long idGusetion, String title, List<Option> options) {
 		this.idGusetion = idGusetion;
 		this.title = title;
