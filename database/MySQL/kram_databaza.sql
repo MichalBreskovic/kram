@@ -109,3 +109,4 @@ SELECT * FROM zameranie;
 SELECT * FROM question;
 SELECT * FROM test;
  
+ALTER TABLE user ADD COLUMN username VARCHAR(45) NOT NULL unique;
