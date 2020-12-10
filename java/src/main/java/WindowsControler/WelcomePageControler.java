@@ -82,26 +82,20 @@ public class WelcomePageControler {
 			@Override
 			public void handle(ActionEvent event)  {
 				try {
-					//System.out.println(check.getUsername());
 					if (check.getUsername()==null || check.getHeslo()==null ||check.getUsername().trim().isEmpty() || check.getHeslo().trim().isEmpty() ) {
 						errorfield.setText("No values in Username or Password");
 					}else {
 					errorfield.setText("");
 					User logged = userDao.login(check.getUsername(), check.getHeslo());	
-					//getStage().setTitle("Welcome"+check.getName());
-					UserPageControler controller = new UserPageControler(getStage());
+					UserPageControler controller = new UserPageControler(getStage(), logged);
 					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPage.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
 					getStage().setTitle("Welcome "+logged.getSurname());
 					getStage().setScene(scene);
-					//stage.show();
 					}
 				} catch (Exception e) {
-					//System.out.println("fail");
-					//System.out.println("uzivatel neexistuje");
-					//getStage().setTitle("uzivatel neexistuje");
 					errorfield.setText("There is no such user");
 				
 				} 

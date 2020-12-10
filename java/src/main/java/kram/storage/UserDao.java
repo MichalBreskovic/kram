@@ -3,7 +3,7 @@ package kram.storage;
 
 
 public interface UserDao {
-	void addUser(User user);
+	User saveUser(User user);
 	boolean isTeacher(User user);
 	User login(String meno, String heslo);
 

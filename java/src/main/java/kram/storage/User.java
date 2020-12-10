@@ -49,15 +49,22 @@ public class User {
 
 	
 
-	public User(Long idUser, String name, String username, String surname, String heslo, boolean teacher,
-			List<Test> testy) {
+	public User( String name, String username, String surname, String heslo, boolean teacher) {
+		this.name = name;
+		this.username = username;
+		this.surname = surname;
+		this.heslo = heslo;
+		this.teacher = teacher;
+
+	}
+	public User(Long idUser, String name, String username, String surname, String heslo, boolean teacher) {
 		this.idUser = idUser;
 		this.name = name;
 		this.username = username;
 		this.surname = surname;
 		this.heslo = heslo;
 		this.teacher = teacher;
-		this.testy = testy;
+
 	}
 
 	public String getUsername() {
