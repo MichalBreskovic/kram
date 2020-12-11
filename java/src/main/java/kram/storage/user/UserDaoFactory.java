@@ -1,8 +1,10 @@
-package kram.storage;
+package kram.storage.user;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+
+import kram.storage.MysqlUserDao;
 
 
 

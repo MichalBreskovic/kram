@@ -1,5 +1,9 @@
 package WindowsControler;
 import kram.storage.*;
+import kram.storage.user.User;
+import kram.storage.user.UserDao;
+import kram.storage.user.UserDaoFactory;
+import kram.storage.user.UserFxModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -86,14 +90,25 @@ public class WelcomePageControler {
 						errorfield.setText("No values in Username or Password");
 					}else {
 					errorfield.setText("");
-					User logged = userDao.login(check.getUsername(), check.getHeslo());	
-					UserPageControler controller = new UserPageControler(getStage(), logged);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPage.fxml"));
-					fxmlLoader2.setController(controller);
-					Parent rootPane = fxmlLoader2.load();
-					Scene scene = new Scene(rootPane);
-					getStage().setTitle("Welcome "+logged.getSurname());
-					getStage().setScene(scene);
+					User logged = userDao.getByNameUsername(check.getUsername(), check.getHeslo());	
+					if (logged.isTeacher()) {
+						UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), logged);
+						FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserTeacherPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						getStage().setTitle("Welcome "+logged.getSurname());
+						getStage().setScene(scene);
+					}else {
+						UserPageControler controller = new UserPageControler(getStage(), logged);
+						FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						getStage().setTitle("Welcome "+logged.getSurname());
+						getStage().setScene(scene);
+					}
+					
 					}
 				} catch (Exception e) {
 					errorfield.setText("There is no such user");

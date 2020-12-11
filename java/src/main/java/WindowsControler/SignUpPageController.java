@@ -14,6 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import kram.appka.App;
 import kram.storage.*;
+import kram.storage.user.User;
+import kram.storage.user.UserDao;
+import kram.storage.user.UserDaoFactory;
+import kram.storage.user.UserFxModel;
 
 public class SignUpPageController {
 	private Stage stage;
@@ -138,6 +142,24 @@ public class SignUpPageController {
 							
 							User registrate = new User(check.getName(), check.getUsername(), check.getSurname(), check.getHeslo(), check.isTeacher());
 							userDao.saveUser(registrate);
+							//mozno budeme menit, po registracii sa nebude hned dat vojst do user prostredia, uvidime , spytame sa gurskeho
+							if (registrate.isTeacher()) {
+								UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), registrate);
+								FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserTeacherPage.fxml"));
+								fxmlLoader2.setController(controller);
+								Parent rootPane = fxmlLoader2.load();
+								Scene scene = new Scene(rootPane);
+								getStage().setTitle("Welcome "+registrate.getSurname());
+								getStage().setScene(scene);
+							}else {
+								UserPageControler controller = new UserPageControler(getStage(), registrate);
+								FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPage.fxml"));
+								fxmlLoader2.setController(controller);
+								Parent rootPane = fxmlLoader2.load();
+								Scene scene = new Scene(rootPane);
+								getStage().setTitle("Welcome "+registrate.getSurname());
+								getStage().setScene(scene);
+							}
 							
 						} catch (Exception e) {
 							errorfield.setText("Username already taken");

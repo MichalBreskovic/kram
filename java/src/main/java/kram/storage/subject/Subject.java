@@ -1,7 +1,9 @@
-package kram.storage;
+package kram.storage.subject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kram.storage.Zameranie;
 
 //import prezencka.storage.Student;
 
@@ -16,6 +18,11 @@ public class Subject {
 		this.title = title;
 		this.acronym = acronym;
 		this.zamerania = zamerania;
+	}
+	public Subject(Long idSubject, String title, String acronym) {
+		this.idSubject = idSubject;
+		this.title = title;
+		this.acronym = acronym;
 	}
 	
 	//constructor without ID

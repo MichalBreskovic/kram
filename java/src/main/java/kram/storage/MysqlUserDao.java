@@ -10,6 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
+import kram.storage.user.User;
+import kram.storage.user.UserDao;
+
 
 
 public class MysqlUserDao implements UserDao {
@@ -69,7 +72,7 @@ public class MysqlUserDao implements UserDao {
 
 
 	@Override
-	public User login(String meno, String heslo) throws EntityNotFoundException {
+	public User getByNameUsername(String meno, String heslo) throws EntityNotFoundException {
 		String sql = "SELECT user_id, name, surname, heslo, teacher, username FROM user where username like ? and heslo like ?";
 		try {
 			return jdbcTemplate.queryForObject(sql,
