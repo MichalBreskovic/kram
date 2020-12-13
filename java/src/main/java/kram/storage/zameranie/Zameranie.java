@@ -1,7 +1,9 @@
-package kram.storage;
+package kram.storage.zameranie;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kram.storage.Question;
 
 public class Zameranie {
 	private Long idZameranie;
@@ -13,6 +15,10 @@ public class Zameranie {
 		this.idZameranie = idZameranie;
 		this.title = title;
 		this.questions = questions;
+	}
+	public Zameranie(Long idZameranie, String title) {
+		this.idZameranie = idZameranie;
+		this.title = title;
 	}
 	//construcor for new zameranie no ID
 	public Zameranie(String title) {
@@ -39,7 +45,7 @@ public class Zameranie {
 	}
 	@Override
 	public String toString() {
-		return "Zameranie [idZameranie=" + idZameranie + ", title=" + title + ", questions=" + questions + "]";
+		return title;
 	}
 	
 }

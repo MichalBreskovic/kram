@@ -1,8 +1,9 @@
-package kram.storage;
+package kram.storage.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -10,8 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-import kram.storage.user.User;
-import kram.storage.user.UserDao;
+import kram.storage.EntityNotFoundException;
 
 
 
@@ -82,6 +82,9 @@ public class MysqlUserDao implements UserDao {
 			throw new EntityNotFoundException("User not found");
 		}
 	}
+
+	
+	
 
 
 

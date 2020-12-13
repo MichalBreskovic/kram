@@ -103,7 +103,7 @@ public class SignUpPageController {
 			public void handle(ActionEvent event) {
 				try {
 					boolean mozeme = true;
-					System.out.println("daco robime");
+					//System.out.println("daco robime");
 					errorfield.setTextFill(Color.RED);
 					if (check.getUsername() == null || check.getHeslo2() == null || check.getSurname() == null
 							|| check.getName() == null || check.getHeslo() == null
@@ -141,6 +141,12 @@ public class SignUpPageController {
 						try {
 							
 							User registrate = new User(check.getName(), check.getUsername(), check.getSurname(), check.getHeslo(), check.isTeacher());
+							try {
+								userDao.saveUser(registrate);
+							} catch (Exception e) {
+								errorfield.setText("Username already taken");
+								
+							}
 							userDao.saveUser(registrate);
 							//mozno budeme menit, po registracii sa nebude hned dat vojst do user prostredia, uvidime , spytame sa gurskeho
 							if (registrate.isTeacher()) {

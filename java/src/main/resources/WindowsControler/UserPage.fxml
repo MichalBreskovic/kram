@@ -30,11 +30,21 @@
             <Image url="@path853.png" />
          </image>
       </ImageView>
-      <Button fx:id="newtest" layoutX="748.0" layoutY="627.0" mnemonicParsing="false" text="NEW TEST" textFill="#1268b9">
+      <Button fx:id="newtest" layoutX="748.0" layoutY="81.0" mnemonicParsing="false" text="NEW TEST" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <ListView fx:id="listview" editable="true" layoutX="12.0" layoutY="85.0" prefHeight="508.0" prefWidth="855.0" />
+      <ListView fx:id="listview" editable="true" layoutX="15.0" layoutY="186.0" prefHeight="457.0" prefWidth="848.0" />
+      <Button layoutX="534.0" layoutY="81.0" mnemonicParsing="false" text="VIEW SELECTED TEST" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="viewtest" layoutX="14.0" layoutY="151.0" text="Your tests so far: " textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

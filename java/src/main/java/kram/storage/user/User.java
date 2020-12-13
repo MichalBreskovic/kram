@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kram.storage.Question;
-import kram.storage.Test;
+import kram.storage.test.Test;
 
 public class User {
 	private Long idUser;

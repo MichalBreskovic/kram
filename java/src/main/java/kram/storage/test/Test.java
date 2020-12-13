@@ -1,7 +1,9 @@
-package kram.storage;
+package kram.storage.test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kram.storage.Answer;
 
 public class Test {
 	private Long idTest;
@@ -9,6 +11,7 @@ public class Test {
 	private String start;
 	private String end;
 	private int hodnotenie;
+	
 	public Long getIdTest() {
 		return idTest;
 	}

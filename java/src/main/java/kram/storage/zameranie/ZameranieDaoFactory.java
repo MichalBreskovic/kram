@@ -1,4 +1,4 @@
-package kram.storage.user;
+package kram.storage.zameranie;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -6,20 +6,20 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 
 
-public enum UserDaoFactory {
+public enum ZameranieDaoFactory {
 
 	INSTATNCE;	
-	private UserDao userDao;
+	private ZameranieDao zameranieDao;
 
-	public UserDao getUserDao() {
-		if (userDao == null){
+	public ZameranieDao getZameranieDao() {
+		if (zameranieDao == null){
 			//userDao = new MemoryUserDao();
-			userDao = getMysqlUserDao();
+			zameranieDao = getMysqlUserDao();
 		}
-		return userDao;
+		return zameranieDao;
 	}
 	
-	private UserDao getMysqlUserDao() {
+	private ZameranieDao getMysqlUserDao() {
 		MysqlDataSource dataSource = new MysqlDataSource();
 		dataSource.setUser("kram");
 		dataSource.setPassword("heslo");
@@ -27,6 +27,7 @@ public enum UserDaoFactory {
 
 		dataSource.setUrl("jdbc:mysql://localhost/kram?serverTimezone=Europe/Bratislava");
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		return new MysqlUserDao(jdbcTemplate);
+		return new MysqlZameranieDao(jdbcTemplate);
 	}
 }
+

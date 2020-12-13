@@ -3,7 +3,7 @@ package kram.storage.subject;
 import java.util.ArrayList;
 import java.util.List;
 
-import kram.storage.Zameranie;
+import kram.storage.zameranie.Zameranie;
 
 //import prezencka.storage.Student;
 
@@ -68,7 +68,7 @@ public class Subject {
 	}
 	@Override
 	public String toString() {
-		return "Subject [idSubject=" + idSubject + ", title=" + title + ", acronym=" + acronym + "]";
+		return  acronym +" : "+ title;
 	}
 	
 
