@@ -2,7 +2,6 @@ package WindowsControler;
 import kram.storage.*;
 import kram.storage.user.User;
 import kram.storage.user.UserDao;
-import kram.storage.user.UserDaoFactory;
 import kram.storage.user.UserFxModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,7 +23,6 @@ public class WelcomePageControler {
 		this.stage = stage;
 	}
 	
-	
 	public Stage getStage() {
 		return stage;
 	}
@@ -33,17 +31,14 @@ public class WelcomePageControler {
 		this.stage = stage;
 	}
 
-
-	private UserDao userDao = UserDaoFactory.INSTATNCE.getUserDao();
+	private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
 	@FXML
 	private Button loginbutton;
 	@FXML
 	private Button signupbutton;
-
 	@FXML
 	private TextField MENO;
-
 	@FXML
 	private TextField HESLO;
 

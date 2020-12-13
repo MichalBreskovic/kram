@@ -17,7 +17,7 @@ public class MysqlSubjectDao implements SubjectDao {
 	
 	private class SubjectRowMapper implements RowMapper<Subject>{
 		public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {
-			long idSubject = rs.getLong("predmet_id");
+			long idSubject = rs.getLong("subject_id");
 			String title = rs.getString("title");
 			String acronym = rs.getString("short");
 			return new Subject(idSubject,title,acronym);
@@ -38,7 +38,7 @@ public class MysqlSubjectDao implements SubjectDao {
 
 	@Override
 	public List<Subject> getAll() {
-		return jdbcTemplate.query("SELECT predmet_id, title, short FROM predmet", new SubjectRowMapper());
+		return jdbcTemplate.query("SELECT subject_id, title, short FROM subject", new SubjectRowMapper());
 	}
 
 	@Override

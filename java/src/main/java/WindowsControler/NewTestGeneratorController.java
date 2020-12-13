@@ -13,17 +13,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import kram.storage.DaoFactory;
 import kram.storage.subject.Subject;
 import kram.storage.subject.SubjectDao;
-import kram.storage.subject.SubjectDaoFactory;
 import kram.storage.user.User;
 import kram.storage.zameranie.Zameranie;
 import kram.storage.zameranie.ZameranieDao;
-import kram.storage.zameranie.ZameranieDaoFactory;
 
 public class NewTestGeneratorController {
-	private SubjectDao subjectDao = SubjectDaoFactory.INSTATNCE.getSubjectDao();
-	private ZameranieDao zameranieDao = ZameranieDaoFactory.INSTATNCE.getZameranieDao();
+	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
+	private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
 	private Stage stage;
 	private User user;
     @FXML
@@ -46,7 +45,7 @@ public class NewTestGeneratorController {
     private TextField topicSelect;
     @FXML
     private Button refreshTopicSelector;
-	// private UserDao userDao = UserDaoFactory.INSTATNCE.getUserDao();
+	// private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
 	public NewTestGeneratorController(Stage stage, User user) {
 		this.stage = stage;

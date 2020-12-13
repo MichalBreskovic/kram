@@ -13,15 +13,12 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.EntityNotFoundException;
 
-
-
 public class MysqlUserDao implements UserDao {
 	
 	JdbcTemplate jdbcTemplate;
 	
 	public MysqlUserDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate=jdbcTemplate;
-		// TODO Auto-generated constructor stub
 	}
 	
 	private class UserRowMapper implements RowMapper<User>{
@@ -29,7 +26,7 @@ public class MysqlUserDao implements UserDao {
 			long user_id = rs.getLong("user_id");
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
-			String heslo = rs.getString("heslo");
+			String heslo = rs.getString("password");
 			String username = rs.getString("username");
 			boolean teacher = rs.getBoolean("teacher");
 			return new User(user_id, username, name, surname,  heslo, teacher);
@@ -44,24 +41,24 @@ public class MysqlUserDao implements UserDao {
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 			insert.withTableName("user");
 			insert.usingGeneratedKeyColumns("user_id");
-			insert.usingColumns("name","surname","heslo","teacher", "username");
+			insert.usingColumns("name","surname","password","teacher", "username");
 			
 			Map<String, String> valuesMap = new HashMap<String, String>();
 			valuesMap.put("name", user.getName());
 			valuesMap.put("surname", user.getSurname());
-			valuesMap.put("heslo", user.getHeslo());
+			valuesMap.put("password", user.getHeslo());
 			valuesMap.put("teacher", Boolean.toString(user.isTeacher()));
 			valuesMap.put("username", user.getUsername());
-			//(Long idUser, String name, String username, String surname, String heslo, boolean teacher)
+			//(Long idUser, String name, String username, String surname, String password, boolean teacher)
 			User newPredmet = new User(insert.executeAndReturnKey(valuesMap).longValue(), user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher());
 			return newPredmet;
 		}else {
-			String sql = "UPDATE user SET name = ?, username = ?, surname=?, heslo=?, teacher=?,  WHERE user_id = ?";
+			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?,  WHERE user_id = ?";
 			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser());
 			if (now==1) {
 				return user;
 			}else {
-				throw new EntityNotFoundException("User with id "+user.getIdUser()+" not found");
+				throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
 			}
 			
 
@@ -73,7 +70,7 @@ public class MysqlUserDao implements UserDao {
 
 	@Override
 	public User getByNameUsername(String meno, String heslo) throws EntityNotFoundException {
-		String sql = "SELECT user_id, name, surname, heslo, teacher, username FROM user where username like ? and heslo like ?";
+		String sql = "SELECT user_id, name, surname, password, teacher, username FROM user where username like ? and password like ?";
 		try {
 			return jdbcTemplate.queryForObject(sql,
 					new UserRowMapper(), meno, heslo);

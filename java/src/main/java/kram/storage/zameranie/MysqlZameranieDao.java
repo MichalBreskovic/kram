@@ -15,7 +15,8 @@ public class MysqlZameranieDao implements ZameranieDao {
 	
 	private class ZameranieRowMapper implements RowMapper<Zameranie>{
 		public Zameranie mapRow(ResultSet rs, int rowNum) throws SQLException {
-			long idZameranie = rs.getLong("zameranie_id");
+			long idZameranie = rs.getLong("topic_id");
+//			long idSubject = rs.getLong("subject_id");
 			String title = rs.getString("title");
 			return new Zameranie(idZameranie,title);
 		};
@@ -29,7 +30,7 @@ public class MysqlZameranieDao implements ZameranieDao {
 
 	@Override
 	public List<Zameranie> getAllBySubjectId(long subjectId) throws EntityNotFoundException {
-		return jdbcTemplate.query("SELECT zameranie_id, title FROM zameranie where predmet_id = ?", new ZameranieRowMapper(), subjectId);
+		return jdbcTemplate.query("SELECT topic_id, title FROM topic where subject_id = ?", new ZameranieRowMapper(), subjectId);
 	
 		
 	}

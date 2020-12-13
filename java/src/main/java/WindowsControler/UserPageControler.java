@@ -5,7 +5,6 @@ import kram.storage.*;
 import kram.storage.subject.MysqlSubjectDao;
 import kram.storage.subject.Subject;
 import kram.storage.subject.SubjectDao;
-import kram.storage.subject.SubjectDaoFactory;
 import kram.storage.user.User;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class UserPageControler {
-	private SubjectDao subjectDao = SubjectDaoFactory.INSTATNCE.getSubjectDao();
+	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private Stage stage;
 	private User user;
 	@FXML
@@ -48,7 +47,7 @@ public class UserPageControler {
     @FXML
     private ListView<Subject> listview;
 
-	// private UserDao userDao = UserDaoFactory.INSTATNCE.getUserDao();
+	// private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
 	public UserPageControler(Stage stage, User user) {
 		this.stage = stage;
