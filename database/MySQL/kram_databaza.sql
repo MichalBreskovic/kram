@@ -55,7 +55,7 @@ CREATE TABLE `question_option`(
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test`(
 	test_id INT NOT NULL PRIMARY KEY,
-	user_id INT NOT NULL,
+	user_id INT,
     topic_id INT NOT NULL,
 	time_start datetime,
 	time_end datetime,
