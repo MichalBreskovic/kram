@@ -1,44 +1,66 @@
-package kram.storage;
+package kram.storage.question;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import kram.storage.option.Option;
+
 public class Question {
-	private Long idGusetion;
+	
+	private Long idQuestion;
+	private Long idTopic;
+	
 	private String title;
 	private List<Option> options = new ArrayList<Option>();
 	
-	public Question(Long idGusetion, String title, List<Option> options) {
-		this.idGusetion = idGusetion;
+	public Question(String title, Long idTopic) {
 		this.title = title;
-		this.options = options;
+		this.idTopic = idTopic;
 	}
-	public Question(String title, List<Option> options) {
+	
+	// komentár
+	
+	public Question(Long idQusetion, String title, Long idTopic) {
+		this.idQuestion = idQusetion;
 		this.title = title;
-		this.options = options;
+		this.idTopic = idTopic;
 	}
-	public Long getIdGusetion() {
-		return idGusetion;
+	
+	public Long getIdQuestion() {
+		return idQuestion;
 	}
-	public void setIdGusetion(Long idGusetion) {
-		this.idGusetion = idGusetion;
+	
+	public void setIdQuestion(Long idGusetion) {
+		this.idQuestion = idGusetion;
 	}
+	
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	public List<Option> getOptions() {
 		return options;
 	}
+	
 	public void setOptions(List<Option> options) {
 		this.options = options;
 	}
-	@Override
-	public String toString() {
-		return "Question [idGusetion=" + idGusetion + ", title=" + title + ", options=" + options + "]";
+	
+	public Long getIdTopic() {
+		return idTopic;
 	}
 	
+	public void setIdTopic(Long idTopic) {
+		this.idTopic = idTopic;
+	}
+	
+	@Override
+	public String toString() {
+		return "Question [idGusetion=" + idQuestion + ", title=" + title + ", options=" + options + "]";
+	}
 	
 }
