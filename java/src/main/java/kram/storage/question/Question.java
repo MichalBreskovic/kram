@@ -1,7 +1,9 @@
-package kram.storage;
+package kram.storage.question;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kram.storage.option.Option;
 
 public class Question {
 	private Long idGusetion;
