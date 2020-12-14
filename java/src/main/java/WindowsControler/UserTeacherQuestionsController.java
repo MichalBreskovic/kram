@@ -11,7 +11,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import kram.storage.Question;
+import kram.storage.question.Question;
 import kram.storage.subject.Subject;
 import kram.storage.user.User;
 import kram.storage.zameranie.Zameranie;
