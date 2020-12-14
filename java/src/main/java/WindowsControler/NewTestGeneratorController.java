@@ -8,10 +8,14 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import kram.storage.DaoFactory;
 import kram.storage.subject.Subject;
@@ -45,6 +49,12 @@ public class NewTestGeneratorController {
     private TextField topicSelect;
     @FXML
     private Button refreshTopicSelector;
+    @FXML
+    private Button back;
+    @FXML
+    private Label errorfield;
+    @FXML
+    private TextField numberOfQuestions;
 	// private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
 	public NewTestGeneratorController(Stage stage, User user) {
@@ -59,7 +69,7 @@ public class NewTestGeneratorController {
 		selectedSubject.setValue(null);
 		selectedTopic.setValue(null);
 		subjectview.setItems(FXCollections.observableArrayList(subjectDao.getAll()));
-		//topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAllBySubjectId(1)));
+		topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAll()));
 		
 		subjectview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subject>() {
 
@@ -110,7 +120,11 @@ public class NewTestGeneratorController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
+				
+				String subjectString=subjectSelect.getText();
+				//System.out.println(subjectString);
+				subjectview.getItems().clear();
+				subjectview.setItems(FXCollections.observableArrayList(subjectDao.getBySubstring(subjectString)));
 				
 			}
 			
@@ -119,18 +133,57 @@ public class NewTestGeneratorController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
+				String topicString=topicSelect.getText();
+				topicview.getItems().clear();
+				topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstring(topicString)));
 				
 			}
 			
 		});
 		start.setOnAction(new EventHandler<ActionEvent>() {
+			boolean done = true;
+			@Override
+			public void handle(ActionEvent event) {
+				String numString=numberOfQuestions.getText();
+				if (selectedSubject == null || selectedTopic == null || numString==null || numString.trim().isEmpty()) {
+					errorfield.setTextFill(Color.RED);
+					errorfield.setText("You need to choose subject and item for starting test");
+					done = false;
+				}else {
+					done=true;
+				}
+					
+				
+				if (done) {
+					try {
+						Integer.parseInt(numString);
+						errorfield.setTextFill(Color.DARKGREEN);
+						errorfield.setText("STARTING");
+					} catch (NumberFormatException  e) {
+						errorfield.setTextFill(Color.RED);
+						errorfield.setText("Invalid value in number of questions");
+					}
+					
+				}
+			}
+			
+		});
+		back.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (selectedSubject != null && selectedTopic != null) {
-					
+				try {
+					UserPageControler controller = new UserPageControler(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPage.fxml"));
+					fxmlLoader2.setController(controller);
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("Welcome "+user.getSurname());
+					stage.setScene(scene);
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
+				
 				
 			}
 			

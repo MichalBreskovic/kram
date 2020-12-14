@@ -2,12 +2,14 @@ package kram.storage.subject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import kram.storage.EntityNotFoundException;
+
 
 
 
@@ -45,6 +47,18 @@ public class MysqlSubjectDao implements SubjectDao {
 	public Subject delete(long id) throws EntityNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<Subject> getBySubstring(String sub) throws NullPointerException {
+		if (sub == null) {
+			return getAll();
+		}
+		if (sub.isBlank()) {
+			return getAll();
+		}
+		String str = "%" + sub +"%";
+		String sql = "SELECT subject_id, title, short FROM subject WHERE title LIKE ? or short LIKE ?";
+		return jdbcTemplate.query(sql, new SubjectRowMapper(),str,str);
 	}
 
 }

@@ -7,6 +7,7 @@ import kram.storage.Question;
 
 public class Zameranie {
 	private Long idZameranie;
+	private Long idSubject;
 	private String title;
 	private List<Question> questions = new ArrayList<Question>();
 	
@@ -18,6 +19,11 @@ public class Zameranie {
 	}
 	public Zameranie(Long idZameranie, String title) {
 		this.idZameranie = idZameranie;
+		this.title = title;
+	}
+	public Zameranie(Long idZameranie,Long idSubject, String title) {
+		this.idZameranie = idZameranie;
+		this.idSubject = idSubject;
 		this.title = title;
 	}
 	//construcor for new zameranie no ID
@@ -47,5 +53,12 @@ public class Zameranie {
 	public String toString() {
 		return title;
 	}
+	public Long getIdSubject() {
+		return idSubject;
+	}
+	public void setIdSubject(Long idSubject) {
+		this.idSubject = idSubject;
+	}
+	
 	
 }

@@ -11,5 +11,6 @@ public interface SubjectDao {
 	Subject saveSubject(Subject subject)throws EntityNotFoundException,NullPointerException;
 	List<Subject> getAll();	
 	Subject delete(long id) throws EntityNotFoundException;
+	List<Subject> getBySubstring(String sub) throws NullPointerException;
 	
 }
