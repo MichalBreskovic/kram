@@ -120,9 +120,7 @@ public class NewTestGeneratorController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
 				String subjectString=subjectSelect.getText();
-				//System.out.println(subjectString);
 				subjectview.getItems().clear();
 				subjectview.setItems(FXCollections.observableArrayList(subjectDao.getBySubstring(subjectString)));
 				
@@ -145,7 +143,8 @@ public class NewTestGeneratorController {
 			@Override
 			public void handle(ActionEvent event) {
 				String numString=numberOfQuestions.getText();
-				if (selectedSubject == null || selectedTopic == null || numString==null || numString.trim().isEmpty()) {
+				if (selectedSubject.getValue() == null || selectedTopic.getValue() == null ||  numString==null || numString.trim().isEmpty()) {
+					//System.out.println(selectedSubject);
 					errorfield.setTextFill(Color.RED);
 					errorfield.setText("You need to choose subject and item for starting test");
 					done = false;

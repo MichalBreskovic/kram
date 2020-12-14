@@ -1,19 +1,5 @@
 package WindowsControler;
 
-import kram.appka.App;
-import kram.storage.*;
-import kram.storage.subject.MysqlSubjectDao;
-import kram.storage.subject.Subject;
-import kram.storage.subject.SubjectDao;
-import kram.storage.user.User;
-
-import java.io.IOException;
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,18 +7,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import junit.framework.Test;
+import kram.storage.DaoFactory;
+import kram.storage.subject.SubjectDao;
+import kram.storage.user.User;
 
-public class UserPageControler {
+public class UserPageTestsController {
 	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private Stage stage;
 	private User user;
-    @FXML
+	@FXML
     private Button tests;
 
     @FXML
@@ -43,9 +31,20 @@ public class UserPageControler {
 
     @FXML
     private Button profile;
-	// private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
-	public UserPageControler(Stage stage, User user) {
+    @FXML
+    private ListView<Test> testview;
+
+    @FXML
+    private ChoiceBox<Test> subjectchoice;
+
+    @FXML
+    private ChoiceBox<Test> topicchoice;
+
+    @FXML
+    private Button newtest;
+
+	public UserPageTestsController(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
 	}
@@ -108,6 +107,24 @@ public class UserPageControler {
 				
 			}
 			
+		});
+		newtest.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+				NewTestGeneratorController control = new NewTestGeneratorController(stage, user);
+				FXMLLoader fxmlLoader = new FXMLLoader(UserPageControler.class.getResource("NewTestGenerator.fxml"));
+				fxmlLoader.setController(control);
+				Parent rootPane2;
+				rootPane2 = fxmlLoader.load();
+				Scene scene = new Scene(rootPane2);
+				stage.setScene(scene);
+				stage.show();
+				} catch (Exception e) {
+				}
+				//listview.setItems(FXCollections.observableArrayList(subjectDao.getAll()));
+				//System.out.println(listview.getItems());
+			}
 		});
 	
 	

@@ -7,23 +7,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import kram.storage.Question;
+import kram.storage.subject.Subject;
 import kram.storage.user.User;
+import kram.storage.zameranie.Zameranie;
 
-public class UserTeacherPageControler {
+public class UserTeacherClassesController {
 	private Stage stage;
 	private User user;
-	public UserTeacherPageControler(Stage stage, User user) {
+	public UserTeacherClassesController(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
 	}
 
-    @FXML
-    private Button tests;
 
     @FXML
     private Label username;
@@ -33,6 +33,18 @@ public class UserTeacherPageControler {
 
     @FXML
     private Button profile;
+
+    @FXML
+    private ListView<?> listview;
+
+    @FXML
+    private Button viewclass;
+
+    @FXML
+    private Button tests;
+
+    @FXML
+    private Label errorfield;
 
 
 	@FXML
