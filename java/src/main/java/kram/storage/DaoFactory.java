@@ -4,6 +4,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
+import kram.storage.option.MysqlOptionDao;
+import kram.storage.option.OptionDao;
+import kram.storage.question.MysqlQuestionDao;
+import kram.storage.question.QuestionDao;
 import kram.storage.subject.MysqlSubjectDao;
 import kram.storage.subject.SubjectDao;
 import kram.storage.user.*;
@@ -18,6 +22,8 @@ public enum DaoFactory {
 	private SubjectDao subjectDao;
 	private UserDao userDao;
 	private ZameranieDao zameranieDao;
+	private QuestionDao questionDao;
+	private OptionDao optionDao;
 	
 	public ZameranieDao getZameranieDao() {
 		if (zameranieDao == null){
@@ -38,6 +44,20 @@ public enum DaoFactory {
 			userDao = new MysqlUserDao(getJdbcTemplate());
 		}
 		return userDao;
+	}
+	
+	public QuestionDao getQuestionDao() {
+		if (questionDao == null){
+			questionDao = new MysqlQuestionDao(getJdbcTemplate());
+		}
+		return questionDao;
+	}
+	
+	public OptionDao getOptionDao() {
+		if (optionDao == null){
+			optionDao = new MysqlOptionDao(getJdbcTemplate());
+		}
+		return optionDao;
 	}
 	
 	private JdbcTemplate getJdbcTemplate() {

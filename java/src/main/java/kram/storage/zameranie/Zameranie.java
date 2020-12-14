@@ -3,7 +3,7 @@ package kram.storage.zameranie;
 import java.util.ArrayList;
 import java.util.List;
 
-import kram.storage.Question;
+import kram.storage.question.Question;
 
 public class Zameranie {
 	private Long idZameranie;

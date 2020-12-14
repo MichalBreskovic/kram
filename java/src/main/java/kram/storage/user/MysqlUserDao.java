@@ -33,7 +33,6 @@ public class MysqlUserDao implements UserDao {
 		}
 	}
 
-
 	@Override
 	public User saveUser(User user) throws EntityNotFoundException, NullPointerException {
 		if (user.getIdUser() == null) {
@@ -52,7 +51,7 @@ public class MysqlUserDao implements UserDao {
 			//(Long idUser, String name, String username, String surname, String password, boolean teacher)
 			User newPredmet = new User(insert.executeAndReturnKey(valuesMap).longValue(), user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher());
 			return newPredmet;
-		}else {
+		} else {
 			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?,  WHERE user_id = ?";
 			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser());
 			if (now==1) {
@@ -65,8 +64,6 @@ public class MysqlUserDao implements UserDao {
 		}
 		
 	}
-
-
 
 	@Override
 	public User getByNameUsername(String meno, String heslo) throws EntityNotFoundException {
