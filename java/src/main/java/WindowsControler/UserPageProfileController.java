@@ -152,7 +152,7 @@ public class UserPageProfileController {
 						stage.setScene(scene);
 					}else {
 						UserPageClassController controller = new UserPageClassController(stage, user);
-						FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserTeacherClassesPage.fxml"));
+						FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPageClasses.fxml"));
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
