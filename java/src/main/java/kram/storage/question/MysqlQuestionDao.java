@@ -78,7 +78,7 @@ public class MysqlQuestionDao implements QuestionDao{
 	
 	@Override
 	public List<Question> getAll() {
-		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) ORDER BY q.question_id";
+		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) ORDER BY q.question_id";
 		try {
 			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor());
 		} catch (DataAccessException e) {
@@ -87,28 +87,26 @@ public class MysqlQuestionDao implements QuestionDao{
 	}
 	
 	@Override
-	public List<Question> getAllByUserId(Long id) {
-		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE user_id = ? ORDER BY q.question_id";
+	public List<Question> getAllByUserId(Long id) throws EntityNotFoundException, NullPointerException {
+		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.user_id = ? ORDER BY q.question_id";
 		try {
-			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), id);
+			List<Question> questions = jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), id);
+			return questions;
 		} catch (DataAccessException e) {
+			e.printStackTrace();
 			throw new EntityNotFoundException("Question with user_id " + id + " not found");
 		}
 	}
 	
 	@Override
-	public Question getById(Long id) {
-		for(Question q : getAll()) {
-			if(q.getIdQuestion() == id) return q;
+	public Question getById(Long id) throws EntityNotFoundException, NullPointerException  {
+//		 TODO new get by id
+		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.question_id = ?";
+		try {
+			return jdbcTemplate.query(sql, new QuestionSetExtractor(), id);	
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Haha totot Question with id " + id + " not found");
 		}
-		throw new EntityNotFoundException("Question with id " + id + " not found");
-//		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, `option`.option_id, `option`.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` USING(option_id) WHERE q.question_id = " + id + " ORDER BY q.question_id";
-//		System.out.println(sql);
-//		try {
-//			return jdbcTemplate.query(sql, new QuestionSetExtractor(), id);	
-//		} catch (DataAccessException e) {
-//			throw new EntityNotFoundException("Haha totot Question with id " + id + " not found");
-//		}
 	}
 	
 	@Override
@@ -158,8 +156,8 @@ public class MysqlQuestionDao implements QuestionDao{
 	
 	public Question deleteQuestion(Long id) throws EntityNotFoundException {
 		String deleteSql = "DELETE FROM question_option WHERE question_id = " + id;
-		jdbcTemplate.update(deleteSql);
 		Question question = getById(id);
+		jdbcTemplate.update(deleteSql);
 		String sql = "DELETE FROM question WHERE question_id = " + id;
 		int changed = jdbcTemplate.update(sql);
 		if(changed == 0) {

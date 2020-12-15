@@ -52,11 +52,19 @@ class MysqlQuestionDaoTest {
 		}
 	}
 
+//	@Test
+//	void testGetAll() {
+//		questions = questionDao.getAll();
+//		for (Question question : questions) {
+////			System.out.println(question.getIdQuestion() + " " + question + " " + question.getIdTopic() + " " + question.getIdUser());
+//		}
+//	}
+	
 	@Test
-	void testGetAll() {
-		questions = questionDao.getAll();
+	void testGetAllByUserId() {
+		questions = questionDao.getAllByUserId((long) 5);
 		for (Question question : questions) {
-//			System.out.println(question.getIdQuestion() + " " + question + " " + question.getIdTopic() + " " + question.getIdUser());
+			System.out.println(question.getIdQuestion() + " " + question + " " + question.getIdTopic() + " " + question.getIdUser());
 		}
 	}
 	

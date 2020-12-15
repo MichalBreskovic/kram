@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.EntityNotFoundException;
+import kram.storage.question.Question;
 
 public class MysqlUserDao implements UserDao {
 	
@@ -66,6 +67,17 @@ public class MysqlUserDao implements UserDao {
 	}
 
 	@Override
+	public User getById(Long id) throws EntityNotFoundException {
+		String sql = "SELECT user_id, name, surname, password, teacher, username FROM `user` WHERE user_id = " + id;
+		System.out.println(sql);
+		try {
+			return jdbcTemplate.queryForObject(sql, new UserRowMapper());
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User not found");
+		}
+	}
+	
+	@Override
 	public User getByNameUsername(String meno, String heslo) throws EntityNotFoundException {
 		String sql = "SELECT user_id, name, surname, password, teacher, username FROM user where username like ? and password like ?";
 		try {
@@ -77,10 +89,16 @@ public class MysqlUserDao implements UserDao {
 		}
 	}
 
-	
-	
-
-
+	@Override
+	public User deleteUser(Long id) throws EntityNotFoundException {
+		String deleteSql = "DELETE FROM user WHERE user_id = " + id;
+		User user = getById(id);
+		int changed = jdbcTemplate.update(deleteSql);
+		if(changed == 0) {
+			throw new EntityNotFoundException("Question with id " + id + " not found");
+		}
+		return user;
+	}
 
 	@Override
 	public boolean isTeacher(User user) {
