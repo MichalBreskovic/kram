@@ -41,10 +41,10 @@ public class DeleteControler {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
+				stage2.close();
+				userDao.deleteUser(user.getIdUser());
 				try {
-					userDao.deleteUser(user.getIdUser());
-					userDao.deleteUser(user.getIdUser());
+					
 					
 					FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("WelcomePageCurrent.fxml"));
 					WelcomePageControler controller = new WelcomePageControler(stage1);
@@ -54,7 +54,6 @@ public class DeleteControler {
 					stage1.setTitle("KRAM");
 					stage1.setScene(scene);
 					stage1.show();
-					stage2.close();
 					
 				} catch (Exception e) {
 					// TODO: handle exception
