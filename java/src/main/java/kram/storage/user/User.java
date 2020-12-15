@@ -38,8 +38,6 @@ public class User {
 		this.teacher = teacher;
 	}
 	
-	
-	
 	//constructor withou teacher, idk, maybe delete later
 	public User(String name, String surname, String heslo) {
 		this.name = name;
@@ -47,11 +45,6 @@ public class User {
 		this.heslo = heslo;
 	}
 	
-
-
-
-	
-
 	public User( String name, String username, String surname, String heslo, boolean teacher) {
 		this.name = name;
 		this.username = username;

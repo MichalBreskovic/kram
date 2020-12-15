@@ -3,7 +3,6 @@ package kram.storage.user;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -12,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.EntityNotFoundException;
-import kram.storage.question.Question;
 
 public class MysqlUserDao implements UserDao {
 	
@@ -95,7 +93,7 @@ public class MysqlUserDao implements UserDao {
 		User user = getById(id);
 		int changed = jdbcTemplate.update(deleteSql);
 		if(changed == 0) {
-			throw new EntityNotFoundException("Question with id " + id + " not found");
+			throw new EntityNotFoundException("User with id " + id + " not found");
 		}
 		return user;
 	}
