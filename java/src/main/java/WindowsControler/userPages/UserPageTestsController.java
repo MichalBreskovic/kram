@@ -1,5 +1,7 @@
-package WindowsControler;
+package WindowsControler.userPages;
 
+import WindowsControler.UserPageProfileController;
+import WindowsControler.WelcomePageControler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -95,7 +97,7 @@ public class UserPageTestsController {
 			public void handle(ActionEvent event) {
 				try {
 					UserPageProfileController controller = new UserPageProfileController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPageProfile.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPageProfile.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
@@ -113,7 +115,7 @@ public class UserPageTestsController {
 			public void handle(ActionEvent event) {
 				try {
 				NewTestGeneratorController control = new NewTestGeneratorController(stage, user);
-				FXMLLoader fxmlLoader = new FXMLLoader(UserPageControler.class.getResource("NewTestGenerator.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(NewTestGeneratorController.class.getResource("NewTestGenerator.fxml"));
 				fxmlLoader.setController(control);
 				Parent rootPane2;
 				rootPane2 = fxmlLoader.load();

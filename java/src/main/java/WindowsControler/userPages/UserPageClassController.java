@@ -1,5 +1,7 @@
-package WindowsControler;
+package WindowsControler.userPages;
 
+import WindowsControler.UserPageProfileController;
+import WindowsControler.WelcomePageControler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -7,23 +9,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import kram.storage.question.Question;
-import kram.storage.subject.Subject;
+import kram.storage.DaoFactory;
+import kram.storage.subject.SubjectDao;
 import kram.storage.user.User;
-import kram.storage.zameranie.Zameranie;
 
-public class UserTeacherClassesController {
+public class UserPageClassController {
+	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private Stage stage;
 	private User user;
-	public UserTeacherClassesController(Stage stage, User user) {
-		this.stage = stage;
-		this.user = user;
-	}
-
+    @FXML
+    private Button tests;
 
     @FXML
     private Label username;
@@ -33,20 +30,12 @@ public class UserTeacherClassesController {
 
     @FXML
     private Button profile;
+	// private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
-    @FXML
-    private ListView<?> listview;
-
-    @FXML
-    private Button viewclass;
-
-    @FXML
-    private Button tests;
-
-    @FXML
-    private Label errorfield;
-
-
+	public UserPageClassController(Stage stage, User user) {
+		this.stage = stage;
+		this.user = user;
+	}
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
@@ -55,12 +44,12 @@ public class UserTeacherClassesController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					UserTeacherQuestionsController controller = new UserTeacherQuestionsController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherQuestionsPage.fxml"));
+					UserPageTestsController controller = new UserPageTestsController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPageTests.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
-					stage.setTitle("Questions");
+					stage.setTitle("Tests");
 					stage.setScene(scene);
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -74,8 +63,8 @@ public class UserTeacherClassesController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					UserTeacherClassesController controller = new UserTeacherClassesController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherClassesController.class.getResource("UserTeacherClassesPage.fxml"));
+					UserPageClassController controller = new UserPageClassController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPageClasses.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
@@ -93,12 +82,12 @@ public class UserTeacherClassesController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					UserTeacherProfileController controller = new UserTeacherProfileController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherClassesController.class.getResource("UserTeacherProfilePage.fxml"));
+					UserPageProfileController controller = new UserPageProfileController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPageProfile.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
-					stage.setTitle("Profile");
+					stage.setTitle("Classes");
 					stage.setScene(scene);
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -107,5 +96,10 @@ public class UserTeacherClassesController {
 			}
 			
 		});
-}
+		
+
+	
+
+			
+	}
 }

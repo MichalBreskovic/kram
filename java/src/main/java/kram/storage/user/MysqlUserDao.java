@@ -52,7 +52,7 @@ public class MysqlUserDao implements UserDao {
 			User newPredmet = new User(insert.executeAndReturnKey(valuesMap).longValue(), user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher());
 			return newPredmet;
 		} else {
-			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?,  WHERE user_id = ?";
+			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?  WHERE user_id like ?";
 			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser());
 			if (now==1) {
 				return user;

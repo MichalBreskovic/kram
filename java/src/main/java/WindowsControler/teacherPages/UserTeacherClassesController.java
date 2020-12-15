@@ -1,5 +1,7 @@
-package WindowsControler;
+package WindowsControler.teacherPages;
 
+import WindowsControler.UserPageProfileController;
+import WindowsControler.WelcomePageControler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -7,18 +9,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import kram.storage.DaoFactory;
-import kram.storage.subject.SubjectDao;
+import kram.storage.question.Question;
+import kram.storage.subject.Subject;
 import kram.storage.user.User;
+import kram.storage.zameranie.Zameranie;
 
-public class UserPageClassController {
-	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
+public class UserTeacherClassesController {
 	private Stage stage;
 	private User user;
-    @FXML
-    private Button tests;
+	public UserTeacherClassesController(Stage stage, User user) {
+		this.stage = stage;
+		this.user = user;
+	}
+
 
     @FXML
     private Label username;
@@ -28,12 +35,20 @@ public class UserPageClassController {
 
     @FXML
     private Button profile;
-	// private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
-	public UserPageClassController(Stage stage, User user) {
-		this.stage = stage;
-		this.user = user;
-	}
+    @FXML
+    private ListView<?> listview;
+
+    @FXML
+    private Button viewclass;
+
+    @FXML
+    private Button tests;
+
+    @FXML
+    private Label errorfield;
+
+
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
@@ -42,12 +57,12 @@ public class UserPageClassController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					UserPageTestsController controller = new UserPageTestsController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPageTests.fxml"));
+					UserTeacherQuestionsController controller = new UserTeacherQuestionsController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherQuestionsPage.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
-					stage.setTitle("Tests");
+					stage.setTitle("Questions");
 					stage.setScene(scene);
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -61,8 +76,8 @@ public class UserPageClassController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					UserPageClassController controller = new UserPageClassController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPageClasses.fxml"));
+					UserTeacherClassesController controller = new UserTeacherClassesController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherClassesController.class.getResource("UserTeacherClassesPage.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
@@ -81,11 +96,11 @@ public class UserPageClassController {
 			public void handle(ActionEvent event) {
 				try {
 					UserPageProfileController controller = new UserPageProfileController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPageProfile.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPageProfile.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
-					stage.setTitle("Classes");
+					stage.setTitle("Profile");
 					stage.setScene(scene);
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -94,10 +109,5 @@ public class UserPageClassController {
 			}
 			
 		});
-		
-
-	
-
-			
-	}
+}
 }

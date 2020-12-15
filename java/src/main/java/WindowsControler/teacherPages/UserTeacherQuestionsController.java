@@ -1,5 +1,10 @@
-package WindowsControler;
+package WindowsControler.teacherPages;
 
+import WindowsControler.UserPageProfileController;
+import WindowsControler.WelcomePageControler;
+import WindowsControler.userPages.UserPageControler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -69,8 +74,31 @@ public class UserTeacherQuestionsController {
 		listview.setItems(FXCollections.observableArrayList(questionDao.getAllByUserId(user.getIdUser())));
 		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForTeacher(user.getIdUser())));
 		topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllForTeacher(user.getIdUser())));
-		tests.setOnAction(new EventHandler<ActionEvent>() {
+		/*subjectchoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subject>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
+				subjectchoice.setValue(newValue);
+				System.out.println(newValue);
+				listview.getItems().clear();
+				listview.setItems(FXCollections.observableArrayList(questionDao.get(subjectchoice.getValue().getIdSubject())));
+			}
 			
+		});
+		selectedSubject.addListener(new ChangeListener<Subject>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
+				if (newValue==null) {
+					subjectview.getSelectionModel().clearSelection();
+				}else {
+					subjectview.getSelectionModel().select(newValue);
+				}
+				
+			}
+		});*/
+		tests.setOnAction(new EventHandler<ActionEvent>() {
+		
 			@Override
 			public void handle(ActionEvent event) {
 				try {
@@ -94,7 +122,7 @@ public class UserTeacherQuestionsController {
 			public void handle(ActionEvent event) {
 				try {
 					UserTeacherClassesController controller = new UserTeacherClassesController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserTeacherClassesPage.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherClassesPage.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
@@ -112,8 +140,8 @@ public class UserTeacherQuestionsController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					UserTeacherProfileController controller = new UserTeacherProfileController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserTeacherProfilePage.fxml"));
+					UserPageProfileController controller = new UserPageProfileController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPageProfile.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
