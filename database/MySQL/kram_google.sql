@@ -1,6 +1,4 @@
-DROP DATABASE IF EXISTS kram;
-CREATE DATABASE IF NOT EXISTS kram;
-USE kram;
+USE kram_test;
 
 DROP TABLE IF EXISTS `subject`;
 CREATE TABLE `subject`(
@@ -116,32 +114,3 @@ INSERT INTO `test`(user_id, topic_id, time_start, time_end, hodnotenie) VALUES(1
 
 INSERT INTO answer(test_id, question_id, option_id) VALUES(1, 1, 1);
 
-SELECT * FROM user;
-SELECT s.title, t.title FROM `subject` s LEFT OUTER JOIN topic t USING(subject_id);
-SELECT t.title, q.title, o.title, qo.correct FROM question_option qo JOIN question q USING(question_id) JOIN `option` o USING(option_id) JOIN topic t USING(topic_id);
-
-SELECT * FROM subject;
-SELECT * FROM topic;
-SELECT * FROM question;
-SELECT * FROM test;
-SELECT * FROM user;
-
-SELECT q.question_id, q.title AS question_title, q.topic_id, user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) ORDER BY q.question_id;
-
-SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.question_id = 1 ORDER BY q.question_id;
-
-SELECT * FROM question_option;
-
--- DELETE FROM question WHERE question_id = 2;
-DELETE FROM user WHERE user_id = 1;
-
-SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE question_id = 2 ORDER BY q.question_id;
-SELECT user_id, name, surname, password, teacher, username FROM user WHERE user_id = 1;
-SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.user_id = 1 ORDER BY q.question_id;
-SELECT test_id, user_id, topic_id, time_start, time_end, hodnotenie FROM test;
-
-SELECT test_id, user_id, topic_id, time_start, time_end, hodnotenie FROM test JOIN answer AS a USING(test_id);
-
-SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, a.question_id, a.option_id FROM test t JOIN answer AS a USING(test_id);
-SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id FROM question q WHERE q.topic_id = ALL(SELECT t.topic_id  FROM topic t where t.subject_id = 1);
-SELECT * FROM question q JOIN (SELECT t.topic_id  FROM topic t where t.subject_id = 1) tab USING(topic_id);
