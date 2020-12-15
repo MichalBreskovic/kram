@@ -3,6 +3,8 @@ package WindowsControler.teacherPages;
 import WindowsControler.UserPageProfileController;
 import WindowsControler.WelcomePageControler;
 import WindowsControler.userPages.UserPageControler;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -68,20 +70,22 @@ public class UserTeacherQuestionsController {
     private QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
     private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
     private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
+    private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>(); 
+	private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>(); 
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
 		listview.setItems(FXCollections.observableArrayList(questionDao.getAllByUserId(user.getIdUser())));
 		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForTeacher(user.getIdUser())));
 		topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllForTeacher(user.getIdUser())));
-		/*subjectchoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subject>() {
+		subjectchoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subject>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
 				subjectchoice.setValue(newValue);
 				System.out.println(newValue);
 				listview.getItems().clear();
-				listview.setItems(FXCollections.observableArrayList(questionDao.get(subjectchoice.getValue().getIdSubject())));
+				listview.setItems(FXCollections.observableArrayList(questionDao.getBySubjectUserId(subjectchoice.getValue().getIdSubject(), user.getIdUser())));
 			}
 			
 		});
@@ -90,13 +94,36 @@ public class UserTeacherQuestionsController {
 			@Override
 			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
 				if (newValue==null) {
-					subjectview.getSelectionModel().clearSelection();
+					subjectchoice.getSelectionModel().clearSelection();
 				}else {
-					subjectview.getSelectionModel().select(newValue);
+					subjectchoice.getSelectionModel().select(newValue);
 				}
 				
 			}
-		});*/
+		});
+		topicchoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Zameranie>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
+				topicchoice.setValue(newValue);
+				System.out.println(newValue);
+				listview.getItems().clear();
+				listview.setItems(FXCollections.observableArrayList(questionDao.getByTopicUserId(topicchoice.getValue().getIdZameranie(), user.getIdUser())));
+			}
+			
+		});
+		selectedTopic.addListener(new ChangeListener<Zameranie>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
+				if (newValue==null) {
+					topicchoice.getSelectionModel().clearSelection();
+				}else {
+					topicchoice.getSelectionModel().select(newValue);
+				}
+				
+			}
+		});
 		tests.setOnAction(new EventHandler<ActionEvent>() {
 		
 			@Override

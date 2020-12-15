@@ -10,7 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import kram.appka.App;
+import kram.storage.DaoFactory;
+import kram.storage.subject.SubjectDao;
 import kram.storage.user.User;
+import kram.storage.user.UserDao;
 
 public class DeleteControler {
 	private User user;
@@ -31,15 +34,17 @@ public class DeleteControler {
 
 	@FXML
 	private Button no;
-
+	private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 	@FXML
 	void initialize() {
 		yes.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// deleteuser
+				
 				try {
+					userDao.deleteUser(user.getIdUser());
+					userDao.deleteUser(user.getIdUser());
 					stage2.close();
 					FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("WelcomePageCurrent.fxml"));
 					WelcomePageControler controller = new WelcomePageControler(stage1);
@@ -60,7 +65,8 @@ public class DeleteControler {
 
 			@Override
 			public void handle(ActionEvent event) {
-			stage2.close();
+				stage1.show();
+				stage2.close();
 				
 
 			}

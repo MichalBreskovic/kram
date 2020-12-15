@@ -71,6 +71,7 @@ public class UserTeacherPageControler {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Classes");
 					stage.setScene(scene);
+					
 				} catch (Exception e) {
 					// TODO: handle exception
 				}

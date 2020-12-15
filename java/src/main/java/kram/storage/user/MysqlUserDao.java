@@ -78,7 +78,7 @@ public class MysqlUserDao implements UserDao {
 	}
 	
 	@Override
-	public User getByNameUsername(String meno, String heslo) throws EntityNotFoundException {
+	public User login(String meno, String heslo) throws EntityNotFoundException {
 		String sql = "SELECT user_id, name, surname, password, teacher, username FROM user where username like ? and password like ?";
 		try {
 			return jdbcTemplate.queryForObject(sql,

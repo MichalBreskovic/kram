@@ -87,7 +87,7 @@ public class WelcomePageControler {
 						errorfield.setText("No values in Username or Password");
 					}else {
 					errorfield.setText("");
-					User logged = userDao.getByNameUsername(check.getUsername(), check.getHeslo());	
+					User logged = userDao.login(check.getUsername(), check.getHeslo());	
 					if (logged.isTeacher()) {
 						UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), logged);
 						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));

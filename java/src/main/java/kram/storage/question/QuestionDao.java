@@ -11,4 +11,6 @@ public interface QuestionDao {
 	Question deleteQuestion(Long id) throws EntityNotFoundException;
 	List<Question> getAllByUserId(Long id) throws EntityNotFoundException;
 	Question getById(Long id) throws EntityNotFoundException;
+	List<Question> getByTopicUserId(Long id, Long idUser) throws EntityNotFoundException, NullPointerException;
+	List<Question> getBySubjectUserId(Long id, Long idUser) throws EntityNotFoundException, NullPointerException;
 }

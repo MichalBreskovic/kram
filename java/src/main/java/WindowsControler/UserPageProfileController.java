@@ -245,6 +245,7 @@ public class UserPageProfileController {
 					Scene scene = new Scene(rootPane);
 					stage2.setTitle("DELETE PROFILE");
 					stage2.setScene(scene);
+					stage.close();
 					stage2.show();
 				} catch (Exception e) {
 					// TODO: handle exception

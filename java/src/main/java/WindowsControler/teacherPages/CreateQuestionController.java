@@ -8,6 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -62,6 +65,8 @@ public class CreateQuestionController {
 
     @FXML
     private Button addquestion;
+    @FXML
+    private Button back;
 
     @FXML
     private Label errorfield2;
@@ -165,6 +170,25 @@ public class CreateQuestionController {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
+				
+			}
+		});
+		back.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					UserTeacherPageControler controller = new UserTeacherPageControler(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
+					fxmlLoader2.setController(controller);
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("Welcome");
+					stage.setScene(scene);
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				
 			}
 		});

@@ -110,6 +110,26 @@ public class MysqlQuestionDao implements QuestionDao{
 	}
 	
 	@Override
+	public List<Question> getByTopicUserId(Long id,Long idUser) throws EntityNotFoundException, NullPointerException  {
+		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.user_id = ? and q.topic_id = ? ";
+		try {
+			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), idUser, id);	
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Haha totot Question with id " + id + " not found");
+		}
+	}
+	
+	@Override
+	public List<Question> getBySubjectUserId(Long id,Long idUser) throws EntityNotFoundException, NullPointerException {
+		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) JOIN (SELECT t.topic_id FROM topic t where t.subject_id = ?) as tab USING(topic_id) WHERE q.user_id = ? ";
+		try {
+			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), id, idUser);	
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Haha totot Question with id " + id + " not found");
+		}
+	}
+	
+	@Override
 	public Question saveQuestion(Question question) throws EntityNotFoundException, NullPointerException {
 //		System.out.println(question.getTitle() + " " + question.getIdTopic().toString() + " " + question.getIdUser().toString());
 		if (question.getIdQuestion() == null) {
@@ -165,5 +185,7 @@ public class MysqlQuestionDao implements QuestionDao{
 		}
 		return question;
 	}
+
+	
 	
 }
