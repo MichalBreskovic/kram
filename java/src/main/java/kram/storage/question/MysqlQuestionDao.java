@@ -71,7 +71,6 @@ public class MysqlQuestionDao implements QuestionDao{
 				Boolean correct = rs.getBoolean("correct");
 				question.addOption(idOption, title, correct);
 			}
-//			System.out.println(question);
 			return questions;
 		}
 	}
@@ -87,7 +86,7 @@ public class MysqlQuestionDao implements QuestionDao{
 	}
 	
 	@Override
-	public List<Question> getAllByUserId(Long id) throws EntityNotFoundException, NullPointerException {
+	public List<Question> getAllByUserId(Long id) throws EntityNotFoundException {
 		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.user_id = ? ORDER BY q.question_id";
 		try {
 			List<Question> questions = jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), id);
@@ -99,8 +98,7 @@ public class MysqlQuestionDao implements QuestionDao{
 	}
 	
 	@Override
-	public Question getById(Long id) throws EntityNotFoundException, NullPointerException  {
-//		 TODO new get by id
+	public Question getById(Long id) throws EntityNotFoundException {
 		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.question_id = ?";
 		try {
 			return jdbcTemplate.query(sql, new QuestionSetExtractor(), id);	
@@ -110,6 +108,7 @@ public class MysqlQuestionDao implements QuestionDao{
 	}
 	
 	@Override
+<<<<<<< HEAD
 	public List<Question> getByTopicUserId(Long id,Long idUser) throws EntityNotFoundException, NullPointerException  {
 		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.user_id = ? and q.topic_id = ? ";
 		try {
@@ -132,12 +131,14 @@ public class MysqlQuestionDao implements QuestionDao{
 	@Override
 	public Question saveQuestion(Question question) throws EntityNotFoundException, NullPointerException {
 //		System.out.println(question.getTitle() + " " + question.getIdTopic().toString() + " " + question.getIdUser().toString());
+=======
+	public Question saveQuestion(Question question) throws EntityNotFoundException {
+>>>>>>> branch 'master' of https://github.com/MichalBreskovic/kram.git
 		if (question.getIdQuestion() == null) {
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 			insert.withTableName("question");
 			insert.usingGeneratedKeyColumns("question_id");
 			insert.usingColumns("title","topic_id","user_id");
-//			System.out.println(question.getTitle() + " " + question.getIdTopic().toString() + " " + question.getIdUser().toString());
 			
 			Map<String, String> valuesMap = new HashMap<String, String>();
 			valuesMap.put("title", question.getTitle());

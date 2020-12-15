@@ -25,6 +25,8 @@ public enum DaoFactory {
 	private QuestionDao questionDao;
 	private OptionDao optionDao;
 	
+	private static final boolean TEST = true;
+	
 	public ZameranieDao getZameranieDao() {
 		if (zameranieDao == null){
 			zameranieDao = new MysqlZameranieDao(getJdbcTemplate());
@@ -63,12 +65,10 @@ public enum DaoFactory {
 	private JdbcTemplate getJdbcTemplate() {
 		if(jdbcTemplate == null) {
 			MysqlDataSource dataSource = new MysqlDataSource();
-			dataSource.setUser("sql7381900");
+			dataSource.setUser("data_access");
 			dataSource.setPassword("m9TBqahvjE");
-			dataSource.setUrl("jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7381900");
-//			dataSource.setUser("kram");
-//			dataSource.setPassword("12345");
-//			dataSource.setUrl("jdbc:mysql://localhost/kram?serverTimezone=Europe/Bratislava");
+			if(TEST) dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram_test");
+			else dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram");
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 		return jdbcTemplate;
