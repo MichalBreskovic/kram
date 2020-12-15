@@ -15,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import WindowsControler.SignUpPageController;
+import WindowsControler.teacherPages.UserTeacherPageControler;
+import WindowsControler.userPages.UserPageControler;
 
 public class WelcomePageControler {
 	private Stage stage;
@@ -88,7 +90,7 @@ public class WelcomePageControler {
 					User logged = userDao.getByNameUsername(check.getUsername(), check.getHeslo());	
 					if (logged.isTeacher()) {
 						UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), logged);
-						FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserTeacherPage.fxml"));
+						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
@@ -96,7 +98,7 @@ public class WelcomePageControler {
 						getStage().setScene(scene);
 					}else {
 						UserPageControler controller = new UserPageControler(getStage(), logged);
-						FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPage.fxml"));
+						FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);

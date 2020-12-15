@@ -1,5 +1,6 @@
-package WindowsControler;
+package WindowsControler.userPages;
 
+import WindowsControler.WelcomePageControler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -173,7 +174,7 @@ public class NewTestGeneratorController {
 			public void handle(ActionEvent event) {
 				try {
 					UserPageControler controller = new UserPageControler(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPage.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);

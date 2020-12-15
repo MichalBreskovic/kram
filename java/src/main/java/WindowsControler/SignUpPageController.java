@@ -1,5 +1,7 @@
 package WindowsControler;
 
+import WindowsControler.teacherPages.UserTeacherPageControler;
+import WindowsControler.userPages.UserPageControler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -146,7 +148,7 @@ public class SignUpPageController {
 							//mozno budeme menit, po registracii sa nebude hned dat vojst do user prostredia, uvidime , spytame sa gurskeho
 							if (registrate.isTeacher()) {
 								UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), registrate);
-								FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserTeacherPage.fxml"));
+								FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
 								fxmlLoader2.setController(controller);
 								Parent rootPane = fxmlLoader2.load();
 								Scene scene = new Scene(rootPane);
@@ -155,7 +157,7 @@ public class SignUpPageController {
 							} else {
 								System.out.println("Som tu");
 								UserPageControler controller = new UserPageControler(getStage(), registrate);
-								FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPage.fxml"));
+								FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
 								fxmlLoader2.setController(controller);
 								Parent rootPane = fxmlLoader2.load();
 								Scene scene = new Scene(rootPane);
