@@ -106,6 +106,8 @@ INSERT INTO question_option(question_id, option_id, correct) VALUES(2,2, false);
 INSERT INTO question_option(question_id, option_id, correct) VALUES(2,3, false);
 INSERT INTO question_option(question_id, option_id, correct) VALUES(2,5, true);
 
+INSERT INTO user(name, surname, username, password) VALUES("Janko", "Múdry", "janko", "12345");
+
 SELECT * FROM user;
 SELECT s.title, t.title FROM `subject` s LEFT OUTER JOIN topic t USING(subject_id);
 SELECT t.title, q.title, o.title, qo.correct FROM question_option qo JOIN question q USING(question_id) JOIN `option` o USING(option_id) JOIN topic t USING(topic_id);
@@ -116,7 +118,6 @@ SELECT * FROM test;
  
 ALTER TABLE user ADD COLUMN username VARCHAR(45) NOT NULL unique;
 -- ALTER TABLE user ADD COLUMN username VARCHAR(45) NOT NULL unique;
-ALTER TABLE question ADD COLUMN user_id INT;
 
 SELECT q.question_id, q.title AS question_title, q.topic_id, user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) ORDER BY q.question_id;
 
@@ -128,3 +129,5 @@ DELETE FROM question WHERE question_id = 2;
 DELETE FROM question_option WHERE question_id = 2;
 
 SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE question_id = 2 ORDER BY q.question_id;
+SELECT user_id, name, surname, password, teacher, username FROM user WHERE user_id = 1;
+SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.user_id = 1 ORDER BY q.question_id
