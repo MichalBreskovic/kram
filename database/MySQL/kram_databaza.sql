@@ -83,6 +83,7 @@ INSERT INTO topic(subject_id, title) VALUES (1, "analyza");
 
 INSERT INTO question(title, topic_id) VALUES ("5 + 5 = ", 1);
 INSERT INTO question(title, topic_id) VALUES ("5 + 6 = ", 1);
+INSERT INTO question(title, topic_id) VALUES ("5 + 7 = ", 1);
 
 INSERT INTO `option`(title) VALUES ("5");
 INSERT INTO `option`(title) VALUES ("6");
@@ -112,3 +113,6 @@ SELECT * FROM question;
 SELECT * FROM test;
  
 ALTER TABLE user ADD COLUMN username VARCHAR(45) NOT NULL unique;
+-- ALTER TABLE user ADD COLUMN username VARCHAR(45) NOT NULL unique;
+
+SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) ORDER BY q.question_id;

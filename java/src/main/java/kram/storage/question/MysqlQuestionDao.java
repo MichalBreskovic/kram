@@ -2,11 +2,14 @@ package kram.storage.question;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
@@ -22,14 +25,38 @@ public class MysqlQuestionDao implements QuestionDao{
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	private class QuestionRowMapper implements RowMapper<Question>{
-		public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
-			long question_id = rs.getLong("question_id");
-			String title = rs.getString("title");
-			long topic_id = rs.getLong("topic_id");
-			return new Question(question_id, title, topic_id);
+	private class QuestionSetExtractor implements ResultSetExtractor<List<Question>>{
+		@Override
+		public List<Question> extractData(ResultSet rs) throws SQLException, DataAccessException {
+			List<Question> questions = new ArrayList<Question>();
+			Question question = null;
+			while(rs.next()) {
+				Long id = rs.getLong("question_id");
+				if(question == null || question.getIdQuestion() != id) {
+					String questionTitle = rs.getString("question_title");
+					Long 
+				}
+			}
+			return questions;
 		}
 	}
+	
+	@Override
+	public List<Question> getAll() {
+		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) ORDER BY q.question_id";
+		return null;
+	}
+	
+//	@Override
+//	public Options getOptions(Long id) {
+//		String sql = "SELECT question_id, title, topic_id FROM question WHERE question_id = " + id;
+//		try {
+//			return jdbcTemplate.queryForObject(sql, new QuestionRowMapper());
+//			
+//		} catch (DataAccessException e) {
+//			throw new EntityNotFoundException("Question not found");
+//		}
+//	}
 	
 	@Override
 	public Question getQuestion(Long id) {
