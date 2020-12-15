@@ -28,7 +28,7 @@ public class MysqlUserDao implements UserDao {
 			String heslo = rs.getString("password");
 			String username = rs.getString("username");
 			boolean teacher = rs.getBoolean("teacher");
-			return new User(user_id, username, name, surname,  heslo, teacher);
+			return new User(user_id, name, username, surname,  heslo, teacher);
 		}
 	}
 
