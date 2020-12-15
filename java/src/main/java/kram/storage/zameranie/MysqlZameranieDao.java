@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import kram.storage.EntityNotFoundException;
+import kram.storage.subject.Subject;
+
 
 public class MysqlZameranieDao implements ZameranieDao {
 	JdbcTemplate jdbcTemplate;
@@ -27,6 +29,13 @@ public class MysqlZameranieDao implements ZameranieDao {
 	public MysqlZameranieDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public List<Zameranie> getAllForTeacher(long idUser) throws NullPointerException{
+		return jdbcTemplate.query(
+				"select t.topic_id, t.title, t.subject_id from topic t join question q on (t.topic_id=q.topic_id) where q.user_id like ? group by t.topic_id",
+				new ZameranieRowMapper(), idUser);
 	}
 
 	@Override

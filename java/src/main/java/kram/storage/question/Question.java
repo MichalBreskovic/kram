@@ -12,29 +12,44 @@ public class Question {
 	
 	private Long idQuestion;
 	private Long idTopic;
+	private Long idUser;
 	
 	private String title;
 //	private List<Option> options = new ArrayList<Option>();
 	private Map<Option,Boolean> options = new HashMap<Option,Boolean>();
 	
-	public Question(String title, Long idTopic) {
+	public Question(String title, Long idTopic, Long idUser) {
 		this.title = title;
 		this.idTopic = idTopic;
+		this.idUser = idUser;
 	}
+	
+	public Question(String title, Long idTopic, Long idUser, Map<Option,Boolean> options) {
+		this.title = title;
+		this.idTopic = idTopic;
+		this.idUser = idUser;
+		this.options = options;
+	}
+	
 	
 	// komentár
-	
-	public Question(Long idQusetion, String title, Long idTopic) {
+	public Question(Long idQusetion, String title, Long idTopic, Long idUser) {
 		this.idQuestion = idQusetion;
 		this.title = title;
 		this.idTopic = idTopic;
+		this.idUser = idUser;
 	}
 	
-	public Question(Long idQusetion, String title, Long idTopic, Map<Option,Boolean> options) {
+	public Question(Long idQusetion, String title, Long idTopic, Long idUser, Map<Option,Boolean> options) {
 		this.idQuestion = idQusetion;
 		this.title = title;
 		this.idTopic = idTopic;
+		this.idUser = idUser;
 		this.options = options;
+	}
+	
+	public void addOption(Long idOption, String title, boolean correct) {
+		this.options.put(new Option(idOption, title), correct);
 	}
 	
 	public Long getIdQuestion() {
@@ -68,10 +83,18 @@ public class Question {
 	public void setOptions(Map<Option, Boolean> options) {
 		this.options = options;
 	}
+	
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
 
 	@Override
 	public String toString() {
-		return "Question [idGusetion=" + idQuestion + ", title=" + title + ", options=" + options + "]";
+		return title;
 	}
 	
 }

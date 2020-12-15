@@ -1,5 +1,6 @@
 package WindowsControler;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,10 +12,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import kram.storage.DaoFactory;
 import kram.storage.question.Question;
+import kram.storage.question.QuestionDao;
 import kram.storage.subject.Subject;
+import kram.storage.subject.SubjectDao;
 import kram.storage.user.User;
+import kram.storage.user.UserDao;
 import kram.storage.zameranie.Zameranie;
+import kram.storage.zameranie.ZameranieDao;
 
 public class UserTeacherQuestionsController {
 	private Stage stage;
@@ -54,12 +60,17 @@ public class UserTeacherQuestionsController {
     @FXML
     private Label errorfield;
 
-
+    private QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
+    private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
+    private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
+		listview.setItems(FXCollections.observableArrayList(questionDao.getAllByUserId(user.getIdUser())));
+		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForTeacher(user.getIdUser())));
+		topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllForTeacher(user.getIdUser())));
 		tests.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			@Override
 			public void handle(ActionEvent event) {
 				try {
@@ -115,5 +126,24 @@ public class UserTeacherQuestionsController {
 			}
 			
 		});
+		addquestion.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					CreateQuestionController controller = new CreateQuestionController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherQuestionsController.class.getResource("CreateQuestion.fxml"));
+					fxmlLoader2.setController(controller);
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("Add Question");
+					stage.setScene(scene);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+			}
+		});
+		
 }
 }
