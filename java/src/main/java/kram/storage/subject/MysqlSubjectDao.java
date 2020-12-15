@@ -10,25 +10,22 @@ import org.springframework.jdbc.core.RowMapper;
 
 import kram.storage.EntityNotFoundException;
 
-
-
-
 public class MysqlSubjectDao implements SubjectDao {
-	
+
 	JdbcTemplate jdbcTemplate;
-	
-	private class SubjectRowMapper implements RowMapper<Subject>{
+
+	private class SubjectRowMapper implements RowMapper<Subject> {
 		public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {
 			long idSubject = rs.getLong("subject_id");
 			String title = rs.getString("title");
 			String acronym = rs.getString("short");
-			return new Subject(idSubject,title,acronym);
+			return new Subject(idSubject, title, acronym);
 		};
-		
+
 	}
-	
+
 	public MysqlSubjectDao(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate=jdbcTemplate;
+		this.jdbcTemplate = jdbcTemplate;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -39,8 +36,15 @@ public class MysqlSubjectDao implements SubjectDao {
 	}
 
 	@Override
-	public List<Subject> getAll() {
+	public List<Subject> getAll() throws NullPointerException{
 		return jdbcTemplate.query("SELECT subject_id, title, short FROM subject", new SubjectRowMapper());
+	}
+
+	@Override
+	public List<Subject> getAllForTeacher(long idUser) throws NullPointerException{
+		return jdbcTemplate.query(
+				"select s.subject_id, s.title, s.short from subject s join (select t.subject_id from topic t join question q on (t.topic_id=q.topic_id) where q.user_id like ? group by t.topic_id) z where z.subject_id like s.subject_id ",
+				new SubjectRowMapper(), idUser);
 	}
 
 	@Override
@@ -48,6 +52,7 @@ public class MysqlSubjectDao implements SubjectDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public List<Subject> getBySubstring(String sub) throws NullPointerException {
 		if (sub == null) {
@@ -56,9 +61,9 @@ public class MysqlSubjectDao implements SubjectDao {
 		if (sub.isBlank()) {
 			return getAll();
 		}
-		String str = "%" + sub +"%";
+		String str = "%" + sub + "%";
 		String sql = "SELECT subject_id, title, short FROM subject WHERE title LIKE ? or short LIKE ?";
-		return jdbcTemplate.query(sql, new SubjectRowMapper(),str,str);
+		return jdbcTemplate.query(sql, new SubjectRowMapper(), str, str);
 	}
 
 }

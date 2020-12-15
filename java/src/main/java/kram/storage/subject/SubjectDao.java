@@ -12,5 +12,6 @@ public interface SubjectDao {
 	List<Subject> getAll();	
 	Subject delete(long id) throws EntityNotFoundException;
 	List<Subject> getBySubstring(String sub) throws NullPointerException;
+	List<Subject> getAllForTeacher(long idUser)throws NullPointerException;
 	
 }

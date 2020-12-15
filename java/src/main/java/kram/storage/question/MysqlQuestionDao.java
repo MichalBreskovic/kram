@@ -3,6 +3,7 @@ package kram.storage.question;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -11,7 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.EntityNotFoundException;
-import kram.storage.option.Option;
+
+
 
 public class MysqlQuestionDao implements QuestionDao{
 	
@@ -27,19 +29,28 @@ public class MysqlQuestionDao implements QuestionDao{
 			long question_id = rs.getLong("question_id");
 			String title = rs.getString("title");
 			long topic_id = rs.getLong("topic_id");
-			return new Question(question_id, title, topic_id);
+			long user_id = rs.getLong("user_id");
+			return new Question(question_id, title, topic_id,user_id);
 		}
 	}
 	
 	@Override
 	public Question getQuestion(Long id) {
-		String sql = "SELECT question_id, title, topic_id FROM question WHERE question_id = " + id;
+		String sql = "SELECT question_id, title, topic_id, user_id FROM question WHERE question_id = " + id;
 		try {
 			return jdbcTemplate.queryForObject(sql, new QuestionRowMapper());
 			
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("Question not found");
 		}
+	}
+	
+	@Override
+	public List<Question> getAllByUserId(Long id) {
+		String sql = "SELECT question_id, title, topic_id, user_id FROM question WHERE user_id = " + id;
+		return jdbcTemplate.query(sql, new QuestionRowMapper());
+
+
 	}
 	
 	@Override

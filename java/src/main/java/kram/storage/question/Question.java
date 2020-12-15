@@ -9,6 +9,7 @@ public class Question {
 	
 	private Long idQuestion;
 	private Long idTopic;
+	private Long idUser;
 	
 	private String title;
 	private List<Option> options = new ArrayList<Option>();
@@ -19,6 +20,12 @@ public class Question {
 	}
 	
 	// komentár
+	public Question(Long idQusetion, String title, Long idTopic,Long idUser) {
+		this.idQuestion = idQusetion;
+		this.title = title;
+		this.idTopic = idTopic;
+		this.idUser=idUser;
+	}
 	
 	public Question(Long idQusetion, String title, Long idTopic) {
 		this.idQuestion = idQusetion;
@@ -58,9 +65,18 @@ public class Question {
 		this.idTopic = idTopic;
 	}
 	
+	
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
+
 	@Override
 	public String toString() {
-		return "Question [idGusetion=" + idQuestion + ", title=" + title + ", options=" + options + "]";
+		return title;
 	}
 	
 }

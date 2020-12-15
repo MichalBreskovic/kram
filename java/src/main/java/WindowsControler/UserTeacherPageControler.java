@@ -63,7 +63,7 @@ public class UserTeacherPageControler {
 			public void handle(ActionEvent event) {
 				try {
 					UserTeacherClassesController controller = new UserTeacherClassesController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserTeacherClassesPage.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherClassesPage.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
@@ -82,7 +82,7 @@ public class UserTeacherPageControler {
 			public void handle(ActionEvent event) {
 				try {
 					UserTeacherProfileController controller = new UserTeacherProfileController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserTeacherProfilePage.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherProfilePage.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
