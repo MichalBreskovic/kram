@@ -20,7 +20,6 @@ class MysqlOptionDaoTest {
 	Option savedOption;
 	
 	public MysqlOptionDaoTest() {
-//		DaoFactory.INSTANCE.testing();
 		optionDao = DaoFactory.INSTATNCE.getOptionDao();  
 	}
 

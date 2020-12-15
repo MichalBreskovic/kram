@@ -3,12 +3,12 @@ package kram.storage.question;
 import java.util.List;
 
 import kram.storage.EntityNotFoundException;
-import kram.storage.option.Option;
 
 public interface QuestionDao {
 
-	Question getQuestion(Long id);
+	List<Question> getAll() throws EntityNotFoundException;
 	Question saveQuestion(Question question) throws EntityNotFoundException,NullPointerException;
 	Question deleteQuestion(Long id) throws EntityNotFoundException;
-	List<Question> getAllByUserId(Long id);
+	List<Question> getAllByUserId(Long id) throws EntityNotFoundException;
+	Question getById(Long id) throws EntityNotFoundException;
 }

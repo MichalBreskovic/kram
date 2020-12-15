@@ -1,9 +1,12 @@
 package kram.storage.question;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kram.storage.option.Option;
+import kram.storage.zameranie.Zameranie;
 
 public class Question {
 	
@@ -12,25 +15,41 @@ public class Question {
 	private Long idUser;
 	
 	private String title;
-	private List<Option> options = new ArrayList<Option>();
+//	private List<Option> options = new ArrayList<Option>();
+	private Map<Option,Boolean> options = new HashMap<Option,Boolean>();
 	
-	public Question(String title, Long idTopic) {
+	public Question(String title, Long idTopic, Long idUser) {
 		this.title = title;
 		this.idTopic = idTopic;
+		this.idUser = idUser;
 	}
+	
+	public Question(String title, Long idTopic, Long idUser, Map<Option,Boolean> options) {
+		this.title = title;
+		this.idTopic = idTopic;
+		this.idUser = idUser;
+		this.options = options;
+	}
+	
 	
 	// komentár
-	public Question(Long idQusetion, String title, Long idTopic,Long idUser) {
+	public Question(Long idQusetion, String title, Long idTopic, Long idUser) {
 		this.idQuestion = idQusetion;
 		this.title = title;
 		this.idTopic = idTopic;
-		this.idUser=idUser;
+		this.idUser = idUser;
 	}
 	
-	public Question(Long idQusetion, String title, Long idTopic) {
+	public Question(Long idQusetion, String title, Long idTopic, Long idUser, Map<Option,Boolean> options) {
 		this.idQuestion = idQusetion;
 		this.title = title;
 		this.idTopic = idTopic;
+		this.idUser = idUser;
+		this.options = options;
+	}
+	
+	public void addOption(Long idOption, String title, boolean correct) {
+		this.options.put(new Option(idOption, title), correct);
 	}
 	
 	public Long getIdQuestion() {
@@ -49,14 +68,6 @@ public class Question {
 		this.title = title;
 	}
 	
-	public List<Option> getOptions() {
-		return options;
-	}
-	
-	public void setOptions(List<Option> options) {
-		this.options = options;
-	}
-	
 	public Long getIdTopic() {
 		return idTopic;
 	}
@@ -65,6 +76,13 @@ public class Question {
 		this.idTopic = idTopic;
 	}
 	
+	public Map<Option, Boolean> getOptions() {
+		return options;
+	}
+
+	public void setOptions(Map<Option, Boolean> options) {
+		this.options = options;
+	}
 	
 	public Long getIdUser() {
 		return idUser;

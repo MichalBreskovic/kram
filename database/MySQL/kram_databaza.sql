@@ -81,8 +81,11 @@ INSERT INTO `subject`(title, short) VALUES ("geografia", "GEO");
 INSERT INTO topic(subject_id, title) VALUES (1, "algebra");
 INSERT INTO topic(subject_id, title) VALUES (1, "analyza");
 
-INSERT INTO question(title, topic_id) VALUES ("5 + 5 = ", 1);
-INSERT INTO question(title, topic_id) VALUES ("5 + 6 = ", 1);
+ALTER TABLE question ADD COLUMN user_id INT;
+
+INSERT INTO question(title, topic_id, user_id) VALUES ("5 + 5 = ", 1, 1);
+INSERT INTO question(title, topic_id, user_id) VALUES ("5 + 6 = ", 1, 2);
+INSERT INTO question(title, topic_id) VALUES ("5 + 7 = ", 1);
 
 INSERT INTO `option`(title) VALUES ("5");
 INSERT INTO `option`(title) VALUES ("6");
@@ -112,3 +115,16 @@ SELECT * FROM question;
 SELECT * FROM test;
  
 ALTER TABLE user ADD COLUMN username VARCHAR(45) NOT NULL unique;
+-- ALTER TABLE user ADD COLUMN username VARCHAR(45) NOT NULL unique;
+ALTER TABLE question ADD COLUMN user_id INT;
+
+SELECT q.question_id, q.title AS question_title, q.topic_id, user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) ORDER BY q.question_id;
+
+SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.question_id = 1 ORDER BY q.question_id;
+
+SELECT * FROM question_option;
+
+DELETE FROM question WHERE question_id = 2;
+DELETE FROM question_option WHERE question_id = 2;
+
+SELECT q.question_id, q.title AS question_title, q.topic_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE question_id = 2 ORDER BY q.question_id;
