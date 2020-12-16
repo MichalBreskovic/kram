@@ -85,7 +85,7 @@ public class MysqlTestDao implements TestDao {
 		try {
 			return jdbcTemplate.query(sql, new MultipleTestSetExtractor());
 		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Question not found");
+			throw new EntityNotFoundException("Test not found");
 		}
 	}
 	
@@ -95,7 +95,7 @@ public class MysqlTestDao implements TestDao {
 		try {
 			return jdbcTemplate.query(sql, new TestSetExtractor(), id);
 		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Question not found");
+			throw new EntityNotFoundException("Test with " + id + " not found");
 		}
 	}
 	
@@ -120,18 +120,15 @@ public class MysqlTestDao implements TestDao {
 			}
 			return newTest;
 		} else {
-			try {
-				if(kramTest.getAnswers().size() != 0) {
-					String sql = "UPDATE test SET user_id = ?, topic_id = ?, time_start = ?, time_end = ?, hodnotenie = ? WHERE test_id = ?";
-					jdbcTemplate.update(sql, kramTest.getIdUser(), kramTest.getIdTopic(), kramTest.getStart(), kramTest.getEnd(), kramTest.getHodnotenie());
-					String deleteSql = "DELETE FROM answer WHERE test_id = ?";
-					jdbcTemplate.update(deleteSql, kramTest.getIdTest());
-					jdbcTemplate.update(insert(kramTest));
-				}
-				return kramTest;
-			} catch(EntityNotFoundException e) {
-				throw new EntityNotFoundException("Test with id " + kramTest.getIdTest() + " not found");
+			if(kramTest.getAnswers().size() != 0) {
+				String sql = "UPDATE test SET user_id = ?, topic_id = ?, time_start = ?, time_end = ?, hodnotenie = ? WHERE test_id = ?";
+				int now = jdbcTemplate.update(sql, kramTest.getIdUser(), kramTest.getIdTopic(), kramTest.getStart(), kramTest.getEnd(), kramTest.getHodnotenie());
+				if(now != 1) throw new EntityNotFoundException("Test with id " + kramTest.getIdTest() + " not found");
+				String deleteSql = "DELETE FROM answer WHERE test_id = ?";
+				jdbcTemplate.update(deleteSql, kramTest.getIdTest());
+				jdbcTemplate.update(insert(kramTest));
 			}
+			return kramTest;
 		}
 	}
 	
@@ -152,9 +149,7 @@ public class MysqlTestDao implements TestDao {
 		jdbcTemplate.update(deleteSql, id);
 		String sql = "DELETE FROM test WHERE test_id = ?";
 		int changed = jdbcTemplate.update(sql, id);
-		if(changed == 0) {
-			throw new EntityNotFoundException("Test with id " + id + " not found");
-		}
+		if(changed == 0) throw new EntityNotFoundException("Test with id " + id + " not found");
 		return null;
 	}
 

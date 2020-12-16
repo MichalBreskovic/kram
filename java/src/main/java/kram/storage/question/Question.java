@@ -31,8 +31,6 @@ public class Question {
 		this.options = options;
 	}
 	
-	
-	// komentár
 	public Question(Long idQusetion, String title, Long idTopic, Long idUser) {
 		this.idQuestion = idQusetion;
 		this.title = title;
@@ -48,11 +46,12 @@ public class Question {
 		this.options = options;
 	}
 	
-	public void addOption(Long idOption, String title, boolean correct) {
-		this.options.put(new Option(idOption, title), correct);
-	}
 	public void addOption(Option option, boolean correct) {
 		this.options.put(option, correct);
+	}
+	
+	public void addOption(Long idOption, String title, boolean correct) {
+		this.options.put(new Option(idOption, title), correct);
 	}
 	
 	public Long getIdQuestion() {
