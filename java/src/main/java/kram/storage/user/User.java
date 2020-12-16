@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kram.storage.question.Question;
-import kram.storage.test.Test;
+import kram.storage.test.KramTest;
 
 public class User {
 	private Long idUser;
@@ -13,7 +13,7 @@ public class User {
 	private String surname;
 	private String heslo;
 	private boolean teacher;
-	private List<Test> testy = new ArrayList<Test>();
+	private List<KramTest> testy = new ArrayList<KramTest>();
 	private List<Question> questions = new ArrayList<Question>();
 	
 	
@@ -102,11 +102,11 @@ public class User {
 		this.teacher = teacher;
 	}
 	
-	public List<Test> getTesty() {
+	public List<KramTest> getTesty() {
 		return testy;
 	}
 
-	public void setTesty(List<Test> testy) {
+	public void setTesty(List<KramTest> testy) {
 		this.testy = testy;
 	}
 	

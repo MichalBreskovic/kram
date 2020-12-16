@@ -80,6 +80,13 @@ public class Question {
 		return options;
 	}
 
+	public Option getOption(Long id) {
+		for (Map.Entry<Option, Boolean> entry : options.entrySet()) {
+			if(id == entry.getKey().getIdOption()) return entry.getKey();
+	    } 
+		return null;
+	}
+	
 	public void setOptions(Map<Option, Boolean> options) {
 		this.options = options;
 	}

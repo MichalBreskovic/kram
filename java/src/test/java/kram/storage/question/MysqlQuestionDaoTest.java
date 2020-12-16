@@ -36,10 +36,10 @@ class MysqlQuestionDaoTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		options = new HashMap<Option,Boolean>();
-		options.put(optionDao.saveOption(new Option("Test option1")), true);
-		options.put(optionDao.saveOption(new Option("Test option1")), false);
-		options.put(optionDao.saveOption(new Option("Test option1")), false);
-		options.put(optionDao.saveOption(new Option("Test option1")), false);
+		options.put(optionDao.saveOption(new Option("KramTest option1")), true);
+		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
+		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
+		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
 		newQuestion = new Question("Je test test?", (long) 1, (long) 1, options);
 		savedQuestion = questionDao.saveQuestion(newQuestion);
 	}
@@ -52,7 +52,7 @@ class MysqlQuestionDaoTest {
 		}
 	}
 
-//	@Test
+//	@KramTest
 //	void testGetAll() {
 //		questions = questionDao.getAll();
 //		for (Question question : questions) {
@@ -68,7 +68,7 @@ class MysqlQuestionDaoTest {
 		}
 	}
 	
-//	@Test
+//	@KramTest
 //	void test() {
 ////		assertThrows(EntityNotFoundException.class, new Executable() {
 ////

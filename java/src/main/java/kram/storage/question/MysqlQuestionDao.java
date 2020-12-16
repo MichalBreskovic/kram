@@ -25,6 +25,7 @@ public class MysqlQuestionDao implements QuestionDao{
 	}
 	
 	private class QuestionSetExtractor implements ResultSetExtractor<Question>{
+		@SuppressWarnings("unused")
 		@Override
 		public Question extractData(ResultSet rs) throws SQLException, DataAccessException {
 			Question question = null;
@@ -50,6 +51,7 @@ public class MysqlQuestionDao implements QuestionDao{
 	}
 
 	private class MultipleQuestionSetExtractor implements ResultSetExtractor<List<Question>>{
+		@SuppressWarnings("unused")
 		@Override
 		public List<Question> extractData(ResultSet rs) throws SQLException, DataAccessException {
 			List<Question> questions = new ArrayList<Question>();

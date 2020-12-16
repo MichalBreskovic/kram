@@ -1,12 +1,14 @@
 package kram.storage.test;
 
+import java.util.List;
+
 import kram.storage.EntityNotFoundException;
 
-interface TestDao {
+public interface TestDao {
 
-	Test getAll() throws EntityNotFoundException;
-	Test getById(Long id) throws EntityNotFoundException;
-	Test saveTest(Test test) throws EntityNotFoundException;
-	Test deleteUser(Long id) throws EntityNotFoundException;
+	List<KramTest> getAll() throws EntityNotFoundException;
+	KramTest getById(Long id) throws EntityNotFoundException;
+	KramTest saveTest(KramTest kramTest) throws EntityNotFoundException;
+	KramTest deleteTest(Long id) throws EntityNotFoundException;
 	
 }

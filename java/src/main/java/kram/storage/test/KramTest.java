@@ -1,24 +1,22 @@
 package kram.storage.test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import kram.storage.option.Option;
 import kram.storage.question.Question;
 
-public class Test {
+public class KramTest {
 	private Long idTest;
 	private Long idUser;
 	private Long idTopic;
 	private String start;
 	private String end;
-	private int hodnotenie;
+	private Integer hodnotenie;
 	
 	private Map<Question,Option> answers = new HashMap<Question,Option>();
 	
-	public Test(Long idUser, Long idTopic, String start, String end, int hodnotenie) {
+	public KramTest(Long idUser, Long idTopic, String start, String end, int hodnotenie) {
 		this.start = start;
 		this.idTopic = idTopic;
 		this.idUser = idUser;
@@ -26,7 +24,7 @@ public class Test {
 		this.hodnotenie = hodnotenie;
 	}
 	
-	public Test(Long idTest, Long idUser, Long idTopic, String start, String end, int hodnotenie) {
+	public KramTest(Long idTest, Long idUser, Long idTopic, String start, String end, int hodnotenie) {
 		this.idTest = idTest;
 		this.idTopic = idTopic;
 		this.idUser = idUser;
@@ -35,7 +33,7 @@ public class Test {
 		this.hodnotenie = hodnotenie;
 	}
 	
-	public Test(Long idUser, Long idTopic, String start, String end, int hodnotenie, Map<Question,Option> answers) {
+	public KramTest(Long idUser, Long idTopic, String start, String end, int hodnotenie, Map<Question,Option> answers) {
 		this.idTopic = idTopic;
 		this.idUser = idUser;
 		this.start = start;
@@ -44,7 +42,8 @@ public class Test {
 		this.answers = answers;
 	}
 	
-	public Test(Long idTest, Long idUser, Long idTopic, String start, String end, int hodnotenie, Map<Question,Option> answers) {
+	public KramTest(Long idTest, Long idUser, Long idTopic, String start, String end, int hodnotenie, Map<Question,Option> answers) {
+		this.idTest = idTest;
 		this.idTopic = idTopic;
 		this.idUser = idUser;
 		this.start = start;
@@ -89,17 +88,33 @@ public class Test {
 		this.end = end;
 	}
 	
-	public int getHodnotenie() {
+	public Integer getHodnotenie() {
 		return hodnotenie;
 	}
 
-	public void setHodnotenie(int hodnotenie) {
+	public void setHodnotenie(Integer hodnotenie) {
 		this.hodnotenie = hodnotenie;
+	}
+	
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
+
+	public Long getIdTopic() {
+		return idTopic;
+	}
+
+	public void setIdTopic(Long idTopic) {
+		this.idTopic = idTopic;
 	}
 
 	@Override
 	public String toString() {
-		return "Test [idTest=" + idTest + ", answers=" + answers + ", start=" + start + ", end=" + end + ", hodnotenie="
+		return "KramTest [idTest=" + idTest + ", answers=" + answers + ", start=" + start + ", end=" + end + ", hodnotenie="
 				+ hodnotenie + "]";
 	}
 	

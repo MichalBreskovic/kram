@@ -29,7 +29,7 @@ public class MysqlOptionDao implements OptionDao {
 	}
 	
 	@Override
-	public Option getOption(Long id) throws EntityNotFoundException {
+	public Option getById(Long id) throws EntityNotFoundException {
 		String sql = "SELECT option_id, title FROM `option` WHERE option_id = " + id;
 		try {
 			return jdbcTemplate.queryForObject(sql, new OptionRowMapper());
@@ -61,7 +61,7 @@ public class MysqlOptionDao implements OptionDao {
 
 	@Override
 	public Option deleteOption(Long id) throws EntityNotFoundException {
-		Option option = getOption(id);
+		Option option = getById(id);
 		String sql = "DELETE FROM `option` WHERE option_id = " + id;
 		jdbcTemplate.update(sql);
 		return option;

@@ -13,7 +13,8 @@ import kram.storage.subject.SubjectDao;
 import kram.storage.user.*;
 import kram.storage.zameranie.MysqlZameranieDao;
 import kram.storage.zameranie.ZameranieDao;
-
+import kram.storage.test.MysqlTestDao;
+import kram.storage.test.TestDao;
 
 public enum DaoFactory {
 
@@ -24,6 +25,7 @@ public enum DaoFactory {
 	private ZameranieDao zameranieDao;
 	private QuestionDao questionDao;
 	private OptionDao optionDao;
+	private TestDao testDao;
 	
 	private static final boolean TEST = true;
 	
@@ -60,6 +62,13 @@ public enum DaoFactory {
 			optionDao = new MysqlOptionDao(getJdbcTemplate());
 		}
 		return optionDao;
+	}
+	
+	public TestDao getTestDao() {
+		if (testDao == null){
+			testDao = new MysqlTestDao(getJdbcTemplate());
+		}
+		return testDao;
 	}
 	
 	private JdbcTemplate getJdbcTemplate() {

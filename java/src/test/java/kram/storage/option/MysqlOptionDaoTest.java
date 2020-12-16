@@ -40,7 +40,7 @@ class MysqlOptionDaoTest {
 
 			@Override
 			public void execute() throws Throwable {
-				optionDao.getOption(-1L);
+				optionDao.getById(-1L);
 			}
 			
 		});
