@@ -1,8 +1,11 @@
 package kram.storage.user;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kram.storage.SHA256;
 import kram.storage.question.Question;
 import kram.storage.test.KramTest;
 
@@ -16,12 +19,9 @@ public class User {
 	private List<KramTest> testy = new ArrayList<KramTest>();
 	private List<Question> questions = new ArrayList<Question>();
 	
-	
-	
 	public User() {
 	}
 
-	//constructor all parameters
 	public User(Long idUser, String name, String surname, String heslo, boolean teacher) {
 		this.idUser = idUser;
 		this.name = name;
@@ -30,7 +30,6 @@ public class User {
 		this.teacher = teacher;
 	}
 	
-	//constructor without id
 	public User(String name, String surname, String heslo, boolean teacher) {
 		this.name = name;
 		this.surname = surname;
@@ -38,7 +37,6 @@ public class User {
 		this.teacher = teacher;
 	}
 	
-	//constructor withou teacher, idk, maybe delete later
 	public User(String name, String surname, String heslo) {
 		this.name = name;
 		this.surname = surname;
@@ -62,7 +60,7 @@ public class User {
 		this.teacher = teacher;
 
 	}
-
+	
 	public String getUsername() {
 		return username;
 	}
@@ -74,30 +72,39 @@ public class User {
 	public Long getIdUser() {
 		return idUser;
 	}
+	
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getSurname() {
 		return surname;
 	}
+	
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
+	
 	public String getHeslo() {
 		return heslo;
 	}
+	
 	public void setHeslo(String heslo) {
 		this.heslo = heslo;
 	}
+	
 	public boolean isTeacher() {
 		return teacher;
 	}
+	
 	public void setTeacher(boolean teacher) {
 		this.teacher = teacher;
 	}
@@ -110,7 +117,6 @@ public class User {
 		this.testy = testy;
 	}
 	
-
 	public List<Question> getQuestions() {
 		return questions;
 	}
@@ -125,7 +131,4 @@ public class User {
 				+ teacher + ", testy=" + testy + ", questions=" + questions + "]";
 	}
 
-	
-	
-	
 }

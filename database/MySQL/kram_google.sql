@@ -1,13 +1,23 @@
 USE kram_test;
 
+DROP TABLE IF EXISTS `course_test`;
+DROP TABLE IF EXISTS `course_user`;
+DROP TABLE IF EXISTS `course`;
+DROP TABLE IF EXISTS `answer`;
+DROP TABLE IF EXISTS `test`;
+DROP TABLE IF EXISTS `question_option`;
+DROP TABLE IF EXISTS `option`;
+DROP TABLE IF EXISTS `question`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `topic`;
 DROP TABLE IF EXISTS `subject`;
+
 CREATE TABLE `subject`(
 	subject_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	title VARCHAR(45) NOT NULL,
 	short VARCHAR(10)
 );
 
-DROP TABLE IF EXISTS `topic`;
 CREATE TABLE `topic`(
 	topic_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	subject_id INT NOT null,
@@ -15,17 +25,15 @@ CREATE TABLE `topic`(
 	FOREIGN KEY(subject_id) REFERENCES `subject`(subject_id) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`(
 	user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(45) NOT NULL unique,
 	name VARCHAR(45) NOT NULL,
 	surname VARCHAR(45) NOT NULL,
-	password VARCHAR(45) NOT NULL,
+	password VARCHAR(64) NOT NULL,
 	teacher BOOLEAN
 );
 
-DROP TABLE IF EXISTS `question`;
 CREATE TABLE `question`(
 	question_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -36,14 +44,12 @@ CREATE TABLE `question`(
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS `option`;
 CREATE TABLE `option`(
 	option_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100)
     # answer MEDIUMBLOB
 ); 
 
-DROP TABLE IF EXISTS `question_option`;
 CREATE TABLE `question_option`(
 	question_id INT NOT NULL,
     option_id INT NOT NULL,
@@ -53,7 +59,6 @@ CREATE TABLE `question_option`(
     PRIMARY KEY(question_id, option_id)
 );
  
-DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test`(
 	test_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	user_id INT,
@@ -65,7 +70,6 @@ CREATE TABLE `test`(
 	FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS `answer`;
 CREATE TABLE `answer`(
 	test_id INT NOT NULL,
 	question_id INT NOT NULL,
@@ -73,6 +77,29 @@ CREATE TABLE `answer`(
     FOREIGN KEY (question_id , option_id) REFERENCES question_option (question_id , option_id) ON DELETE CASCADE,
     FOREIGN KEY (test_id) REFERENCES test(test_id) ON DELETE CASCADE,
 	PRIMARY KEY (test_id, question_id, option_id)
+);
+
+CREATE TABLE `course`(
+	course_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	user_id INT NOT NULL,
+    name VARCHAR(100),
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE `course_user`(
+	course_id INT NOT NULL,
+	user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE,
+	PRIMARY KEY (user_id, course_id)
+);
+
+CREATE TABLE `course_test`(
+	course_id INT NOT NULL,
+	test_id INT NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE,
+    FOREIGN KEY (test_id) REFERENCES test(test_id) ON DELETE CASCADE,
+	PRIMARY KEY (test_id, course_id)
 );
 
 INSERT INTO `subject`(title, short) VALUES ("matematika", "MAT");
@@ -112,5 +139,5 @@ INSERT INTO question_option(question_id, option_id, correct) VALUES(2,5, true);
 
 INSERT INTO `test`(user_id, topic_id, time_start, time_end, hodnotenie) VALUES(1, 1, "2020-12-15 21:21:15", "2020-12-21 08:00:00", "100");
 
-INSERT INTO answer(test_id, question_id, option_id) VALUES(1, 1, 1);
+INSERT INTO answer(test_id, question_id, option_id) VALUES (1, 1, 1);
 

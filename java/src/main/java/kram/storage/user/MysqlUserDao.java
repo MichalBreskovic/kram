@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.EntityNotFoundException;
+import kram.storage.SHA256;
 
 public class MysqlUserDao implements UserDao {
 	
@@ -78,9 +79,10 @@ public class MysqlUserDao implements UserDao {
 	@Override
 	public User login(String meno, String heslo) throws EntityNotFoundException {
 		String sql = "SELECT user_id, name, surname, password, teacher, username FROM user where username like ? and password like ?";
+		System.out.println("Login");
+		String hashValue = SHA256.getHash(heslo);
 		try {
-			return jdbcTemplate.queryForObject(sql,
-					new UserRowMapper(), meno, heslo);
+			return jdbcTemplate.queryForObject(sql, new UserRowMapper(), meno, hashValue);
 			
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("User not found");

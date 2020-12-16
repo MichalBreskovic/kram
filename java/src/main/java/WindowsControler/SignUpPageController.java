@@ -141,7 +141,7 @@ public class SignUpPageController {
 					if (mozeme) {
 						try {
 							
-							User registrate = new User(check.getName(), check.getUsername(), check.getSurname(), check.getHeslo(), check.isTeacher());
+							User registrate = new User(check.getName(), check.getUsername(), check.getSurname(), SHA256.getHash(check.getHeslo()), check.isTeacher());
 //							userDao.saveUser(registrate);
 
 							userDao.saveUser(registrate);

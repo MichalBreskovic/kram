@@ -1,14 +1,10 @@
 package kram.storage.test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +13,6 @@ import kram.storage.option.Option;
 import kram.storage.option.OptionDao;
 import kram.storage.question.Question;
 import kram.storage.question.QuestionDao;
-import kram.storage.test.KramTest;
 
 class MysqlTestDaoTest {
 
@@ -50,9 +45,7 @@ class MysqlTestDaoTest {
 		
 		Question q = questionDao.saveQuestion(new Question("Test Question 1?", (long) 1, (long) 1, options));
 		
-//		answers = new HashMap<Question,Option>();
-//		answers.put(questionDao.saveQuestion(q), q.getOption(choosen.getIdOption()));
-		newTest= new KramTest((long) 1, (long) 1, "2020-12-15 18:21:15", "2020-12-21 18:00:00", 69);
+		newTest = new KramTest((long) 1, (long) 1, "2020-12-15 18:21:15", "2020-12-21 18:00:00", 69);
 		newTest.addAnswer(q, q.getOption(choosen.getIdOption()));
 		savedTest = testDao.saveTest(newTest);
 	}

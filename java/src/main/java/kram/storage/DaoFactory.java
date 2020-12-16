@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
+import java.security.MessageDigest;
+
 import kram.storage.option.MysqlOptionDao;
 import kram.storage.option.OptionDao;
 import kram.storage.question.MysqlQuestionDao;
