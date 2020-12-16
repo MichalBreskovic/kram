@@ -2,7 +2,6 @@ package WindowsControler.teacherPages;
 
 import WindowsControler.UserPageProfileController;
 import WindowsControler.WelcomePageControler;
-import WindowsControler.userPages.UserPageControler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -25,7 +24,6 @@ import kram.storage.question.QuestionDao;
 import kram.storage.subject.Subject;
 import kram.storage.subject.SubjectDao;
 import kram.storage.user.User;
-import kram.storage.user.UserDao;
 import kram.storage.zameranie.Zameranie;
 import kram.storage.zameranie.ZameranieDao;
 
