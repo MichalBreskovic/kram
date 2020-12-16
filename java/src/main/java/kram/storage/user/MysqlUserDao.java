@@ -34,9 +34,31 @@ public class MysqlUserDao implements UserDao {
 	}
 
 	@Override
+	public User getById(Long id) throws EntityNotFoundException {
+		String sql = "SELECT user_id, name, surname, password, teacher, username FROM `user` WHERE user_id = " + id;
+		System.out.println(sql);
+		try {
+			return jdbcTemplate.queryForObject(sql, new UserRowMapper());
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User not found");
+		}
+	}
+	
+	@Override
+	public User login(String meno, String heslo) throws EntityNotFoundException {
+		String sql = "SELECT user_id, name, surname, password, teacher, username FROM user where username like ? and password like ?";
+		String hashValue = SHA256.getHash(heslo);
+		try {
+			return jdbcTemplate.queryForObject(sql, new UserRowMapper(), meno, hashValue);
+			
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User not found");
+		}
+	}
+	
+	@Override
 	public User saveUser(User user) throws EntityNotFoundException, NullPointerException {
 		if (user.getIdUser() == null) {
-			
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 			insert.withTableName("user");
 			insert.usingGeneratedKeyColumns("user_id");
@@ -54,38 +76,8 @@ public class MysqlUserDao implements UserDao {
 		} else {
 			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?  WHERE user_id like ?";
 			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser());
-			if (now==1) {
-				return user;
-			}else {
-				throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
-			}
-			
-
-		}
-		
-	}
-
-	@Override
-	public User getById(Long id) throws EntityNotFoundException {
-		String sql = "SELECT user_id, name, surname, password, teacher, username FROM `user` WHERE user_id = " + id;
-		System.out.println(sql);
-		try {
-			return jdbcTemplate.queryForObject(sql, new UserRowMapper());
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("User not found");
-		}
-	}
-	
-	@Override
-	public User login(String meno, String heslo) throws EntityNotFoundException {
-		String sql = "SELECT user_id, name, surname, password, teacher, username FROM user where username like ? and password like ?";
-		System.out.println("Login");
-		String hashValue = SHA256.getHash(heslo);
-		try {
-			return jdbcTemplate.queryForObject(sql, new UserRowMapper(), meno, hashValue);
-			
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("User not found");
+			if (now==1) return user;
+			else throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
 		}
 	}
 
@@ -94,16 +86,8 @@ public class MysqlUserDao implements UserDao {
 		String deleteSql = "DELETE FROM user WHERE user_id = " + id;
 		User user = getById(id);
 		int changed = jdbcTemplate.update(deleteSql);
-		if(changed == 0) {
-			throw new EntityNotFoundException("User with id " + id + " not found");
-		}
+		if(changed == 0) throw new EntityNotFoundException("User with id " + id + " not found");
 		return user;
-	}
-
-	@Override
-	public boolean isTeacher(User user) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

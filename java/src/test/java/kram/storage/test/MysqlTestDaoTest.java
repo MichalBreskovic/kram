@@ -19,6 +19,7 @@ class MysqlTestDaoTest {
 	TestDao testDao;
 	KramTest newTest;
 	KramTest savedTest;
+	Question question;
 	
 	QuestionDao questionDao;
 	OptionDao optionDao;
@@ -35,25 +36,27 @@ class MysqlTestDaoTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		Option choosen = optionDao.saveOption(new Option("Test test option true"));
+		Option choosen = optionDao.saveOption(new Option("Test test option true 1 "));
 		
 		options = new HashMap<Option,Boolean>();
 		options.put(choosen, true);
-		options.put(optionDao.saveOption(new Option("Test test option false")), false);
-		options.put(optionDao.saveOption(new Option("Test test option false")), false);
-		options.put(optionDao.saveOption(new Option("Test test option false")), false);
+		options.put(optionDao.saveOption(new Option("Test test option false 2")), false);
+		options.put(optionDao.saveOption(new Option("Test test option false 3")), false);
+		options.put(optionDao.saveOption(new Option("Test test option false 4")), false);
 		
-		Question q = questionDao.saveQuestion(new Question("Test Question 1?", (long) 1, (long) 1, options));
+		Question question = questionDao.saveQuestion(new Question("Test Question 1?", (long) 1, (long) 1, options));
 		
 		newTest = new KramTest((long) 1, (long) 1, "2020-12-15 18:21:15", "2020-12-21 18:00:00", 69);
-		newTest.addAnswer(q, q.getOption(choosen.getIdOption()));
+		newTest.addAnswer(question, question.getOption(choosen.getIdOption()));
 		savedTest = testDao.saveTest(newTest);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-//		testDao.deleteTest(savedTest.getIdTest());
-//		for (Map.Entry<Question, Option> pair : answers.entrySet()) {
+		testDao.deleteTest(savedTest.getIdTest());
+		System.out.println(question);
+		questionDao.deleteQuestion(question.getIdQuestion());
+//		for(Map.Entry<Option, Option> pair : answers.entrySet()) {
 //			optionDao.deleteOption(pair.getKey().getIdOption());
 //		}
 	}

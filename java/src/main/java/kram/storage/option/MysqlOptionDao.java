@@ -34,7 +34,7 @@ public class MysqlOptionDao implements OptionDao {
 		try {
 			return jdbcTemplate.queryForObject(sql, new OptionRowMapper());
 		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Option not found");
+			throw new EntityNotFoundException("Option with id " + id + " not found");
 		}
 	} 
 	
@@ -52,10 +52,8 @@ public class MysqlOptionDao implements OptionDao {
 		} else {
 			String sql = "UPDATE `option` SET title = ? WHERE option_id = ?";
 			int now = jdbcTemplate.update(sql, option.getTitle(), option.getIdOption());
-			if ( now == 1) return option;
-			else {
-				throw new EntityNotFoundException("Option with id " + option.getIdOption() + " not found");
-			}
+			if(now == 1) return option;
+			else throw new EntityNotFoundException("Option with id " + option.getIdOption() + " not found");
 		}
 	}
 

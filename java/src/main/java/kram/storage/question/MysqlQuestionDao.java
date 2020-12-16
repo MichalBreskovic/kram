@@ -95,7 +95,7 @@ public class MysqlQuestionDao implements QuestionDao{
 			return questions;
 		} catch (DataAccessException e) {
 			e.printStackTrace();
-			throw new EntityNotFoundException("Question with user_id " + id + " not found");
+			throw new EntityNotFoundException("Question for user " + id + " not found");
 		}
 	}
 	
@@ -105,17 +105,17 @@ public class MysqlQuestionDao implements QuestionDao{
 		try {
 			return jdbcTemplate.query(sql, new QuestionSetExtractor(), id);	
 		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Haha totot Question with id " + id + " not found");
+			throw new EntityNotFoundException("Question with id " + id + " not found");
 		}
 	}
 	
 	@Override
-	public List<Question> getByTopicUserId(Long id,Long idUser) throws EntityNotFoundException, NullPointerException  {
+	public List<Question> getByTopicUserId(Long id, Long idUser) throws EntityNotFoundException, NullPointerException  {
 		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.user_id = ? and q.topic_id = ? ";
 		try {
 			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), idUser, id);	
 		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Haha totot Question with id " + id + " not found");
+			throw new EntityNotFoundException("Questions for topic " + id + " for user " + idUser + " not found");
 		}
 	}
 	
@@ -147,18 +147,15 @@ public class MysqlQuestionDao implements QuestionDao{
 			}
 			return newQuestion;
 		} else {
-			try {
-				if(question.getOptions().size() != 0) {
-					String sql = "UPDATE question SET title = ?, topic_id = ? WHERE question_id = ?";
-					jdbcTemplate.update(sql, question.getTitle(), question.getIdTopic(), question.getIdQuestion());
-					String deleteSql = "DELETE FROM question_option WHERE question_id = ?";
-					jdbcTemplate.update(deleteSql, question.getIdQuestion());
-					jdbcTemplate.update(insert(question));
-				}
-				return question;
-			} catch(EntityNotFoundException e) {
-				throw new EntityNotFoundException("Question with id " + question.getIdQuestion() + " not found");
+			if(question.getOptions().size() != 0) {
+				String sql = "UPDATE question SET title = ?, topic_id = ? WHERE question_id = ?";
+				int now = jdbcTemplate.update(sql, question.getTitle(), question.getIdTopic(), question.getIdQuestion());
+				if (now != 1) throw new EntityNotFoundException("Question with id " + question.getIdQuestion() + " not found"); 
+				String deleteSql = "DELETE FROM question_option WHERE question_id = ?";
+				jdbcTemplate.update(deleteSql, question.getIdQuestion());
+				jdbcTemplate.update(insert(question));
 			}
+			return question;
 		}
 	}
 	
@@ -178,9 +175,7 @@ public class MysqlQuestionDao implements QuestionDao{
 		jdbcTemplate.update(deleteSql);
 		String sql = "DELETE FROM question WHERE question_id = " + id;
 		int changed = jdbcTemplate.update(sql);
-		if(changed == 0) {
-			throw new EntityNotFoundException("Question with id " + id + " not found");
-		}
+		if(changed == 0) throw new EntityNotFoundException("Question with id " + id + " not found");
 		return question;
 	}
 
