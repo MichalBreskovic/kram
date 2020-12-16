@@ -99,8 +99,10 @@ public class UserPageProfileController {
 	@FXML
 	void initialize() {
 		name.setText(user.getUsername());
-		heslo.setText(user.getHeslo());
-		heslo2.setText(user.getHeslo());
+		//heslo.setText(user.getHeslo());
+		//heslo2.setText(user.getHeslo());
+		heslo.setPromptText("Insert new password");
+		heslo2.setPromptText("Insert new password");
 		username.setText(user.getName() + " "+ user.getSurname());
 		if (user.isTeacher()) {
 			tests.setOpacity(0);

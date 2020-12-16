@@ -51,6 +51,9 @@ public class Question {
 	public void addOption(Long idOption, String title, boolean correct) {
 		this.options.put(new Option(idOption, title), correct);
 	}
+	public void addOption(Option option, boolean correct) {
+		this.options.put(option, correct);
+	}
 	
 	public Long getIdQuestion() {
 		return idQuestion;

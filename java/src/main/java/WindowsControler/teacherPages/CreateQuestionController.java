@@ -1,5 +1,7 @@
 package WindowsControler.teacherPages;
 
+import java.awt.Color;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -169,7 +171,24 @@ public class CreateQuestionController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
+				try {
+					if (selectedSubject.getValue()==null || selectedTopic.getValue()==null) {
+						errorfield2.setTextFill(javafx.scene.paint.Color.RED);
+						errorfield2.setText("Choose topic where you want to add question");
+					}else {
+						AddModifyQuestionCotroller controller = new AddModifyQuestionCotroller(stage, user, selectedSubject.getValue(), selectedTopic.getValue(), false);
+						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("QuestionAddModifyPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						stage.setTitle("Add question");
+						stage.setScene(scene);
+					}
+					
+					
+				} catch (Exception e) {
+					System.out.println("chybicka");
+				}
 				
 			}
 		});
@@ -183,7 +202,7 @@ public class CreateQuestionController {
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
-					stage.setTitle("Welcome");
+					stage.setTitle("Welcome "+user.getSurname());
 					stage.setScene(scene);
 					
 				} catch (Exception e) {
