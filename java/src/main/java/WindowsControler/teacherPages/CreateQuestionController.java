@@ -30,50 +30,52 @@ public class CreateQuestionController {
 	private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
 	private Stage stage;
 	private User user;
+
 	public CreateQuestionController(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
 	}
 
-    @FXML
-    private ListView<Subject> subjectview;
+	@FXML
+	private ListView<Subject> subjectview;
 
-    @FXML
-    private Label viewtest;
+	@FXML
+	private Label viewtest;
 
-    @FXML
-    private ListView<Zameranie> topicview;
+	@FXML
+	private ListView<Zameranie> topicview;
 
-    @FXML
-    private Label viewtest1;
+	@FXML
+	private Label viewtest1;
 
-    @FXML
-    private TextField subjectSelect;
+	@FXML
+	private TextField subjectSelect;
 
-    @FXML
-    private Button refreshSubjectSelector;
+	@FXML
+	private Button refreshSubjectSelector;
 
-    @FXML
-    private TextField topicSelect;
+	@FXML
+	private TextField topicSelect;
 
-    @FXML
-    private Button refreshTopicSelector;
+	@FXML
+	private Button refreshTopicSelector;
 
-    @FXML
-    private Button addnewsubject;
+	@FXML
+	private Button addnewsubject;
 
-    @FXML
-    private Button addnewtopic;
+	@FXML
+	private Button addnewtopic;
 
-    @FXML
-    private Button addquestion;
-    @FXML
-    private Button back;
+	@FXML
+	private Button addquestion;
+	@FXML
+	private Button back;
 
-    @FXML
-    private Label errorfield2;
-    private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>(); 
-	private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>(); 
+	@FXML
+	private Label errorfield2;
+	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>();
+	private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>();
+
 	@FXML
 	void initialize() {
 		selectedSubject.setValue(null);
@@ -87,84 +89,131 @@ public class CreateQuestionController {
 				selectedSubject.setValue(newValue);
 				System.out.println(newValue);
 				topicview.getItems().clear();
-				topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
+				topicview.setItems(FXCollections.observableArrayList(
+						zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
 			}
-			
+
 		});
 		selectedSubject.addListener(new ChangeListener<Subject>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
-				if (newValue==null) {
+				if (newValue == null) {
 					subjectview.getSelectionModel().clearSelection();
-				}else {
+				} else {
 					subjectview.getSelectionModel().select(newValue);
 				}
-				
+
 			}
 		});
 		topicview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Zameranie>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
+			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue,
+					Zameranie newValue) {
 				selectedTopic.setValue(newValue);
 				System.out.println(newValue);
 			}
-			
+
 		});
 		selectedTopic.addListener(new ChangeListener<Zameranie>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
-				if (newValue==null) {
+			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue,
+					Zameranie newValue) {
+				if (newValue == null) {
 					topicview.getSelectionModel().clearSelection();
-				}else {
+				} else {
 					topicview.getSelectionModel().select(newValue);
 				}
-				
+
 			}
 		});
 		refreshSubjectSelector.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				String subjectString=subjectSelect.getText();
+				String subjectString = subjectSelect.getText();
 				subjectview.getItems().clear();
 				subjectview.setItems(FXCollections.observableArrayList(subjectDao.getBySubstring(subjectString)));
-				
+
 			}
-			
+
 		});
 		refreshTopicSelector.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				String topicString=topicSelect.getText();
+				String topicString = topicSelect.getText();
 				topicview.getItems().clear();
 				topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstring(topicString)));
-				
+
 			}
-			
+
 		});
-		
+
 		addnewsubject.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		addnewtopic.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (selectedSubject.getValue()==null) {
+				if (selectedSubject.getValue() == null) {
+					errorfield2.setTextFill(javafx.scene.paint.Color.RED);
 					errorfield2.setText("Choose subject in which u want to add topic");
-				}else {
-					
+				} else {
+					errorfield2.setText("");
+					try {
+						Stage stage2 = new Stage();
+						AddTopicController controller = new AddTopicController(stage,stage2, user,selectedSubject.getValue());
+						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("AddTopicPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						
+						stage.close();
+						stage2.setTitle("Add topic");
+						stage2.setScene(scene);
+						stage2.show();
+
+					} catch (Exception e) {
+						System.out.println("chybicka");
+					}
+
 				}
+
+			}
+		});
+		addnewsubject.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+					errorfield2.setText("");
+					try {
+						Stage stage2 = new Stage();
+						AddSubjectController controller = new AddSubjectController(stage,stage2, user,selectedSubject.getValue());
+						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("AddSubjectPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						
+						stage.close();
+						stage2.setTitle("Add Subject");
+						stage2.setScene(scene);
+						stage2.show();
+
+					} catch (Exception e) {
+						System.out.println("chybicka");
+					}
+
 				
+
 			}
 		});
 		addquestion.setOnAction(new EventHandler<ActionEvent>() {
@@ -172,24 +221,25 @@ public class CreateQuestionController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					if (selectedSubject.getValue()==null || selectedTopic.getValue()==null) {
+					if (selectedSubject.getValue() == null || selectedTopic.getValue() == null) {
 						errorfield2.setTextFill(javafx.scene.paint.Color.RED);
 						errorfield2.setText("Choose topic where you want to add question");
-					}else {
-						AddModifyQuestionCotroller controller = new AddModifyQuestionCotroller(stage, user, selectedSubject.getValue(), selectedTopic.getValue(), false);
-						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("QuestionAddModifyPage.fxml"));
+					} else {
+						AddModifyQuestionCotroller controller = new AddModifyQuestionCotroller(stage, user,
+								selectedSubject.getValue(), selectedTopic.getValue(), false);
+						FXMLLoader fxmlLoader2 = new FXMLLoader(
+								UserTeacherPageControler.class.getResource("QuestionAddModifyPage.fxml"));
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
 						stage.setTitle("Add question");
 						stage.setScene(scene);
 					}
-					
-					
+
 				} catch (Exception e) {
 					System.out.println("chybicka");
 				}
-				
+
 			}
 		});
 		back.setOnAction(new EventHandler<ActionEvent>() {
@@ -198,19 +248,20 @@ public class CreateQuestionController {
 			public void handle(ActionEvent event) {
 				try {
 					UserTeacherPageControler controller = new UserTeacherPageControler(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(
+							UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
-					stage.setTitle("Welcome "+user.getSurname());
+					stage.setTitle("Welcome " + user.getSurname());
 					stage.setScene(scene);
-					
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
+
 			}
 		});
 	}
-	
+
 }

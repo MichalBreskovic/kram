@@ -3,11 +3,14 @@ package kram.storage.zameranie;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.EntityNotFoundException;
 import kram.storage.subject.Subject;
@@ -51,6 +54,35 @@ public class MysqlZameranieDao implements ZameranieDao {
 		return jdbcTemplate.query("SELECT topic_id, title, subject_id FROM topic", new ZameranieRowMapper());
 
 	}
+	@Override
+	public Zameranie saveZameranie(Zameranie zameranie) throws EntityNotFoundException, NullPointerException {
+		if (zameranie.getIdZameranie() == null) {
+			
+			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+			insert.withTableName("topic");
+			insert.usingGeneratedKeyColumns("topic_id");
+			insert.usingColumns("subject_id","title");
+			
+			Map<String, String> valuesMap = new HashMap<String, String>();
+			valuesMap.put("subject_id", zameranie.getIdSubject().toString());
+			valuesMap.put("title", zameranie.getTitle());
+		
+			//(Long idUser, String name, String username, String surname, String password, boolean teacher)
+			Zameranie newZameranie = new Zameranie(insert.executeAndReturnKey(valuesMap).longValue(), zameranie.getIdSubject(), zameranie.getTitle());
+			return newZameranie;
+		} else {
+			return null;
+		}
+			/*String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?  WHERE user_id like ?";
+			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser());
+			if (now==1) {
+				return user;
+			}else {
+				throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
+			}
+			*/
+
+		}
 	@Override
 	public List<Zameranie> getBySubstring(String sub) throws NullPointerException {
 		if (sub == null) {

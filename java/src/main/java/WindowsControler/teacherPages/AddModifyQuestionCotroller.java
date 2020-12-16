@@ -153,123 +153,125 @@ public class AddModifyQuestionCotroller {
 				question.getOptions();
 			}
 
-		}
-		dlt.setOnAction(new EventHandler<ActionEvent>() {
+		}else {
+			dlt.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent event) {
-				if (pocet > 2) {
-					box.getChildren().remove(pocet - 1);
-					box1.getChildren().remove(pocet - 1);
-					options.remove(pocet - 1);
-					correct.remove(pocet - 1);
-					pocet--;
+				@Override
+				public void handle(ActionEvent event) {
+					if (pocet > 2) {
+						box.getChildren().remove(pocet - 1);
+						box1.getChildren().remove(pocet - 1);
+						options.remove(pocet - 1);
+						correct.remove(pocet - 1);
+						pocet--;
+					}
+
 				}
+			});
+			add.setOnAction(new EventHandler<ActionEvent>() {
 
-			}
-		});
-		add.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					if (pocet < 8) {
+						TextField txt = new TextField();
+						CheckBox chc = new CheckBox();
+						txt.setId("option" + pocet);
+						options.add(txt);
+						chc.setId("check" + pocet);
+						chc.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent event) {
-				if (pocet < 8) {
-					TextField txt = new TextField();
-					CheckBox chc = new CheckBox();
-					txt.setId("option" + pocet);
-					options.add(txt);
-					chc.setId("check" + pocet);
-					chc.setOnAction(new EventHandler<ActionEvent>() {
+							@Override
+							public void handle(ActionEvent event) {
+								if (iscorrect[pocet-1]) {
+									iscorrect[pocet-1] = false;
+								} else {
+									iscorrect[pocet-1] = true;
+								}
 
-						@Override
-						public void handle(ActionEvent event) {
-							if (iscorrect[pocet-1]) {
-								iscorrect[pocet-1] = false;
-							} else {
-								iscorrect[pocet-1] = true;
+								
 							}
-
-							
-						}
-					});
-					correct.add(chc);
-					box1.getChildren().add(chc);
-					box.getChildren().add(txt);
-					pocet++;
-					
-				}
-
-			}
-		});
-		
-		addquestion.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				boolean done = true;
-				correctAnswers=0;
-				if (title.getText() == null || title.getText().trim().isEmpty()) {
-					errorfield2.setTextFill(Color.RED);
-					errorfield2.setText("Input title of your question");
-					done = false;
-				}
-				for (TextField option : options) {
-					if (option.getText() == null || option.getText().trim().isEmpty()) {
-						errorfield2.setTextFill(Color.RED);
-						errorfield2.setText("One of the options is empty");
+						});
+						correct.add(chc);
+						box1.getChildren().add(chc);
+						box.getChildren().add(txt);
+						pocet++;
 						
+					}
+
+				}
+			});
+			
+			addquestion.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					boolean done = true;
+					correctAnswers=0;
+					if (title.getText() == null || title.getText().trim().isEmpty()) {
+						errorfield2.setTextFill(Color.RED);
+						errorfield2.setText("Input title of your question");
 						done = false;
 					}
-				}
-				System.out.println("pocet moznosti je "+ options.size());
-				System.out.println(pocet);
-				for (int i = 0; i < pocet; i++) {
-					System.out.println(iscorrect[i]);
-					if (iscorrect[i]) {
-						correctAnswers++;
-					}
-					
-				}
-				if (correctAnswers==0) {
-					errorfield2.setTextFill(Color.RED);
-					done = false;
-					errorfield2.setText("There is no correct answer");
-				}
-				if (done) {
-					errorfield2.setTextFill(Color.GREEN);
-					errorfield2.setText("EWERYTHING OK");
-					Question question = new Question(title.getText(), zameranie.getIdSubject(), user.getIdUser());
-					int index = 0;
 					for (TextField option : options) {
-						
-						question.addOption(optionDao.saveOption(new Option(option.getText())), iscorrect[index]);
-						index++;
+						if (option.getText() == null || option.getText().trim().isEmpty()) {
+							errorfield2.setTextFill(Color.RED);
+							errorfield2.setText("One of the options is empty");
+							
+							done = false;
+						}
 					}
-					questionDao.saveQuestion(question);
+					System.out.println("pocet moznosti je "+ options.size());
+					System.out.println(pocet);
+					for (int i = 0; i < pocet; i++) {
+						System.out.println(iscorrect[i]);
+						if (iscorrect[i]) {
+							correctAnswers++;
+						}
+						
+					}
+					if (correctAnswers==0) {
+						errorfield2.setTextFill(Color.RED);
+						done = false;
+						errorfield2.setText("There is no correct answer");
+					}
+					if (done) {
+						errorfield2.setTextFill(Color.GREEN);
+						errorfield2.setText("EWERYTHING OK");
+						Question question = new Question(title.getText(), zameranie.getIdSubject(), user.getIdUser());
+						int index = 0;
+						for (TextField option : options) {
+							
+							question.addOption(optionDao.saveOption(new Option(option.getText())), iscorrect[index]);
+							index++;
+						}
+						questionDao.saveQuestion(question);
+
+					}
 
 				}
+			});
 
-			}
-		});
+			back.setOnAction(new EventHandler<ActionEvent>() {
 
-		back.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					try {
+						UserTeacherPageControler controller = new UserTeacherPageControler(stage, user);
+						FXMLLoader fxmlLoader2 = new FXMLLoader(
+								UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						stage.setTitle("Welcome");
+						stage.setScene(scene);
 
-			@Override
-			public void handle(ActionEvent event) {
-				try {
-					UserTeacherPageControler controller = new UserTeacherPageControler(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(
-							UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
-					fxmlLoader2.setController(controller);
-					Parent rootPane = fxmlLoader2.load();
-					Scene scene = new Scene(rootPane);
-					stage.setTitle("Welcome");
-					stage.setScene(scene);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 
-				} catch (Exception e) {
-					// TODO: handle exception
 				}
-
-			}
-		});
+			});
+		}
+		
 	}
 
 }

@@ -13,4 +13,8 @@ public interface ZameranieDao {
 	List<Zameranie> getBySubstring(String sub) throws NullPointerException;
 
 	List<Zameranie> getAllForTeacher(long idUser) throws NullPointerException;
+
+
+
+	Zameranie saveZameranie(Zameranie zameranie) throws EntityNotFoundException, NullPointerException;
 }

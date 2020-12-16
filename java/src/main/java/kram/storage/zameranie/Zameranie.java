@@ -17,8 +17,9 @@ public class Zameranie {
 		this.title = title;
 		this.questions = questions;
 	}
-	public Zameranie(Long idZameranie, String title) {
-		this.idZameranie = idZameranie;
+
+	public Zameranie(Long idSubject, String title) {
+		this.idSubject = idSubject;
 		this.title = title;
 	}
 	public Zameranie(Long idZameranie,Long idSubject, String title) {
