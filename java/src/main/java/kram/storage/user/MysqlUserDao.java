@@ -36,7 +36,6 @@ public class MysqlUserDao implements UserDao {
 	@Override
 	public User getById(Long id) throws EntityNotFoundException {
 		String sql = "SELECT user_id, name, surname, password, teacher, username FROM `user` WHERE user_id = " + id;
-		System.out.println(sql);
 		try {
 			return jdbcTemplate.queryForObject(sql, new UserRowMapper());
 		} catch (DataAccessException e) {
@@ -50,7 +49,6 @@ public class MysqlUserDao implements UserDao {
 		String hashValue = SHA256.getHash(heslo);
 		try {
 			return jdbcTemplate.queryForObject(sql, new UserRowMapper(), meno, hashValue);
-			
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("User not found");
 		}
@@ -71,12 +69,12 @@ public class MysqlUserDao implements UserDao {
 			valuesMap.put("teacher", Boolean.toString(user.isTeacher()));
 			valuesMap.put("username", user.getUsername());
 			//(Long idUser, String name, String username, String surname, String password, boolean teacher)
-			User newPredmet = new User(insert.executeAndReturnKey(valuesMap).longValue(), user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher());
-			return newPredmet;
+			User newUser = new User(insert.executeAndReturnKey(valuesMap).longValue(), user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher());
+			return newUser;
 		} else {
 			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?  WHERE user_id like ?";
 			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser());
-			if (now==1) return user;
+			if (now == 1) return user;
 			else throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
 		}
 	}

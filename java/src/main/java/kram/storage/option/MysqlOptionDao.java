@@ -58,6 +58,15 @@ public class MysqlOptionDao implements OptionDao {
 	}
 
 	@Override
+	public Map<Option,Boolean> saveOptions(Map<Option,Boolean> options) throws EntityNotFoundException {
+		Map<Option,Boolean> newOptions = new HashMap<Option,Boolean>();
+		for (Map.Entry<Option, Boolean> entry : options.entrySet()) {
+			newOptions.put(saveOption(entry.getKey()),entry.getValue());
+		}
+		return newOptions;
+	}
+	
+	@Override
 	public Option deleteOption(Long id) throws EntityNotFoundException {
 		Option option = getById(id);
 		String sql = "DELETE FROM `option` WHERE option_id = " + id;
@@ -65,4 +74,18 @@ public class MysqlOptionDao implements OptionDao {
 		return option;
 	}
 	
+	@Override
+	public Map<Option,Boolean> deleteOptions(Map<Option,Boolean> options) throws EntityNotFoundException {
+		String sql = "DELETE FROM `option` WHERE option_id IN (";
+		int i = 0;
+		for (Map.Entry<Option, Boolean> entry : options.entrySet()) {
+			if(i == options.size() - 1) sql += entry.getKey().getIdOption();
+			else sql += entry.getKey().getIdOption() + ",";
+			i++;
+	    }
+		sql += ")";
+		System.out.println(sql);
+		jdbcTemplate.update(sql);
+		return options;
+	}
 }

@@ -1,7 +1,9 @@
 package kram.storage.test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 import kram.storage.option.Option;
 import kram.storage.question.Question;
@@ -13,8 +15,8 @@ public class KramTest {
 	private String start;
 	private String end;
 	private Integer hodnotenie;
-	
-	private Map<Question,Option> answers = new HashMap<Question,Option>();
+
+	private MultiValuedMap<Question,Option> answers = new ArrayListValuedHashMap<Question,Option>();
 	
 	public KramTest(Long idUser, Long idTopic, String start, String end, int hodnotenie) {
 		this.start = start;
@@ -33,7 +35,7 @@ public class KramTest {
 		this.hodnotenie = hodnotenie;
 	}
 	
-	public KramTest(Long idUser, Long idTopic, String start, String end, int hodnotenie, Map<Question,Option> answers) {
+	public KramTest(Long idUser, Long idTopic, String start, String end, int hodnotenie, MultiValuedMap<Question,Option> answers) {
 		this.idTopic = idTopic;
 		this.idUser = idUser;
 		this.start = start;
@@ -42,7 +44,7 @@ public class KramTest {
 		this.answers = answers;
 	}
 	
-	public KramTest(Long idTest, Long idUser, Long idTopic, String start, String end, int hodnotenie, Map<Question,Option> answers) {
+	public KramTest(Long idTest, Long idUser, Long idTopic, String start, String end, int hodnotenie, MultiValuedMap<Question,Option> answers) {
 		this.idTest = idTest;
 		this.idTopic = idTopic;
 		this.idUser = idUser;
@@ -64,11 +66,18 @@ public class KramTest {
 		this.idTest = idTest;
 	}
 	
-	public Map<Question,Option> getAnswers() {
+	public MultiValuedMap<Question,Option> setQuestions(List<Question> questions) {
+		for (Question question : questions) {
+			this.answers.put(question, null);
+		}
 		return answers;
 	}
 	
-	public void setAnswers(Map<Question,Option> answers) {
+	public MultiValuedMap<Question,Option> getAnswers() {
+		return answers;
+	}
+	
+	public void setAnswers(MultiValuedMap<Question,Option> answers) {
 		this.answers = answers;
 	}
 	
