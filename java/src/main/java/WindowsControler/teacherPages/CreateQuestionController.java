@@ -112,7 +112,7 @@ public class CreateQuestionController {
 			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue,
 					Zameranie newValue) {
 				selectedTopic.setValue(newValue);
-				System.out.println(newValue);
+				System.out.println(selectedTopic.get().getIdZameranie());
 			}
 
 		});
@@ -151,15 +151,6 @@ public class CreateQuestionController {
 			}
 
 		});
-
-		addnewsubject.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 		addnewtopic.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -197,7 +188,7 @@ public class CreateQuestionController {
 					errorfield2.setText("");
 					try {
 						Stage stage2 = new Stage();
-						AddSubjectController controller = new AddSubjectController(stage,stage2, user,selectedSubject.getValue());
+						AddSubjectController controller = new AddSubjectController(stage,stage2, user);
 						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("AddSubjectPage.fxml"));
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
@@ -225,8 +216,7 @@ public class CreateQuestionController {
 						errorfield2.setTextFill(javafx.scene.paint.Color.RED);
 						errorfield2.setText("Choose topic where you want to add question");
 					} else {
-						AddModifyQuestionCotroller controller = new AddModifyQuestionCotroller(stage, user,
-								selectedSubject.getValue(), selectedTopic.getValue(), false);
+						AddModifyQuestionCotroller controller = new AddModifyQuestionCotroller(stage, user, selectedTopic.getValue(), false);
 						FXMLLoader fxmlLoader2 = new FXMLLoader(
 								UserTeacherPageControler.class.getResource("QuestionAddModifyPage.fxml"));
 						fxmlLoader2.setController(controller);

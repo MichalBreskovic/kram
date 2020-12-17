@@ -41,7 +41,7 @@ public class AddSubjectController {
 
 	private Stage stage;
 	private Stage stage2;
-	private Subject subject;
+
 	  @FXML
 	    private Label username1;
 
@@ -56,10 +56,10 @@ public class AddSubjectController {
 
 
 
-	public AddSubjectController(Stage stage, Stage stage2, User user, Subject subject) {
+	public AddSubjectController(Stage stage, Stage stage2, User user) {
 		this.stage = stage;
 		this.stage2 = stage2;
-		this.subject = subject;
+
 	}
 	
 

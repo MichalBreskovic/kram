@@ -1,5 +1,9 @@
 package WindowsControler.userPages;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import WindowsControler.WelcomePageControler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -19,8 +23,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import kram.storage.DaoFactory;
+import kram.storage.question.Question;
+import kram.storage.question.QuestionDao;
 import kram.storage.subject.Subject;
 import kram.storage.subject.SubjectDao;
+import kram.storage.test.KramTest;
 import kram.storage.user.User;
 import kram.storage.zameranie.Zameranie;
 import kram.storage.zameranie.ZameranieDao;
@@ -28,6 +35,7 @@ import kram.storage.zameranie.ZameranieDao;
 public class NewTestGeneratorController {
 	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
+	private QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
 	private Stage stage;
 	private User user;
     @FXML
@@ -77,9 +85,13 @@ public class NewTestGeneratorController {
 			@Override
 			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
 				selectedSubject.setValue(newValue);
+				selectedTopic.setValue(null);
 				System.out.println(newValue);
 				topicview.getItems().clear();
-				topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
+				if (selectedSubject.getValue()!=null) {
+					topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
+				}
+				
 			}
 			
 		});
@@ -99,6 +111,7 @@ public class NewTestGeneratorController {
 
 			@Override
 			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
+				//selectedSubject.setValue(null);
 				selectedTopic.setValue(newValue);
 				System.out.println(newValue);
 			}
@@ -122,6 +135,8 @@ public class NewTestGeneratorController {
 			@Override
 			public void handle(ActionEvent event) {
 				String subjectString=subjectSelect.getText();
+				selectedSubject.setValue(null);
+				selectedTopic.setValue(null);
 				subjectview.getItems().clear();
 				subjectview.setItems(FXCollections.observableArrayList(subjectDao.getBySubstring(subjectString)));
 				
@@ -133,6 +148,8 @@ public class NewTestGeneratorController {
 			@Override
 			public void handle(ActionEvent event) {
 				String topicString=topicSelect.getText();
+				selectedSubject.setValue(null);
+				selectedTopic.setValue(null);
 				topicview.getItems().clear();
 				topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstring(topicString)));
 				
@@ -143,11 +160,12 @@ public class NewTestGeneratorController {
 			boolean done = true;
 			@Override
 			public void handle(ActionEvent event) {
+				errorfield.setText("");
 				String numString=numberOfQuestions.getText();
-				if (selectedSubject.getValue() == null || selectedTopic.getValue() == null ||  numString==null || numString.trim().isEmpty()) {
+				if (selectedTopic.getValue() == null ||  numString==null || numString.trim().isEmpty()) {
 					//System.out.println(selectedSubject);
 					errorfield.setTextFill(Color.RED);
-					errorfield.setText("You need to choose subject and item for starting test");
+					errorfield.setText("You need to choose item for starting test");
 					done = false;
 				}else {
 					done=true;
@@ -159,6 +177,28 @@ public class NewTestGeneratorController {
 						Integer.parseInt(numString);
 						errorfield.setTextFill(Color.DARKGREEN);
 						errorfield.setText("STARTING");
+						List<Question> otazky = questionDao.generateTestQuestions(Integer.parseInt(numString), selectedTopic.getValue().getIdZameranie());
+						//https://www.javatpoint.com/java-get-current-date
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+						LocalDateTime now = LocalDateTime.now();
+						//https://www.javatpoint.com/java-get-current-date
+						
+						//KramTest test=new KramTest(user.getIdUser(), selectedTopic.getValue().getIdZameranie(), dtf.format(now));
+						//test.set
+						
+						try {
+							TestController controller = new TestController(stage, user, otazky);
+							FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));
+							fxmlLoader2.setController(controller);
+							Parent rootPane = fxmlLoader2.load();
+							Scene scene = new Scene(rootPane);
+							stage.setTitle("your test");
+							stage.setScene(scene);
+						} catch (Exception e) {
+							System.out.println("fail again");
+						}
+						
+						
 					} catch (NumberFormatException  e) {
 						errorfield.setTextFill(Color.RED);
 						errorfield.setText("Invalid value in number of questions");

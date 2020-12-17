@@ -18,7 +18,7 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <ListView fx:id="subjectview" editable="true" layoutX="25.0" layoutY="174.0" prefHeight="348.0" prefWidth="395.0" AnchorPane.bottomAnchor="158.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="458.0" AnchorPane.topAnchor="174.0" />
+      <ListView fx:id="subjectview" editable="true" layoutX="25.0" layoutY="174.0" prefHeight="348.0" prefWidth="395.0" />
       <Label fx:id="viewtest" layoutX="25.0" layoutY="83.0" text="Select subject:" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="24.0" />

@@ -53,7 +53,7 @@ public class MysqlSubjectDao implements SubjectDao {
 
 	@Override
 	public List<Subject> getAllForTeacher(long idUser) throws EntityNotFoundException{
-		String sql = "SELECT s.subject_id, s.title, s.short FROM subject s JOIN (SELECT t.subject_id FROM topic t JOIN question q ON (t.topic_id=q.topic_id) WHERE q.user_id LIKE ? GROUP BY t.topic_id) z WHERE z.subject_id LIKE s.subject_id";
+		String sql = "SELECT s.subject_id, s.title, s.short FROM subject s JOIN (SELECT t.subject_id FROM topic t JOIN question q ON (t.topic_id=q.topic_id) WHERE q.user_id LIKE ? GROUP BY t.topic_id) z WHERE z.subject_id LIKE s.subject_id group by s.subject_id";
 		try {
 			return jdbcTemplate.query(sql, new SubjectRowMapper(), idUser);
 		} catch (DataAccessException e) {

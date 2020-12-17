@@ -53,7 +53,7 @@ public class UserTeacherPageControler {
 					stage.setTitle("Questions");
 					stage.setScene(scene);
 				} catch (Exception e) {
-					System.out.println("fail");
+					System.out.println("padaaaam");
 				}
 				
 			}

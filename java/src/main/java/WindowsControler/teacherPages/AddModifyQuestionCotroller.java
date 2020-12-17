@@ -1,7 +1,9 @@
 package WindowsControler.teacherPages;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -37,25 +39,25 @@ public class AddModifyQuestionCotroller {
 	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
 	private QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
-	 private OptionDao optionDao = DaoFactory.INSTATNCE.getOptionDao();
+	private OptionDao optionDao = DaoFactory.INSTATNCE.getOptionDao();
 
 	private Stage stage;
 	private User user;
-	private Subject subject;
+
 	private Zameranie zameranie;
 	private Question question;
 	private boolean edit;
 
-	public AddModifyQuestionCotroller(Stage stage, User user, Subject subject, Zameranie zameranie, boolean edit) {
+	public AddModifyQuestionCotroller(Stage stage, User user, Zameranie zameranie, boolean edit) {
 		this.stage = stage;
 		this.user = user;
-		this.subject = subject;
 		this.zameranie = zameranie;
 		this.edit = edit;
 	}
 
-	public AddModifyQuestionCotroller(Stage stage, Question question, boolean edit) {
+	public AddModifyQuestionCotroller(Stage stage, User user, Question question, boolean edit) {
 		this.stage = stage;
+		this.user = user;
 		this.question = question;
 		this.edit = edit;
 	}
@@ -95,6 +97,7 @@ public class AddModifyQuestionCotroller {
 	// SimpleObjectProperty<Zameranie>();
 	int pocet = 2;
 	int correctAnswers = 0;
+
 	@FXML
 	void initialize() {
 		// int pocet = 4;
@@ -117,7 +120,7 @@ public class AddModifyQuestionCotroller {
 
 			}
 		});
-		
+
 		check1.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -130,30 +133,228 @@ public class AddModifyQuestionCotroller {
 
 			}
 		});
-		
+		addquestion.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				boolean done = true;
+				correctAnswers = 0;
+				if (title.getText() == null || title.getText().trim().isEmpty()) {
+					errorfield2.setTextFill(Color.RED);
+					errorfield2.setText("Input title of your question");
+					done = false;
+				}
+				for (TextField option : options) {
+					if (option.getText() == null || option.getText().trim().isEmpty()) {
+						errorfield2.setTextFill(Color.RED);
+						errorfield2.setText("One of the options is empty");
+
+						done = false;
+					}
+				}
+				System.out.println("pocet moznosti je " + options.size());
+				System.out.println(pocet);
+				for (int i = 0; i < pocet; i++) {
+					System.out.println(iscorrect[i]);
+					if (iscorrect[i]) {
+						correctAnswers++;
+					}
+
+				}
+				if (correctAnswers == 0) {
+					errorfield2.setTextFill(Color.RED);
+					done = false;
+					errorfield2.setText("There is no correct answer");
+				}
+				if (done) {
+					errorfield2.setTextFill(Color.GREEN);
+					errorfield2.setText("EWERYTHING OK");
+					if (question == null) {
+						question = new Question(title.getText(), zameranie.getIdZameranie(), user.getIdUser());
+					}else {
+						question.setTitle(title.getText());
+						question.setOptions(new HashMap<Option, Boolean>());
+					}
+					
+					
+					
+					int index = 0;
+					for (TextField option : options) {
+
+						question.addOption(optionDao.saveOption(new Option(option.getText())), iscorrect[index]);
+						index++;
+					}
+					questionDao.saveQuestion(question);
+					if (edit) {
+						try {
+
+							UserTeacherPageControler controller = new UserTeacherPageControler(stage, user);
+							FXMLLoader fxmlLoader2 = new FXMLLoader(
+									UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
+							fxmlLoader2.setController(controller);
+							Parent rootPane = fxmlLoader2.load();
+							Scene scene = new Scene(rootPane);
+							stage.setTitle("Welcome");
+							stage.setScene(scene);
+
+						} catch (Exception e) {
+							System.out.println("chybicka");
+						}
+					}else {
+						try {
+
+							AddModifyQuestionCotroller controller = new AddModifyQuestionCotroller(stage, user, zameranie,
+									false);
+							FXMLLoader fxmlLoader2 = new FXMLLoader(
+									UserTeacherPageControler.class.getResource("QuestionAddModifyPage.fxml"));
+							fxmlLoader2.setController(controller);
+							Parent rootPane = fxmlLoader2.load();
+							Scene scene = new Scene(rootPane);
+							stage.setTitle("Add question");
+							stage.setScene(scene);
+
+						} catch (Exception e) {
+							System.out.println("chybicka");
+						}
+					}
+					
+
+				}
+
+			}
+		});
+
+		back.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					UserTeacherPageControler controller = new UserTeacherPageControler(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(
+							UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
+					fxmlLoader2.setController(controller);
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("Welcome");
+					stage.setScene(scene);
+
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+
+			}
+		});
+
 		if (edit) {
+			Map<Option, Boolean> moznosti = question.getOptions();
 			addquestion.setText("EDIT QUESTION");
 			tlt.setText("Edit question");
 			qvs.setText("Your question");
-			pocet = question.getOptions().size();
-			if (pocet > 2) {
-				int generuj = pocet - 2;
-				for (int i = 0; i < generuj; i++) {
+			pocet = moznosti.size();
+			int krok = 0;
+			title.setText(question.getTitle());
+
+			for (Map.Entry<Option, Boolean> entry : question.getOptions().entrySet()) {
+				
+				if (krok < 2) {
+					if (krok == 0) {
+						System.out.println(entry.getKey().getTitle());
+						option.setText(entry.getKey().getTitle());
+						check.setSelected(entry.getValue());
+
+					}
+					if (krok == 1) {
+						System.out.println(entry.getKey().getTitle());
+						option1.setText(entry.getKey().getTitle());
+						check1.setSelected(entry.getValue());
+
+					}
+					options.get(krok).setText(entry.getKey().getTitle());
+					iscorrect[krok] = entry.getValue();
+					if (iscorrect[krok]) {
+						correct.get(krok).setSelected(true);
+					}
+					
+				} else {
+					System.out.println(entry.getKey().getTitle());
 					TextField txt = new TextField();
 					CheckBox chc = new CheckBox();
-					
+
 					txt.setId("option" + pocet);
 					chc.setId("check" + pocet);
+					options.add(txt);
+					correct.add(chc);
+					txt.setText(entry.getKey().getTitle());
+					chc.setSelected(entry.getValue());
+					chc.setOnAction(new EventHandler<ActionEvent>() {
+
+						@Override
+						public void handle(ActionEvent event) {
+							if (iscorrect[pocet - 1]) {
+								iscorrect[pocet - 1] = false;
+							} else {
+								iscorrect[pocet - 1] = true;
+							}
+
+						}
+					});
+					iscorrect[krok] = entry.getValue();
+					if (iscorrect[krok]) {
+						correct.get(krok).setSelected(true);
+					}
 					box1.getChildren().add(chc);
 					box.getChildren().add(txt);
+				}
+
+				krok++;
+			}
+			dlt.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					if (pocet > 2) {
+						box.getChildren().remove(pocet - 1);
+						box1.getChildren().remove(pocet - 1);
+						System.out.println(pocet);
+						options.remove(pocet - 1);
+						correct.remove(pocet - 1);
+						pocet--;
+					}
 
 				}
-			}
-			for (int i = 0; i < pocet; i++) {
-				question.getOptions();
-			}
+			});
+			add.setOnAction(new EventHandler<ActionEvent>() {
 
-		}else {
+				@Override
+				public void handle(ActionEvent event) {
+					if (pocet < 8) {
+						TextField txt = new TextField();
+						CheckBox chc = new CheckBox();
+						txt.setId("option" + pocet);
+						options.add(txt);
+						chc.setId("check" + pocet);
+						chc.setOnAction(new EventHandler<ActionEvent>() {
+
+							@Override
+							public void handle(ActionEvent event) {
+								if (iscorrect[pocet - 1]) {
+									iscorrect[pocet - 1] = false;
+								} else {
+									iscorrect[pocet - 1] = true;
+								}
+
+							}
+						});
+						correct.add(chc);
+						box1.getChildren().add(chc);
+						box.getChildren().add(txt);
+						pocet++;
+
+					}
+
+				}
+			});
+
+		} else {
 			dlt.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -182,96 +383,26 @@ public class AddModifyQuestionCotroller {
 
 							@Override
 							public void handle(ActionEvent event) {
-								if (iscorrect[pocet-1]) {
-									iscorrect[pocet-1] = false;
+								if (iscorrect[pocet - 1]) {
+									iscorrect[pocet - 1] = false;
 								} else {
-									iscorrect[pocet-1] = true;
+									iscorrect[pocet - 1] = true;
 								}
 
-								
 							}
 						});
 						correct.add(chc);
 						box1.getChildren().add(chc);
 						box.getChildren().add(txt);
 						pocet++;
-						
-					}
-
-				}
-			});
-			
-			addquestion.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					boolean done = true;
-					correctAnswers=0;
-					if (title.getText() == null || title.getText().trim().isEmpty()) {
-						errorfield2.setTextFill(Color.RED);
-						errorfield2.setText("Input title of your question");
-						done = false;
-					}
-					for (TextField option : options) {
-						if (option.getText() == null || option.getText().trim().isEmpty()) {
-							errorfield2.setTextFill(Color.RED);
-							errorfield2.setText("One of the options is empty");
-							
-							done = false;
-						}
-					}
-					System.out.println("pocet moznosti je "+ options.size());
-					System.out.println(pocet);
-					for (int i = 0; i < pocet; i++) {
-						System.out.println(iscorrect[i]);
-						if (iscorrect[i]) {
-							correctAnswers++;
-						}
-						
-					}
-					if (correctAnswers==0) {
-						errorfield2.setTextFill(Color.RED);
-						done = false;
-						errorfield2.setText("There is no correct answer");
-					}
-					if (done) {
-						errorfield2.setTextFill(Color.GREEN);
-						errorfield2.setText("EWERYTHING OK");
-						Question question = new Question(title.getText(), zameranie.getIdSubject(), user.getIdUser());
-						int index = 0;
-						for (TextField option : options) {
-							
-							question.addOption(optionDao.saveOption(new Option(option.getText())), iscorrect[index]);
-							index++;
-						}
-						questionDao.saveQuestion(question);
 
 					}
 
 				}
 			});
 
-			back.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					try {
-						UserTeacherPageControler controller = new UserTeacherPageControler(stage, user);
-						FXMLLoader fxmlLoader2 = new FXMLLoader(
-								UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
-						fxmlLoader2.setController(controller);
-						Parent rootPane = fxmlLoader2.load();
-						Scene scene = new Scene(rootPane);
-						stage.setTitle("Welcome");
-						stage.setScene(scene);
-
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-
-				}
-			});
 		}
-		
+
 	}
 
 }

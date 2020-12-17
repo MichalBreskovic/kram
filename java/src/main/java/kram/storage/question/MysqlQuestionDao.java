@@ -42,7 +42,7 @@ public class MysqlQuestionDao implements QuestionDao{
 				if(idOption == null) {
 					continue;
 				}
-				String title = rs.getString("option_id");
+				String title = rs.getString("option_title");
 				Boolean correct = rs.getBoolean("correct");
 				question.addOption(idOption, title, correct);
 			}
@@ -69,7 +69,7 @@ public class MysqlQuestionDao implements QuestionDao{
 				if(idOption == null) {
 					continue;
 				}
-				String title = rs.getString("option_id");
+				String title = rs.getString("option_title");
 				Boolean correct = rs.getBoolean("correct");
 				question.addOption(idOption, title, correct);
 			}
@@ -116,6 +116,19 @@ public class MysqlQuestionDao implements QuestionDao{
 			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), idUser, id);	
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("Questions for topic " + id + " for user " + idUser + " not found");
+		}
+	}
+	
+	@Override
+	public List<Question> generateTestQuestions(int pocet, long idZamerania) throws EntityNotFoundException, NullPointerException  {
+		String sql = "  select qe.question_id, qe.title AS question_title, qe.topic_id, qe.user_id, o.option_id, o.title AS option_title, qo.correct from \r\n" + 
+				"  (SELECT q.question_id, q.title, q.topic_id, q.user_id from question q where q.topic_id like ? order by rand() LIMIT 0,?) as qe\r\n" + 
+				"   LEFT OUTER JOIN question_option AS qo USING(question_id) \r\n" + 
+				"   LEFT OUTER JOIN `option` AS o USING(option_id)";
+		try {
+			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), idZamerania, pocet);	
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("There are zero questions");
 		}
 	}
 	
