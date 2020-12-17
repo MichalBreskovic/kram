@@ -160,10 +160,10 @@ public class MysqlQuestionDao implements QuestionDao{
 			}
 			return newQuestion;
 		} else {
+			String sql = "UPDATE question SET title = ?, topic_id = ? WHERE question_id = ?";
+			int now = jdbcTemplate.update(sql, question.getTitle(), question.getIdTopic(), question.getIdQuestion());
+			if (now != 1) throw new EntityNotFoundException("Question with id " + question.getIdQuestion() + " not found"); 
 			if(question.getOptions().size() != 0) {
-				String sql = "UPDATE question SET title = ?, topic_id = ? WHERE question_id = ?";
-				int now = jdbcTemplate.update(sql, question.getTitle(), question.getIdTopic(), question.getIdQuestion());
-				if (now != 1) throw new EntityNotFoundException("Question with id " + question.getIdQuestion() + " not found"); 
 				String deleteSql = "DELETE FROM question_option WHERE question_id = ?";
 				jdbcTemplate.update(deleteSql, question.getIdQuestion());
 				jdbcTemplate.update(insert(question));

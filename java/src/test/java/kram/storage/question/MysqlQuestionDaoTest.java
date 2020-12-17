@@ -40,6 +40,7 @@ class MysqlQuestionDaoTest {
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
+		optionDao.saveOptions(options);
 		newQuestion = new Question("Je test test?", (long) 1, (long) 1, options);
 		savedQuestion = questionDao.saveQuestion(newQuestion);
 	}
@@ -47,9 +48,7 @@ class MysqlQuestionDaoTest {
 	@AfterEach
 	void tearDown() throws Exception {
 		questionDao.deleteQuestion(savedQuestion.getIdQuestion());
-		for (Map.Entry<Option, Boolean> pair : options.entrySet()) {
-			optionDao.deleteOption(pair.getKey().getIdOption());
-		}
+		optionDao.deleteOptions(options);
 	}
 
 //	@KramTest

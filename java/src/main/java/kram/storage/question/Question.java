@@ -1,12 +1,9 @@
 package kram.storage.question;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import kram.storage.option.Option;
-import kram.storage.zameranie.Zameranie;
 
 public class Question {
 	
@@ -15,7 +12,6 @@ public class Question {
 	private Long idUser;
 	
 	private String title;
-//	private List<Option> options = new ArrayList<Option>();
 	private Map<Option,Boolean> options = new HashMap<Option,Boolean>();
 	
 	public Question(String title, Long idTopic, Long idUser) {
@@ -82,6 +78,14 @@ public class Question {
 		return options;
 	}
 
+	public void deleteLastOption(Long id) {
+		Option o = null;
+		for (Map.Entry<Option, Boolean> entry : options.entrySet()) {
+			o = entry.getKey();
+	    } 
+		options.remove(o);
+	}
+	
 	public Option getOption(Long id) {
 		for (Map.Entry<Option, Boolean> entry : options.entrySet()) {
 			if(id == entry.getKey().getIdOption()) return entry.getKey();

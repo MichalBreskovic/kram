@@ -1,5 +1,6 @@
 package kram.storage.test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,11 @@ class MysqlTestDaoTest {
 	KramTest newTest;
 	KramTest savedTest;
 	Question question;
+	Question question2;
 	
 	QuestionDao questionDao;
 	OptionDao optionDao;
 	List<KramTest> tests;
-	Map<Question,Option> answers;
 	Map<Option,Boolean> options;
 	
 	public MysqlTestDaoTest() {
@@ -36,18 +37,28 @@ class MysqlTestDaoTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		Option choosen = optionDao.saveOption(new Option("Test test option true 1 "));
-		
+		Option choosen1 = optionDao.saveOption(new Option("Test test option true 1 "));
+		Option choosen2 = optionDao.saveOption(new Option("Test test option true 2 "));
 		options = new HashMap<Option,Boolean>();
-		options.put(choosen, true);
-		options.put(optionDao.saveOption(new Option("Test test option false 2")), false);
-		options.put(optionDao.saveOption(new Option("Test test option false 3")), false);
-		options.put(optionDao.saveOption(new Option("Test test option false 4")), false);
+		options.put(choosen1, true);
+		options.put(choosen2, false);
+		options.put(optionDao.saveOption(new Option("Test option false 3")), false);
+		options.put(optionDao.saveOption(new Option("Test option false 4")), false);
 		
-		Question question = questionDao.saveQuestion(new Question("Test Question 1?", (long) 1, (long) 1, options));
+		question = questionDao.saveQuestion(new Question("Test Question 2?", (long) 1, (long) 1, options));
+		question2 = questionDao.saveQuestion(new Question("Test Question 3?", (long) 1, (long) 1, options));
+		
+		List<Question> questions = new ArrayList<Question>();
+		questions.add(question);
+		questions.add(question2);
 		
 		newTest = new KramTest((long) 1, (long) 1, "2020-12-15 18:21:15", "2020-12-21 18:00:00", 69);
-		newTest.addAnswer(question, question.getOption(choosen.getIdOption()));
+		newTest.setQuestions(questions);
+		for (Map.Entry<Question, Option> entry : newTest.getAnswers().entries()) {
+			System.out.println(newTest.getAnswers().get(entry.getKey()));
+		}
+//		newTest.addAnswer(question, question.getOption(choosen1.getIdOption()));
+//		newTest.addAnswer(question, question.getOption(choosen2.getIdOption()));
 		savedTest = testDao.saveTest(newTest);
 	}
 
@@ -56,9 +67,7 @@ class MysqlTestDaoTest {
 		testDao.deleteTest(savedTest.getIdTest());
 		System.out.println(question);
 		questionDao.deleteQuestion(question.getIdQuestion());
-//		for(Map.Entry<Option, Option> pair : answers.entrySet()) {
-//			optionDao.deleteOption(pair.getKey().getIdOption());
-//		}
+		optionDao.deleteOptions(options);
 	}
 
 	@Test

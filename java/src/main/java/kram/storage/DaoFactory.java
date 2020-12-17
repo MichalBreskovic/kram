@@ -6,6 +6,8 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 import java.security.MessageDigest;
 
+import kram.storage.course.CourseDao;
+import kram.storage.course.MysqlCourseDao;
 import kram.storage.option.MysqlOptionDao;
 import kram.storage.option.OptionDao;
 import kram.storage.question.MysqlQuestionDao;
@@ -28,6 +30,7 @@ public enum DaoFactory {
 	private QuestionDao questionDao;
 	private OptionDao optionDao;
 	private TestDao testDao;
+	private CourseDao courseDao;
 	
 	private static final boolean TEST = true;
 	
@@ -71,6 +74,13 @@ public enum DaoFactory {
 			testDao = new MysqlTestDao(getJdbcTemplate());
 		}
 		return testDao;
+	}
+	
+	public CourseDao getCourseDao() {
+		if (courseDao == null){
+			courseDao = new MysqlCourseDao(getJdbcTemplate());
+		}
+		return courseDao;
 	}
 	
 	private JdbcTemplate getJdbcTemplate() {
