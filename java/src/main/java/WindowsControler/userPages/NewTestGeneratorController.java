@@ -178,25 +178,24 @@ public class NewTestGeneratorController {
 						errorfield.setTextFill(Color.DARKGREEN);
 						errorfield.setText("STARTING");
 						List<Question> otazky = questionDao.generateTestQuestions(Integer.parseInt(numString), selectedTopic.getValue().getIdZameranie());
-						//https://www.javatpoint.com/java-get-current-date
-						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
-						LocalDateTime now = LocalDateTime.now();
-						//https://www.javatpoint.com/java-get-current-date
-						
-						//KramTest test=new KramTest(user.getIdUser(), selectedTopic.getValue().getIdZameranie(), dtf.format(now));
-						//test.set
-						
-						try {
-							TestController controller = new TestController(stage, user, otazky);
-							FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));
-							fxmlLoader2.setController(controller);
-							Parent rootPane = fxmlLoader2.load();
-							Scene scene = new Scene(rootPane);
-							stage.setTitle("your test");
-							stage.setScene(scene);
-						} catch (Exception e) {
-							System.out.println("fail again");
+						if (otazky.size()==0) {
+							errorfield.setTextFill(Color.RED);
+							errorfield.setText("There are no questions in this topic");
+						}else {
+							try {
+								TestController controller = new TestController(stage, user, otazky, selectedTopic.getValue());
+								FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));
+								fxmlLoader2.setController(controller);
+								Parent rootPane = fxmlLoader2.load();
+								Scene scene = new Scene(rootPane);
+								stage.setTitle("TEST");
+								stage.setScene(scene);
+							} catch (Exception e) {
+								e.printStackTrace();
+								System.out.println("fail again");
+							}
 						}
+						
 						
 						
 					} catch (NumberFormatException  e) {

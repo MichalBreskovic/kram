@@ -31,7 +31,7 @@ public enum DaoFactory {
 	private TestDao testDao;
 	private CourseDao courseDao;
 	
-	private static final boolean MSSQL = true;
+	private static final boolean MSSQL = false;
 	private static final boolean TEST = true;
 	
 	public ZameranieDao getZameranieDao() {
