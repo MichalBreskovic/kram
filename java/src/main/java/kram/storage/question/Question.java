@@ -51,8 +51,17 @@ public class Question {
 	@Override
 	public boolean equals(Object o)
 	{
+<<<<<<< HEAD
 		if(o != null) return idQuestion.hashCode() == o.hashCode();
 	    return false;
+=======
+		if (o != null) {
+			return idQuestion.hashCode() == o.hashCode();	
+		}else {
+			return false;
+		}
+	    
+>>>>>>> branch 'master' of https://github.com/MichalBreskovic/kram.git
 	}
 	
 	public void addOption(Option option, boolean correct) {

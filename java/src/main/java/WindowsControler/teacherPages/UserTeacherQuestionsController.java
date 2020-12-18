@@ -84,6 +84,7 @@ public class UserTeacherQuestionsController {
 		listview.setItems(FXCollections.observableArrayList(questionDao.getAllByUserId(user.getIdUser())));
 		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForTeacher(user.getIdUser())));
 		topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllForTeacher(user.getIdUser())));
+		
 		listview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {
 
 			@Override
