@@ -132,7 +132,7 @@ public class KramTest {
 
 	@Override
 	public String toString() {
-		return DaoFactory.INSTATNCE.getZameranieDao().getById(idTopic).toString()+" hodnotenie " + hodnotenie  ;
+		return DaoFactory.INSTATNCE.getZameranieDao().getById(idTopic).toString().toUpperCase()+" you got " + hodnotenie+ "%"  ;
 	}
 	
 	

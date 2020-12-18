@@ -45,7 +45,7 @@ public class MysqlTestDao implements TestDao {
 				}
 				OptionDao optionDao = DaoFactory.INSTATNCE.getOptionDao();
 				QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
-				Long idQuestion = rs.getLong("option_id");
+				Long idQuestion = rs.getLong("question_id");
 				Long idOption = rs.getLong("option_id");
 				kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
 			}
@@ -72,7 +72,7 @@ public class MysqlTestDao implements TestDao {
 				}
 				OptionDao optionDao = DaoFactory.INSTATNCE.getOptionDao();
 				QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
-				Long idQuestion = rs.getLong("option_id");
+				Long idQuestion = rs.getLong("question_id");
 				Long idOption = rs.getLong("option_id");
 				kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
 			}
@@ -112,7 +112,7 @@ public class MysqlTestDao implements TestDao {
 	
 	@Override
 	public List<KramTest> getAllInfo(long userId) throws EntityNotFoundException {
-		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t JOIN answer AS a USING(test_id) where t.user_id = ?";
+		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t where t.user_id = ?";
 		try {
 			return jdbcTemplate.query(sql, new InfoTestSetExtractor(), userId);
 		} catch (DataAccessException e) {

@@ -35,65 +35,69 @@ public class UserPageTestsController {
 	private Stage stage;
 	private User user;
 	@FXML
-    private Button tests;
+	private Button tests;
 
-    @FXML
-    private Label username;
+	@FXML
+	private Label username;
 
-    @FXML
-    private Button classes;
+	@FXML
+	private Button classes;
 
-    @FXML
-    private Button profile;
+	@FXML
+	private Button profile;
 
-    @FXML
-    private ListView<KramTest> testview;
+	@FXML
+	private ListView<KramTest> testview;
 
-    @FXML
-    private ChoiceBox<Subject> subjectchoice;
+	@FXML
+	private ChoiceBox<Subject> subjectchoice;
 
-    @FXML
-    private ChoiceBox<Zameranie> topicchoice;
+	@FXML
+	private ChoiceBox<Zameranie> topicchoice;
 
-    @FXML
-    private Button newtest;
+	@FXML
+	private Button newtest;
 
-    @FXML
-    private Button view;
+	@FXML
+	private Button view;
 
-    @FXML
-    private Label errorfield;
+	@FXML
+	private Label errorfield;
 
 	public UserPageTestsController(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
 	}
-	private ObjectProperty<KramTest> selectedTest = new SimpleObjectProperty<KramTest>(); 
-	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>(); 
+
+	private ObjectProperty<KramTest> selectedTest = new SimpleObjectProperty<KramTest>();
+	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>();
+
 	@FXML
 	void initialize() {
-		username.setText(user.getName() + " "+ user.getSurname());
+		username.setText(user.getName() + " " + user.getSurname());
 		testview.setItems(FXCollections.observableArrayList(testDao.getAllInfo(user.getIdUser())));
 		testview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KramTest>() {
 
 			@Override
 			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
-				selectedTest.setValue(newValue);
 				
+				selectedTest.setValue(newValue);
+				System.out.println(selectedTest.getValue());
+
 			}
-			
+
 		});
 		selectedTest.addListener(new ChangeListener<KramTest>() {
 
 			@Override
 			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
-				if (newValue==null) {
+				if (newValue == null) {
 					testview.getSelectionModel().clearSelection();
-					
-				}else {
+
+				} else {
 					testview.getSelectionModel().select(newValue);
 				}
-				
+
 			}
 		});
 		tests.setOnAction(new EventHandler<ActionEvent>() {
@@ -111,9 +115,9 @@ public class UserPageTestsController {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
+
 			}
-			
+
 		});
 		classes.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -121,7 +125,8 @@ public class UserPageTestsController {
 			public void handle(ActionEvent event) {
 				try {
 					UserPageClassController controller = new UserPageClassController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPageClasses.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(
+							UserPageControler.class.getResource("UserPageClasses.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
@@ -130,9 +135,9 @@ public class UserPageTestsController {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
+
 			}
-			
+
 		});
 		profile.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -140,7 +145,8 @@ public class UserPageTestsController {
 			public void handle(ActionEvent event) {
 				try {
 					UserPageProfileController controller = new UserPageProfileController(stage, user);
-					FXMLLoader fxmlLoader2 = new FXMLLoader(WelcomePageControler.class.getResource("UserPageProfile.fxml"));
+					FXMLLoader fxmlLoader2 = new FXMLLoader(
+							WelcomePageControler.class.getResource("UserPageProfile.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
@@ -149,33 +155,49 @@ public class UserPageTestsController {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
+
 			}
-			
+
 		});
 		newtest.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-				NewTestGeneratorController control = new NewTestGeneratorController(stage, user);
-				FXMLLoader fxmlLoader = new FXMLLoader(NewTestGeneratorController.class.getResource("NewTestGenerator.fxml"));
-				fxmlLoader.setController(control);
-				Parent rootPane2;
-				rootPane2 = fxmlLoader.load();
-				Scene scene = new Scene(rootPane2);
-				stage.setScene(scene);
-				stage.show();
+					NewTestGeneratorController control = new NewTestGeneratorController(stage, user);
+					FXMLLoader fxmlLoader = new FXMLLoader(
+							NewTestGeneratorController.class.getResource("NewTestGenerator.fxml"));
+					fxmlLoader.setController(control);
+					Parent rootPane2;
+					rootPane2 = fxmlLoader.load();
+					Scene scene = new Scene(rootPane2);
+					stage.setScene(scene);
+					stage.show();
 				} catch (Exception e) {
 				}
-				//listview.setItems(FXCollections.observableArrayList(subjectDao.getAll()));
-				//System.out.println(listview.getItems());
+				// listview.setItems(FXCollections.observableArrayList(subjectDao.getAll()));
+				// System.out.println(listview.getItems());
 			}
 		});
-	
-	
+		view.setOnAction(new EventHandler<ActionEvent>() {
 
-	
+			@Override
+			public void handle(ActionEvent event) {
+				KramTest test = testDao.getById(selectedTest.getValue().getIdTest());
+				try {
+					TestController controller = new TestController(stage, user, test, true);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));
+					fxmlLoader2.setController(controller);
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("VIEWTEST");
+					stage.setScene(scene);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("fail again");
+				}
 
-			
+			}
+		});
+
 	}
 }

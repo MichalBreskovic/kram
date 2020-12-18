@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.sound.midi.Soundbank;
 
@@ -233,82 +234,85 @@ public class TestController {
 		} else {
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
-			topic.setText("Yout answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()).getTitle());
+			topic.setText(
+					"Yout answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()).getTitle());
 			topic.setTextFill(Color.DODGERBLUE);
 			topic.setFont(Font.font("System", FontWeight.BOLD, 24));
+			VBox moznosti = new VBox();
 			int krok = 1;
 			Long aktualId = 0l;
-			for (Map.Entry<Question, Option> entry : kramTest.getAnswers().entries()) {
-				//VBox chosen = new VBox();
-				//chosen.setAlignment(Pos.CENTER);
-				//chosen.setSpacing(9);
+			System.out.println(kramTest.getAnswers().keys());
+			for (Question entry : kramTest.getAnswers().keySet()) {
 				HBox otazkaBox = new HBox();
-				if (aktualId!=entry.getKey().getIdQuestion()) {
-					// otazkaBox.setId(""+krok);
-					otazkaBox.setSpacing(18);
-					otazkaBox.setAlignment(Pos.CENTER);
-					
-					Label txt = new Label();
-					Label qstn = new Label();
-					qstn.setText("Question number " + krok);
-					qstn.setFont(Font.font("System", FontWeight.BOLD, 20));
-					qstn.setTextFill(Color.DARKCYAN);
-					txt.setTextFill(Color.LIGHTSLATEGRAY);
-					txt.setText(entry.getKey().getTitle());
-					txt.setFont(Font.font("System", FontWeight.BOLD, 20));
-					txt.setTextFill(Color.LIGHTSLATEGRAY);
-					panebix.getChildren().add(qstn);
-					panebix.getChildren().add(txt);
-					krok++;
-					aktualId=entry.getKey().getIdQuestion();
-					VBox moznosti = new VBox();
-					moznosti.setId(""+krok);
-					moznosti.setAlignment(Pos.CENTER);
-					
-					int id = 0;
-					System.out.println(entry.getKey().getOptions());
-					for (Map.Entry<Option, Boolean> moznost : entry.getKey().getOptions().entrySet()) {
-						System.out.println(moznost.getKey().getTitle());	
-						
+				otazkaBox.setSpacing(18);
+				otazkaBox.setAlignment(Pos.CENTER);
+				Label txt = new Label();
+				Label qstn = new Label();
+				qstn.setText("Question number " + krok);
+				qstn.setFont(Font.font("System", FontWeight.BOLD, 20));
+				qstn.setTextFill(Color.DARKCYAN);
+				txt.setTextFill(Color.LIGHTSLATEGRAY);
+				txt.setText(entry.getTitle());
+				txt.setFont(Font.font("System", FontWeight.BOLD, 20));
+				txt.setTextFill(Color.LIGHTSLATEGRAY);
+				panebix.getChildren().add(qstn);
+				panebix.getChildren().add(txt);
+				krok++;
+				moznosti = new VBox();
+				moznosti.setAlignment(Pos.CENTER);
+				List<Option> selected = FXCollections.observableArrayList(kramTest.getAnswers().get(question));
+				for (Map.Entry<Option, Boolean> moznost : entry.getOptions().entrySet()) {
+					for (Option option : selected) {
 						Label text = new Label();
-						text.setText(moznost.getKey().getTitle());
-						text.setAlignment(Pos.CENTER_LEFT);
-						text.setFont(Font.font(16));
 						text.setTextFill(Color.DODGERBLUE);
-						moznosti.getChildren().add(text);
-								
-						
-					}
-					otazkaBox.getChildren().add(moznosti);
-					panebix.getChildren().add(otazkaBox);
-					Button finish = new Button();
-					finish.setText("CLOSE");
-					finish.setFont(Font.font("System", FontWeight.BOLD, 20));
-					finish.setTextFill(Color.DODGERBLUE);
-					panebix.getChildren().add(finish);
-					finish.setOnAction(new EventHandler<ActionEvent>() {
-
-						@Override
-						public void handle(ActionEvent event) {
-							try {
-								UserPageControler controller = new UserPageControler(stage, user);
-								FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
-								fxmlLoader2.setController(controller);
-								Parent rootPane = fxmlLoader2.load();
-								Scene scene = new Scene(rootPane);
-								stage.setTitle("VIEWTEST");
-								stage.setScene(scene);
-							} catch (Exception e) {
-								e.printStackTrace();
-								System.out.println("fail again");
+						text.setText(moznost.getKey().getTitle());
+						if (moznost.getKey().getIdOption()==option.getIdOption()) {
+							
+							if (moznost.getValue()) {
+								text.setTextFill(Color.GREEN);
+								text.setText("✓  " + moznost.getKey().getTitle());
+								text.setAlignment(Pos.CENTER_LEFT);
+								text.setFont(Font.font(16));
+							}if (!moznost.getValue()) {
+								text.setTextFill(Color.RED);
+								text.setText("✕  " + moznost.getKey().getTitle());
+								text.setAlignment(Pos.CENTER_LEFT);
+								text.setFont(Font.font(16));
 							}
 							
 						}
-					});
+						moznosti.getChildren().add(text);
+					}
+
 				}
-				
+				otazkaBox.getChildren().add(moznosti);
+				panebix.getChildren().add(otazkaBox);
 
 			}
+			Button finish = new Button();
+			finish.setText("CLOSE");
+			finish.setFont(Font.font("System", FontWeight.BOLD, 20));
+			finish.setTextFill(Color.DODGERBLUE);
+			panebix.getChildren().add(finish);
+			finish.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					try {
+						UserPageControler controller = new UserPageControler(stage, user);
+						FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						stage.setTitle("VIEWTEST");
+						stage.setScene(scene);
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.out.println("fail again");
+					}
+
+				}
+			});
 		}
 	}
 
