@@ -73,7 +73,7 @@ public class UserPageTestsController {
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
-		testview.setItems(FXCollections.observableArrayList(testDao.getByUserId(user.getIdUser())));
+		testview.setItems(FXCollections.observableArrayList(testDao.getAllInfo(user.getIdUser())));
 		testview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KramTest>() {
 
 			@Override
