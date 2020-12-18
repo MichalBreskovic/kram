@@ -5,8 +5,7 @@ import kram.storage.Mail;
 public class TestMain {
 	
 	public static void main(String[] args) {
-		System.out.println(Mail.send("m.breskovic52@gmail.com"));
-//		System.out.println(Mail.codeGenerator(6));
+		System.out.println(Mail.send("fiksyk@gmail.com"));
 	}
 
 }

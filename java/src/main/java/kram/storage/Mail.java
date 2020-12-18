@@ -34,10 +34,10 @@ public class Mail {
 		return code;
 	}
 	
-	public static String send(String email) {
-		String to = "m.breskovic52@gmail.com";
 	
-		System.out.println("Sending registration email to " + to);
+	//test test test
+	public static String send(String email) {	
+		System.out.println("Sending registration email to " + email);
 		
 		String from = "kram.paz.app@gmail.com";
 		final String username = "kram.paz.app@gmail.com";//your Gmail username 
