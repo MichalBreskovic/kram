@@ -137,17 +137,15 @@ public class MysqlTestDao implements TestDao {
 	private String insert(KramTest kramTest) {
 		StringBuilder sqlBuilder = new StringBuilder();
 		sqlBuilder.append("INSERT INTO answer (test_id, question_id, option_id) VALUES ");
-		sqlBuilder.append("(");
 		boolean stop = true;
 		for (Map.Entry<Question, Option> entry : kramTest.getAnswers().entries()) {
 			System.out.println(kramTest.getAnswers().get(entry.getKey()));
 			if(entry.getValue() != null) {
 				stop = false;
-				sqlBuilder.append(kramTest.getIdTest() + "," + entry.getKey().getIdQuestion() + "," + entry.getValue().getIdOption());
+				sqlBuilder.append("("+kramTest.getIdTest() + "," + entry.getKey().getIdQuestion() + "," + entry.getValue().getIdOption()+"),");
 			}
 	    }
 		if(stop) return "";
-		sqlBuilder.append("),");
 		String sql = sqlBuilder.substring(0, sqlBuilder.length() - 1);
 		System.out.println(sql);
 		return sql;

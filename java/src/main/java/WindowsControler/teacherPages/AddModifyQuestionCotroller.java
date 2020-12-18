@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -20,7 +22,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -163,9 +167,24 @@ public class AddModifyQuestionCotroller {
 				if (correctAnswers == 0) {
 					errorfield2.setTextFill(Color.RED);
 					done = false;
-					errorfield2.setText("There is no correct answer");
+					errorfield2.setText("There is no correct answer, nonononono");
 				}
 				if (done) {
+					ProgressBar prgr = new ProgressBar();
+					Stage prg = new Stage();
+					prgr.setMaxHeight(30);
+					prgr.setMaxWidth(400);
+					AnchorPane pane = new AnchorPane();
+					pane.setPrefSize(400, 300);
+					pane.getChildren().add(prgr);
+					Label lbl = new Label();
+					lbl.setText("Uû len Ëak·me, ûe nieËo");
+					pane.getChildren().add(lbl);
+					Scene scenes = new Scene(pane);
+					stage.close();
+					prg.setTitle("Uû len Ëak·me, ûe nieËo");
+					prg.setScene(scenes);
+					prg.show();
 					errorfield2.setTextFill(Color.GREEN);
 					errorfield2.setText("EWERYTHING OK");
 					if (question == null) {
@@ -187,16 +206,19 @@ public class AddModifyQuestionCotroller {
 					if (edit) {
 						try {
 
-							UserTeacherPageControler controller = new UserTeacherPageControler(stage, user);
+							UserTeacherQuestionsController controller = new UserTeacherQuestionsController(stage, user);
 							FXMLLoader fxmlLoader2 = new FXMLLoader(
-									UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
+									UserTeacherPageControler.class.getResource("UserTeacherQuestionsPage.fxml"));
 							fxmlLoader2.setController(controller);
 							Parent rootPane = fxmlLoader2.load();
 							Scene scene = new Scene(rootPane);
 							stage.setTitle("Welcome");
 							stage.setScene(scene);
+							prg.close();
+							stage.show();
 
 						} catch (Exception e) {
+							stage.show();
 							System.out.println("chybicka");
 						}
 					}else {
@@ -211,9 +233,12 @@ public class AddModifyQuestionCotroller {
 							Scene scene = new Scene(rootPane);
 							stage.setTitle("Add question");
 							stage.setScene(scene);
+							prg.close();
+							stage.show();
 
 						} catch (Exception e) {
-							System.out.println("chybicka");
+							stage.show();
+							System.out.println("chybiöka, pa'Ëiùeæ stalo sa, prepaöte nam prosÌÌÌÌÌÌÌm");
 						}
 					}
 					
