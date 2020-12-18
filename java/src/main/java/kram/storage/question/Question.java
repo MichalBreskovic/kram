@@ -45,13 +45,14 @@ public class Question {
 	@Override
 	public int hashCode()
 	{
+//		System.out.println("hash " + idQuestion.hashCode());
 	    return idQuestion.hashCode();
 	}
 	
 	@Override
 	public boolean equals(Object o)
 	{
-	    return this.idQuestion.equals(o);
+	    return idQuestion.hashCode() == o.hashCode();
 	}
 	
 	public void addOption(Option option, boolean correct) {

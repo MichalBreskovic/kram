@@ -10,12 +10,12 @@ import kram.storage.question.Question;
 public class TestMain {
 	
 	public static void main(String[] args) {
-		MultiValuedMap<String,String> answers = new ArrayListValuedHashMap<String,String>();
-		answers.put("Key", "Value1");
-		answers.put("Key", "Value2");
+		MultiValuedMap<Question,String> answers = new ArrayListValuedHashMap<Question,String>();
+		answers.put(new Question(1L, "Ahoj", 1L, 1L), "Value1");
+		answers.put(new Question(1L, "Hello", 1L, 1L), "Value2");
 		
-		for(String s : answers.keySet()) {
-			System.out.println(s);
+		for(Question s : answers.keySet()) {
+			System.out.println(s.getIdQuestion());
 		}
 	}
 
