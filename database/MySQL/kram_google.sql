@@ -155,7 +155,7 @@ INSERT INTO question_option(question_id, option_id, correct) VALUES(2,5, true);
 INSERT INTO `test`(user_id, topic_id, time_start, time_end, hodnotenie) VALUES(1, 1, "2020-12-15 21:21:15", "2020-12-21 08:00:00", "100");
 
 INSERT INTO answer(test_id, question_id, option_id) VALUES (1, 1, 1);
-INSERT INTO answer(test_id, question_id, option_id) VALUES (1, 1, 2);
+INSERT INTO answer(test_id, question_id, option_id) VALUES (3, 1, 2);
 
 INSERT INTO course(user_id, name) VALUES (1, "Operačné systémy");
 INSERT INTO course(user_id, name) VALUES (1, "Grafika");
