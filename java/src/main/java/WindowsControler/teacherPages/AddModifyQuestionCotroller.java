@@ -5,13 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -89,41 +82,15 @@ public class AddModifyQuestionCotroller {
 
 	int pocet = 2;
 	int correctAnswers = 0;
-	
-	private void addOption(CheckBox chc, TextField txt) {
-		box1.getChildren().add(chc);
-		box.getChildren().add(txt);
-	}
-	
-	private void removeOption(int index) {
-		box.getChildren().remove(index);
-		box1.getChildren().remove(index);
-	}
-	
-	private void removeOption(int index) {
-		box.getChildren().remove(index);
-		box1.getChildren().remove(index);
-	}
-	
+
 	@FXML
 	void initialize() {
-		Map<CheckBox, TextField> options = new TreeMap<CheckBox, TextField>();
-		
-		if(edit) {
-			
-		} else {
-			options.put(new CheckBox(), new TextField());
-			options.put(new CheckBox(), new TextField());
-			pocet = 2;
-			
-		}
-		
-		EventHandler addOption = new EventHandler<ActionEvent>()
-			
-		}
- 		
-		add.setOnAction(addOption);
-		
+		List<TextField> options = new ArrayList<TextField>();
+		List<CheckBox> correct = new ArrayList<CheckBox>();
+		options.add(option);
+		options.add(option1);
+		correct.add(check);
+		correct.add(check1);
 		addquestion.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -155,7 +122,8 @@ public class AddModifyQuestionCotroller {
 					errorfield2.setText("There is no correct answer, nonononono");
 				}
 				if (done) {
-		
+								
+					
 					errorfield2.setTextFill(Color.GREEN);
 					errorfield2.setText("EWERYTHING OK");
 					if (question == null) {
@@ -305,18 +273,9 @@ public class AddModifyQuestionCotroller {
 					if (pocet < 8) {
 						TextField txt = new TextField();
 						CheckBox chc = new CheckBox();
-						chc.setId("check" + pocet);
-						chc.setOnAction(new EventHandler<ActionEvent>() {
-							@Override
-							public void handle(ActionEvent event) {
-								if (iscorrect[pocet - 1]) {
-									iscorrect[pocet - 1] = false;
-								} else {
-									iscorrect[pocet - 1] = true;
-								}
-
-							}
-						});
+						options.add(txt);
+		
+						correct.add(chc);
 						box1.getChildren().add(chc);
 						box.getChildren().add(txt);
 						pocet++;
@@ -341,37 +300,23 @@ public class AddModifyQuestionCotroller {
 
 				}
 			});
-//			add.setOnAction(new EventHandler<ActionEvent>() {
-//
-//				@Override
-//				public void handle(ActionEvent event) {
-//					if (pocet < 8) {
-//						TextField txt = new TextField();
-//						CheckBox chc = new CheckBox();
-//						txt.setId("option" + pocet);
-//						options.add(txt);
-//						chc.setId("check" + pocet);
-//						chc.setOnAction(new EventHandler<ActionEvent>() {
-//
-//							@Override
-//							public void handle(ActionEvent event) {
-//								if (iscorrect[pocet - 1]) {
-//									iscorrect[pocet - 1] = false;
-//								} else {
-//									iscorrect[pocet - 1] = true;
-//								}
-//
-//							}
-//						});
-//						correct.add(chc);
-//						box1.getChildren().add(chc);
-//						box.getChildren().add(txt);
-//						pocet++;
-//
-//					}
-//
-//				}
-//			});
+			add.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					if (pocet < 8) {
+						TextField txt = new TextField();
+						CheckBox chc = new CheckBox();
+						options.add(txt);
+						correct.add(chc);
+						box1.getChildren().add(chc);
+						box.getChildren().add(txt);
+						pocet++;
+
+					}
+
+				}
+			});
 
 		}
 
