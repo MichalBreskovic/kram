@@ -110,8 +110,9 @@ public class TestController {
 			boolean[][] pole = new boolean[questions.size()][8];
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
-			topic.setText("This is your test from " + zameranie.getTitle());
-			topic.setFont(Font.font(25));
+			topic.setText("This is test from " + zameranie.getTitle());
+			topic.setTextFill(Color.DODGERBLUE);
+			topic.setFont(Font.font("System", FontWeight.BOLD, 24));
 			int krok = 0;
 			for (Question question : questions) {
 				HBox otazkaBox = new HBox();
@@ -232,8 +233,9 @@ public class TestController {
 		} else {
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
-			topic.setText("This is your test from " + zameranieDao.getById(kramTest.getIdTopic()).getTitle());
-			topic.setFont(Font.font(25));
+			topic.setText("Yout answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()).getTitle());
+			topic.setTextFill(Color.DODGERBLUE);
+			topic.setFont(Font.font("System", FontWeight.BOLD, 24));
 			int krok = 1;
 			Long aktualId = 0l;
 			for (Map.Entry<Question, Option> entry : kramTest.getAnswers().entries()) {
@@ -279,6 +281,30 @@ public class TestController {
 					}
 					otazkaBox.getChildren().add(moznosti);
 					panebix.getChildren().add(otazkaBox);
+					Button finish = new Button();
+					finish.setText("CLOSE");
+					finish.setFont(Font.font("System", FontWeight.BOLD, 20));
+					finish.setTextFill(Color.DODGERBLUE);
+					panebix.getChildren().add(finish);
+					finish.setOnAction(new EventHandler<ActionEvent>() {
+
+						@Override
+						public void handle(ActionEvent event) {
+							try {
+								UserPageControler controller = new UserPageControler(stage, user);
+								FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
+								fxmlLoader2.setController(controller);
+								Parent rootPane = fxmlLoader2.load();
+								Scene scene = new Scene(rootPane);
+								stage.setTitle("VIEWTEST");
+								stage.setScene(scene);
+							} catch (Exception e) {
+								e.printStackTrace();
+								System.out.println("fail again");
+							}
+							
+						}
+					});
 				}
 				
 

@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
+import kram.storage.DaoFactory;
 import kram.storage.option.Option;
 import kram.storage.question.Question;
+import kram.storage.zameranie.ZameranieDao;
 
 public class KramTest {
 	private Long idTest;
@@ -130,8 +132,7 @@ public class KramTest {
 
 	@Override
 	public String toString() {
-		return "KramTest [idTest=" + idTest + ", answers=" + answers + ", start=" + start + ", end=" + end + ", hodnotenie="
-				+ hodnotenie + "]";
+		return DaoFactory.INSTATNCE.getZameranieDao().getById(idTopic).toString()+" hodnotenie " + hodnotenie  ;
 	}
 	
 	
