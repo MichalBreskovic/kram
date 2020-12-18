@@ -87,6 +87,16 @@ public class MysqlQuestionDao implements QuestionDao{
 		}
 	}
 	
+//	@Override
+//	public List<Question> getAllById(List<Integer> optionsIds) {
+//		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) ORDER BY q.question_id";
+//		try {
+//			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor());
+//		} catch (DataAccessException e) {
+//			throw new EntityNotFoundException("Question not found");
+//		}
+//	}
+	
 	@Override
 	public List<Question> getAllByUserId(Long id) throws EntityNotFoundException {
 		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE q.user_id = ? ORDER BY q.question_id";
