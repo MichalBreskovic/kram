@@ -2,6 +2,12 @@ package WindowsControler.userPages;
 
 import WindowsControler.UserPageProfileController;
 import WindowsControler.WelcomePageControler;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,14 +18,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.stage.Stage;
 import junit.framework.Test;
 import kram.storage.DaoFactory;
+import kram.storage.subject.Subject;
 import kram.storage.subject.SubjectDao;
+import kram.storage.test.KramTest;
+import kram.storage.test.TestDao;
 import kram.storage.user.User;
+import kram.storage.zameranie.Zameranie;
 
 public class UserPageTestsController {
 	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
+	private TestDao testDao = DaoFactory.INSTATNCE.getTestDao();
 	private Stage stage;
 	private User user;
 	@FXML
@@ -35,24 +47,55 @@ public class UserPageTestsController {
     private Button profile;
 
     @FXML
-    private ListView<Test> testview;
+    private ListView<KramTest> testview;
 
     @FXML
-    private ChoiceBox<Test> subjectchoice;
+    private ChoiceBox<Subject> subjectchoice;
 
     @FXML
-    private ChoiceBox<Test> topicchoice;
+    private ChoiceBox<Zameranie> topicchoice;
 
     @FXML
     private Button newtest;
+
+    @FXML
+    private Button view;
+
+    @FXML
+    private Label errorfield;
 
 	public UserPageTestsController(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
 	}
+	private ObjectProperty<KramTest> selectedTest = new SimpleObjectProperty<KramTest>(); 
+	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>(); 
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
+		testview.setItems(FXCollections.observableArrayList(testDao.getByUserId(user.getIdUser())));
+		testview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KramTest>() {
+
+			@Override
+			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
+				selectedTest.setValue(newValue);
+				
+			}
+			
+		});
+		selectedTest.addListener(new ChangeListener<KramTest>() {
+
+			@Override
+			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
+				if (newValue==null) {
+					testview.getSelectionModel().clearSelection();
+					
+				}else {
+					testview.getSelectionModel().select(newValue);
+				}
+				
+			}
+		});
 		tests.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kram.appka.App;
 import kram.storage.DaoFactory;
 import kram.storage.subject.SubjectDao;
@@ -70,6 +71,14 @@ public class DeleteControler {
 				stage2.close();
 				
 
+			}
+		});
+		stage2.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				stage1.show();
+				
 			}
 		});
 	}

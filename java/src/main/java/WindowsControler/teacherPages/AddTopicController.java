@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kram.storage.DaoFactory;
 import kram.storage.option.Option;
 import kram.storage.option.OptionDao;
@@ -75,9 +76,20 @@ public class AddTopicController {
 			@Override
 			public void handle(ActionEvent event) {
 				stage2.close();
-				Zameranie zameranie = new Zameranie(subject.getIdSubject(), title.getText().toLowerCase());
-				zameranieDao.saveZameranie(zameranie);
+				if (title.getText()!=null || !title.getText().trim().isEmpty()) {
+					Zameranie zameranie = new Zameranie(subject.getIdSubject(), title.getText().toLowerCase());
+					zameranieDao.saveZameranie(zameranie);
+				}
+
 				
+				stage.show();
+				
+			}
+		});
+		stage2.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
 				stage.show();
 				
 			}

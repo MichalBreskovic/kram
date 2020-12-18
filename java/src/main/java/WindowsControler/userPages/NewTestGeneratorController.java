@@ -148,10 +148,15 @@ public class NewTestGeneratorController {
 			@Override
 			public void handle(ActionEvent event) {
 				String topicString=topicSelect.getText();
-				selectedSubject.setValue(null);
+				//selectedSubject.setValue(null);
 				selectedTopic.setValue(null);
 				topicview.getItems().clear();
-				topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstring(topicString)));
+				if (selectedSubject.getValue()!=null) {
+					topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstringSubjectId(topicString, selectedSubject.getValue().getIdSubject())));
+				}else {
+					topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstring(topicString)));
+				}
+				
 				
 			}
 			
@@ -183,7 +188,7 @@ public class NewTestGeneratorController {
 							errorfield.setText("There are no questions in this topic");
 						}else {
 							try {
-								TestController controller = new TestController(stage, user, otazky, selectedTopic.getValue());
+								TestController controller = new TestController(stage, user, otazky, selectedTopic.getValue(), false);
 								FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));
 								fxmlLoader2.setController(controller);
 								Parent rootPane = fxmlLoader2.load();

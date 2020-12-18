@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kram.storage.DaoFactory;
 import kram.storage.option.Option;
 import kram.storage.option.OptionDao;
@@ -77,6 +78,14 @@ public class AddSubjectController {
 				stage2.close();
 				Subject subject = new Subject(title.getText().toLowerCase(), title1.getText().toUpperCase());
 				subjectDao.saveSubject(subject);
+				stage.show();
+				
+			}
+		});
+		stage2.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
 				stage.show();
 				
 			}

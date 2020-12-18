@@ -26,7 +26,7 @@
          <graphic>
             <ImageView fitHeight="64.0" fitWidth="62.0">
                <image>
-                  <Image url="@testicon.png" />
+                  <Image url="@../testicon.png" />
                </image>
             </ImageView>
          </graphic>
@@ -45,7 +45,7 @@
          <graphic>
             <ImageView fitHeight="70.0" fitWidth="67.0">
                <image>
-                  <Image url="@classicon.png" />
+                  <Image url="@../classicon.png" />
                </image>
             </ImageView>
          </graphic>
@@ -54,7 +54,7 @@
          <graphic>
             <ImageView fitHeight="82.0" fitWidth="77.0">
                <image>
-                  <Image url="@profile.png" />
+                  <Image url="@../profile.png" />
                </image>
             </ImageView>
          </graphic>
@@ -82,5 +82,11 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
+      <Button fx:id="view" layoutX="667.0" layoutY="624.0" mnemonicParsing="false" text="VIEW" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="errorfield" alignment="CENTER" contentDisplay="CENTER" layoutX="153.0" layoutY="635.0" prefHeight="17.0" prefWidth="504.0" textFill="RED" />
    </children>
 </AnchorPane>

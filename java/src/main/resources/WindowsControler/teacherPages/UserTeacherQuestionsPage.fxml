@@ -62,7 +62,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="editquestion" layoutX="693.0" layoutY="624.0" mnemonicParsing="false" text="EDIT QUESTION" textFill="#1268b9">
+      <Button fx:id="editquestion" layoutX="800.0" layoutY="624.0" mnemonicParsing="false" text="EDIT" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -84,7 +84,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="addquestion" layoutX="505.0" layoutY="624.0" mnemonicParsing="false" text="ADD QUESTION" textFill="#1268b9">
+      <Button fx:id="addquestion" layoutX="727.0" layoutY="624.0" mnemonicParsing="false" text="ADD" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -99,5 +99,10 @@
             </RadialGradient>
          </textFill>
       </Label>
+      <Button fx:id="dlt" layoutX="634.0" layoutY="624.0" mnemonicParsing="false" text="DELETE" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

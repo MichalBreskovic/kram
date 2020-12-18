@@ -73,6 +73,7 @@ public class CreateQuestionController {
 
 	@FXML
 	private Label errorfield2;
+	boolean zmena = false;
 	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>();
 	private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>();
 
@@ -88,9 +89,17 @@ public class CreateQuestionController {
 			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
 				selectedSubject.setValue(newValue);
 				System.out.println(newValue);
-				topicview.getItems().clear();
-				topicview.setItems(FXCollections.observableArrayList(
-						zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
+				
+				if (selectedSubject!=null) {
+					topicview.getItems().clear();
+					try {
+						topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
+					} catch (Exception e) {
+						System.out.println("there is nothing really");
+					}
+					
+				}
+				
 			}
 
 		});
@@ -112,7 +121,7 @@ public class CreateQuestionController {
 			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue,
 					Zameranie newValue) {
 				selectedTopic.setValue(newValue);
-				System.out.println(selectedTopic.get().getIdZameranie());
+				//System.out.println(selectedTopic.get().getIdZameranie());
 			}
 
 		});
@@ -135,6 +144,8 @@ public class CreateQuestionController {
 			public void handle(ActionEvent event) {
 				String subjectString = subjectSelect.getText();
 				subjectview.getItems().clear();
+				selectedTopic.setValue(null);
+				selectedSubject.set(null);
 				subjectview.setItems(FXCollections.observableArrayList(subjectDao.getBySubstring(subjectString)));
 
 			}
@@ -146,11 +157,15 @@ public class CreateQuestionController {
 			public void handle(ActionEvent event) {
 				String topicString = topicSelect.getText();
 				topicview.getItems().clear();
+				selectedTopic.setValue(null);
+				selectedSubject.set(null);
 				topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstring(topicString)));
 
 			}
 
 		});
+		
+
 		addnewtopic.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -159,8 +174,11 @@ public class CreateQuestionController {
 					errorfield2.setTextFill(javafx.scene.paint.Color.RED);
 					errorfield2.setText("Choose subject in which u want to add topic");
 				} else {
+					
 					errorfield2.setText("");
 					try {
+						zmena = true;
+						stage.close();
 						Stage stage2 = new Stage();
 						AddTopicController controller = new AddTopicController(stage,stage2, user,selectedSubject.getValue());
 						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("AddTopicPage.fxml"));
@@ -168,10 +186,16 @@ public class CreateQuestionController {
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
 						
-						stage.close();
+						
 						stage2.setTitle("Add topic");
 						stage2.setScene(scene);
 						stage2.show();
+						if (stage.isShowing()) {
+							topicview.getItems().clear();
+							topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
+
+						}
+						
 
 					} catch (Exception e) {
 						System.out.println("chybicka");
@@ -187,17 +211,24 @@ public class CreateQuestionController {
 			public void handle(ActionEvent event) {
 					errorfield2.setText("");
 					try {
+						zmena = true;
+						selectedSubject.setValue(null);
+						selectedTopic.setValue(null);
+						subjectview.setItems(FXCollections.observableArrayList(subjectDao.getAll()));
+						topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAll()));
+						stage.close();
 						Stage stage2 = new Stage();
 						AddSubjectController controller = new AddSubjectController(stage,stage2, user);
 						FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("AddSubjectPage.fxml"));
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
-						
-						stage.close();
+
 						stage2.setTitle("Add Subject");
 						stage2.setScene(scene);
 						stage2.show();
+						
+
 
 					} catch (Exception e) {
 						System.out.println("chybicka");

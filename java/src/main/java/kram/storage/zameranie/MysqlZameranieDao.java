@@ -40,9 +40,23 @@ public class MysqlZameranieDao implements ZameranieDao {
 				"select t.topic_id, t.title, t.subject_id from topic t join question q on (t.topic_id=q.topic_id) where q.user_id like ? group by t.topic_id",
 				new ZameranieRowMapper(), idUser);
 	}
+	
+	@Override
+	public Zameranie getById(long idTopic) throws NullPointerException{
+		return jdbcTemplate.queryForObject(
+				"select t.topic_id, t.title, t.subject_id from topic t where t.topic_id = ?",
+				new ZameranieRowMapper(), idTopic);
+	}
+	
+	@Override
+	public List<Zameranie> getAllForTeacherBySubjectId(long idUser, long idSubject) throws NullPointerException{
+		return jdbcTemplate.query(
+				" select t.topic_id, t.title, t.subject_id from topic t join question q on (t.topic_id=q.topic_id) where q.user_id like ? and t.subject_id like ? group by t.topic_id",
+				new ZameranieRowMapper(), idUser, idSubject);
+	}
 
 	@Override
-	public List<Zameranie> getAllBySubjectId(long subjectId) throws EntityNotFoundException {
+	public List<Zameranie> getAllBySubjectId(long subjectId) throws EntityNotFoundException, NullPointerException {
 
 		return jdbcTemplate.query("SELECT topic_id, title, subject_id FROM topic where subject_id = ?", new ZameranieRowMapper(),
 				subjectId);
@@ -94,5 +108,18 @@ public class MysqlZameranieDao implements ZameranieDao {
 		String str = "%" + sub +"%";
 		String sql = "SELECT topic_id , title, subject_id FROM topic WHERE title LIKE ?";
 		return jdbcTemplate.query(sql, new ZameranieRowMapper(),str);
+	}
+	
+	@Override
+	public List<Zameranie> getBySubstringSubjectId(String sub, long subjectId) throws NullPointerException {
+		if (sub == null) {
+			return getAll();
+		}
+		if (sub.isBlank()) {
+			return getAll();
+		}
+		String str = "%" + sub +"%";
+		String sql = "SELECT topic_id , title, subject_id FROM topic WHERE title LIKE ? and subject_id like ?";
+		return jdbcTemplate.query(sql, new ZameranieRowMapper(),str, subjectId);
 	}
 }

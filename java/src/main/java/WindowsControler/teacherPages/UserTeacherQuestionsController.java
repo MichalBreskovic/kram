@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +44,8 @@ public class UserTeacherQuestionsController {
 
 	@FXML
 	private Button classes;
+	@FXML
+	private Button dlt;
 
 	@FXML
 	private Button profile;
@@ -110,8 +113,7 @@ public class UserTeacherQuestionsController {
 				listview.getItems().clear();
 				selectedTopic.setValue(null);
 				try {
-					topicchoice.setItems(FXCollections.observableArrayList(
-							zameranieDao.getAllBySubjectId(subjectchoice.getValue().getIdSubject())));
+					topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllForTeacherBySubjectId(user.getIdUser(), selectedSubject.getValue().getIdSubject())));
 				} catch (NullPointerException e) {
 					// TODO Auto-generated catch block
 					// e.printStackTrace();
@@ -270,6 +272,31 @@ public class UserTeacherQuestionsController {
 					}
 
 				}
+			}
+		});
+		dlt.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				if (selectedQuestion.getValue()==null) {
+					errorfield.setTextFill(Color.RED);
+					errorfield.setText("Choose question you wan t to delete");
+				}else {
+					errorfield.setText("");
+					questionDao.deleteQuestion(selectedQuestion.getValue().getIdQuestion());
+					listview.getItems().clear();
+					if (selectedSubject.getValue()==null) {
+						listview.setItems(FXCollections.observableArrayList(questionDao.getAllByUserId(user.getIdUser())));
+					}
+					if (selectedTopic.getValue()==null && selectedTopic.getValue()!=null) {
+						listview.setItems(FXCollections.observableArrayList(questionDao.getBySubjectUserId(user.getIdUser(),selectedSubject.getValue().getIdSubject())));
+					}
+					if (selectedTopic.getValue()!=null) {
+						listview.setItems(FXCollections.observableArrayList(questionDao.getByTopicUserId(selectedQuestion.getValue().getIdQuestion(), user.getIdUser())));
+					}
+					
+				}
+				
 			}
 		});
 

@@ -101,6 +101,25 @@ public class MysqlTestDao implements TestDao {
 	}
 	
 	@Override
+    public List<KramTest> getByUserId(Long id) throws EntityNotFoundException {
+        String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t JOIN answer AS a USING(test_id) WHERE user_id = ?";
+        try {
+            return jdbcTemplate.query(sql, new MultipleTestSetExtractor(), id);
+        } catch (DataAccessException e) {
+            throw new EntityNotFoundException("Test with " + id + " not found");
+        }
+    }
+	@Override
+    public KramTest getByTopicId(Long id) throws EntityNotFoundException {
+        String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t JOIN answer AS a USING(test_id) WHERE topic_id = ?";
+        try {
+            return jdbcTemplate.query(sql, new TestSetExtractor(), id);
+        } catch (DataAccessException e) {
+            throw new EntityNotFoundException("Test with " + id + " not found");
+        }
+    }
+	
+	@Override
 	public KramTest saveTest(KramTest kramTest) throws EntityNotFoundException {
 		if (kramTest.getIdTest() == null) {
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
