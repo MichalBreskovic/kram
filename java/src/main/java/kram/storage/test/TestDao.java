@@ -12,5 +12,9 @@ public interface TestDao {
 	KramTest deleteTest(Long id) throws EntityNotFoundException;
 	List<KramTest> getByUserId(Long id) throws EntityNotFoundException;
 	KramTest getByTopicId(Long id) throws EntityNotFoundException;
+	KramTest getByUserId(Long id) throws EntityNotFoundException;
+	KramTest getByTopicId(Long id) throws EntityNotFoundException;
+	KramTest getBySubjectId(Long id) throws EntityNotFoundException;
+	List<KramTest> getAllInfo() throws EntityNotFoundException;
 	
 }

@@ -2,9 +2,8 @@ package kram.storage;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.mysql.cj.jdbc.MysqlDataSource;
-
-import java.security.MessageDigest;
 
 import kram.storage.course.CourseDao;
 import kram.storage.course.MysqlCourseDao;
@@ -32,6 +31,7 @@ public enum DaoFactory {
 	private TestDao testDao;
 	private CourseDao courseDao;
 	
+	private static final boolean MSSQL = false;
 	private static final boolean TEST = true;
 	
 	public ZameranieDao getZameranieDao() {
@@ -85,12 +85,23 @@ public enum DaoFactory {
 	
 	private JdbcTemplate getJdbcTemplate() {
 		if(jdbcTemplate == null) {
-			MysqlDataSource dataSource = new MysqlDataSource();
-			dataSource.setUser("data_access");
-			dataSource.setPassword("m9TBqahvjE");
-			if(TEST) dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram_test");
-			else dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram");
-			jdbcTemplate = new JdbcTemplate(dataSource);
+			if(MSSQL) {
+				SQLServerDataSource ds = new SQLServerDataSource();
+		        ds.setUser("Michal");
+		        ds.setServerName("MICHAL-PC");
+		        ds.setURL("jdbc:sqlserver://localhost/kram");
+				jdbcTemplate = new JdbcTemplate(ds);
+			} else {
+				MysqlDataSource dataSource = new MysqlDataSource();
+				dataSource.setUser("data_access");
+				dataSource.setPassword("m9TBqahvjE");
+				if(TEST) dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram_test");
+				else dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram");
+	//			dataSource.setUser("kram");
+	//			dataSource.setPassword("ahoj12345");
+	//			dataSource.setUrl("jdbc:mysql://localhost/kram?serverTimezone=Europe/Bratislava");
+				jdbcTemplate = new JdbcTemplate(dataSource);
+			}
 		}
 		return jdbcTemplate;
 	}

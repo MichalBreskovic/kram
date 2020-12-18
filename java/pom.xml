@@ -43,6 +43,17 @@
 	    <artifactId>commons-collections4</artifactId>
 	    <version>4.4</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+	<dependency>
+	    <groupId>com.microsoft.sqlserver</groupId>
+	    <artifactId>mssql-jdbc</artifactId>
+	    <version>9.1.1.jre15-preview</version>
+	</dependency>
+	<dependency>
+		<groupId>com.sun.mail</groupId>
+		<artifactId>javax.mail</artifactId>
+		<version>1.6.2</version>
+	</dependency>
  </dependencies>
  
  <build>

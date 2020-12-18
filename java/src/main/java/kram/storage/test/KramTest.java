@@ -18,6 +18,13 @@ public class KramTest {
 
 	private MultiValuedMap<Question,Option> answers = new ArrayListValuedHashMap<Question,Option>();
 	
+	
+	public KramTest(Long idUser, Long idTopic, String start) {
+		this.start = start;
+		this.idTopic = idTopic;
+		this.idUser = idUser;
+	}
+	
 	public KramTest(Long idUser, Long idTopic, String start, String end, int hodnotenie) {
 		this.start = start;
 		this.idTopic = idTopic;
@@ -25,14 +32,6 @@ public class KramTest {
 		this.end = end;
 		this.hodnotenie = hodnotenie;
 	}
-	
-	public KramTest(Long idUser, Long idTopic, String start) {
-		this.start = start;
-		this.idTopic = idTopic;
-		this.idUser = idUser;
-
-	}
-	
 	
 	public KramTest(Long idTest, Long idUser, Long idTopic, String start, String end, int hodnotenie) {
 		this.idTest = idTest;
