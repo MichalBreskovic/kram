@@ -7,6 +7,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -242,6 +243,7 @@ public class TestController {
 			int krok = 1;
 			Long aktualId = 0l;
 			System.out.println(kramTest.getAnswers().keys());
+			
 			for (Question entry : kramTest.getAnswers().keySet()) {
 				HBox otazkaBox = new HBox();
 				otazkaBox.setSpacing(18);
@@ -260,12 +262,22 @@ public class TestController {
 				krok++;
 				moznosti = new VBox();
 				moznosti.setAlignment(Pos.CENTER);
-				List<Option> selected = FXCollections.observableArrayList(kramTest.getAnswers().get(question));
+				List<Option> selected = new ArrayList<Option>(kramTest.getAnswers().get(entry));
+				System.out.println(entry);
+				System.out.println(kramTest.getAnswers().get(entry));
+				System.out.println(selected);
 				for (Map.Entry<Option, Boolean> moznost : entry.getOptions().entrySet()) {
-					for (Option option : selected) {
-						Label text = new Label();
-						text.setTextFill(Color.DODGERBLUE);
+					Label text = new Label();
+					text.setTextFill(Color.DODGERBLUE);
+					text.setText(moznost.getKey().getTitle());
+					text.setAlignment(Pos.CENTER_LEFT);
+					text.setFont(Font.font(16));
+					if (moznost.getValue()) {
+						text.setTextFill(Color.DARKORANGE);
 						text.setText(moznost.getKey().getTitle());
+					}
+					for (Option option : selected) {
+						System.out.println(option.getIdOption() +"  "+ moznost.getKey().getIdOption());
 						if (moznost.getKey().getIdOption()==option.getIdOption()) {
 							
 							if (moznost.getValue()) {
@@ -281,9 +293,16 @@ public class TestController {
 							}
 							
 						}
-						moznosti.getChildren().add(text);
-					}
-
+						
+					}/*
+					Label text = new Label();
+					text.setTextFill(Color.GREEN);
+					text.setText("✓  " + moznost.getKey().getTitle());
+					text.setAlignment(Pos.CENTER_LEFT);
+					text.setFont(Font.font(16));
+					System.out.println(moznost);
+					moznosti.getChildren().add(text);*/
+					moznosti.getChildren().add(text);
 				}
 				otazkaBox.getChildren().add(moznosti);
 				panebix.getChildren().add(otazkaBox);

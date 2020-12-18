@@ -1,18 +1,10 @@
 package WindowsControler.teacherPages;
 
-import java.sql.Time;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,30 +14,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import kram.storage.DaoFactory;
 import kram.storage.option.Option;
 import kram.storage.option.OptionDao;
 import kram.storage.question.Question;
 import kram.storage.question.QuestionDao;
-import kram.storage.subject.Subject;
-import kram.storage.subject.SubjectDao;
 import kram.storage.user.User;
 import kram.storage.zameranie.Zameranie;
-import kram.storage.zameranie.ZameranieDao;
 
 public class AddModifyQuestionCotroller {
-	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
-	private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
 	private QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
 	private OptionDao optionDao = DaoFactory.INSTATNCE.getOptionDao();
 
@@ -99,48 +80,17 @@ public class AddModifyQuestionCotroller {
 	@FXML
 	private Label qvs;
 
-	// private ObjectProperty<Subject> selectedSubject = new
-	// SimpleObjectProperty<Subject>();
-	// private ObjectProperty<Zameranie> selectedTopic = new
-	// SimpleObjectProperty<Zameranie>();
 	int pocet = 2;
 	int correctAnswers = 0;
 
 	@FXML
 	void initialize() {
-		// int pocet = 4;
 		List<TextField> options = new ArrayList<TextField>();
 		List<CheckBox> correct = new ArrayList<CheckBox>();
-		boolean[] iscorrect = new boolean[8];
 		options.add(option);
 		options.add(option1);
 		correct.add(check);
 		correct.add(check1);
-		check.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				if (iscorrect[0]) {
-					iscorrect[0] = false;
-				} else {
-					iscorrect[0] = true;
-				}
-
-			}
-		});
-
-		check1.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				if (iscorrect[1]) {
-					iscorrect[1] = false;
-				} else {
-					iscorrect[1] = true;
-				}
-
-			}
-		});
 		addquestion.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -161,12 +111,10 @@ public class AddModifyQuestionCotroller {
 				}
 				System.out.println("pocet moznosti je " + options.size());
 				System.out.println(pocet);
-				for (int i = 0; i < pocet; i++) {
-					System.out.println(iscorrect[i]);
-					if (iscorrect[i]) {
+				for (CheckBox c : correct) {
+					if (c.isSelected()) {
 						correctAnswers++;
 					}
-
 				}
 				if (correctAnswers == 0) {
 					errorfield2.setTextFill(Color.RED);
@@ -174,27 +122,7 @@ public class AddModifyQuestionCotroller {
 					errorfield2.setText("There is no correct answer, nonononono");
 				}
 				if (done) {
-					/*Stage prg = new Stage();
-					ImageView wait = new ImageView(new Image(this.getClass().getResource("wait.gif").toExternalForm()));
-					Label lbl = new Label();
-					lbl.setText("Už len èakáme, že nieèo");
-					stage.close();
-					AnchorPane pane = new AnchorPane();
-					pane.getChildren().add(lbl);
-					pane.getChildren().add(wait);
-					Scene scenes = new Scene(pane);
-					prg.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-						@Override
-						public void handle(WindowEvent event) {
-							prg.show();
-							
-						}
-					});
-					prg.setTitle("Už len èakáme, že nieèo");
-					prg.setScene(scenes);
-					prg.show();*/
-				
+								
 					
 					errorfield2.setTextFill(Color.GREEN);
 					errorfield2.setText("EWERYTHING OK");
@@ -205,12 +133,14 @@ public class AddModifyQuestionCotroller {
 						question.setOptions(new HashMap<Option, Boolean>());
 					}
 					
-					
+					for (CheckBox b : correct) {
+						System.out.println(b.isSelected());
+					}
 					
 					int index = 0;
 					for (TextField option : options) {
-
-						question.addOption(optionDao.saveOption(new Option(option.getText())), iscorrect[index]);
+						System.out.println(option.getText()+"\t"+correct.get(index).isSelected());
+						question.addOption(optionDao.saveOption(new Option(option.getText())), correct.get(index).isSelected());
 						index++;
 					}
 					questionDao.saveQuestion(question);
@@ -272,7 +202,7 @@ public class AddModifyQuestionCotroller {
 					stage.setScene(scene);
 
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 
 			}
@@ -287,54 +217,34 @@ public class AddModifyQuestionCotroller {
 			int krok = 0;
 			title.setText(question.getTitle());
 
-			for (Map.Entry<Option, Boolean> entry : question.getOptions().entrySet()) {
+			for (Map.Entry<Option, Boolean> entry : moznosti.entrySet()) {
 				
 				if (krok < 2) {
 					if (krok == 0) {
-						System.out.println(entry.getKey().getTitle());
+						//System.out.println(entry.getKey().getTitle());
 						option.setText(entry.getKey().getTitle());
 						check.setSelected(entry.getValue());
 
 					}
 					if (krok == 1) {
-						System.out.println(entry.getKey().getTitle());
+						//System.out.println(entry.getKey().getTitle());
 						option1.setText(entry.getKey().getTitle());
 						check1.setSelected(entry.getValue());
 
 					}
 					options.get(krok).setText(entry.getKey().getTitle());
-					iscorrect[krok] = entry.getValue();
-					if (iscorrect[krok]) {
-						correct.get(krok).setSelected(true);
-					}
+					
 					
 				} else {
 					System.out.println(entry.getKey().getTitle());
 					TextField txt = new TextField();
 					CheckBox chc = new CheckBox();
 
-					txt.setId("option" + pocet);
-					chc.setId("check" + pocet);
+					txt.setText(entry.getKey().getTitle());
+		
+					chc.setSelected(entry.getValue());
 					options.add(txt);
 					correct.add(chc);
-					txt.setText(entry.getKey().getTitle());
-					chc.setSelected(entry.getValue());
-					chc.setOnAction(new EventHandler<ActionEvent>() {
-
-						@Override
-						public void handle(ActionEvent event) {
-							if (iscorrect[pocet - 1]) {
-								iscorrect[pocet - 1] = false;
-							} else {
-								iscorrect[pocet - 1] = true;
-							}
-
-						}
-					});
-					iscorrect[krok] = entry.getValue();
-					if (iscorrect[krok]) {
-						correct.get(krok).setSelected(true);
-					}
 					box1.getChildren().add(chc);
 					box.getChildren().add(txt);
 				}
@@ -346,8 +256,8 @@ public class AddModifyQuestionCotroller {
 				@Override
 				public void handle(ActionEvent event) {
 					if (pocet > 2) {
-						box.getChildren().remove(pocet - 1);
-						box1.getChildren().remove(pocet - 1);
+						box.getChildren().remove(pocet -1);
+						box1.getChildren().remove(pocet -1);
 						System.out.println(pocet);
 						options.remove(pocet - 1);
 						correct.remove(pocet - 1);
@@ -363,21 +273,8 @@ public class AddModifyQuestionCotroller {
 					if (pocet < 8) {
 						TextField txt = new TextField();
 						CheckBox chc = new CheckBox();
-						txt.setId("option" + pocet);
 						options.add(txt);
-						chc.setId("check" + pocet);
-						chc.setOnAction(new EventHandler<ActionEvent>() {
-
-							@Override
-							public void handle(ActionEvent event) {
-								if (iscorrect[pocet - 1]) {
-									iscorrect[pocet - 1] = false;
-								} else {
-									iscorrect[pocet - 1] = true;
-								}
-
-							}
-						});
+		
 						correct.add(chc);
 						box1.getChildren().add(chc);
 						box.getChildren().add(txt);
@@ -410,21 +307,7 @@ public class AddModifyQuestionCotroller {
 					if (pocet < 8) {
 						TextField txt = new TextField();
 						CheckBox chc = new CheckBox();
-						txt.setId("option" + pocet);
 						options.add(txt);
-						chc.setId("check" + pocet);
-						chc.setOnAction(new EventHandler<ActionEvent>() {
-
-							@Override
-							public void handle(ActionEvent event) {
-								if (iscorrect[pocet - 1]) {
-									iscorrect[pocet - 1] = false;
-								} else {
-									iscorrect[pocet - 1] = true;
-								}
-
-							}
-						});
 						correct.add(chc);
 						box1.getChildren().add(chc);
 						box.getChildren().add(txt);

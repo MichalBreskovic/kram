@@ -51,7 +51,12 @@ public class Question {
 	@Override
 	public boolean equals(Object o)
 	{
-	    return idQuestion.hashCode() == o.hashCode();
+		if (o != null) {
+			return idQuestion.hashCode() == o.hashCode();	
+		}else {
+			return false;
+		}
+	    
 	}
 	
 	public void addOption(Option option, boolean correct) {
