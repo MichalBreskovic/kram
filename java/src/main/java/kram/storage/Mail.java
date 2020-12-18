@@ -29,19 +29,19 @@ public class Mail {
 			u++;
 		}
 		for (int i = 0; i < codeLength; i++) {
-			code += znaky[(int)(Math.random() * 61)];
+			code += znaky[(int)(Math.random() * 62)];
 		}
 		return code;
 	}
 	
 	
-	//test test test
+	// https://jaxenter.com/java-app-emails-smtp-server-164144.html
 	public static String send(String email) {	
 		System.out.println("Sending registration email to " + email);
 		
 		String from = "kram.paz.app@gmail.com";
-		final String username = "kram.paz.app@gmail.com";//your Gmail username 
-		final String password = "m9TBqahvjE";//your Gmail password
+		final String username = "kram.paz.app@gmail.com";
+		final String password = "m9TBqahvjE";
 	
 		String host = "smtp.gmail.com";
 	
@@ -51,7 +51,6 @@ public class Mail {
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.port", "587");
 	
-		// Get the Session object
 		Session session = Session.getInstance(props,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
@@ -60,7 +59,6 @@ public class Mail {
 		});
 	
 		try {
-			// Create a default MimeMessage object
 			Message message = new MimeMessage(session);
 			
 			message.setFrom(new InternetAddress(from));
@@ -68,17 +66,15 @@ public class Mail {
 			message.setRecipients(Message.RecipientType.TO,
 			InternetAddress.parse(email));
 			
-			// Set Subject
 			message.setSubject("Registration code");
 			
 			String registrationCode = codeGenerator(6);
 			
-			// Put the content of your message
 			message.setText("Hi there,\nyour registration code is\n" + registrationCode + ".\n\n"
 					+ "This is automaticaly generated email, please do not respond.\n"
 					+ "\n"
 					+ "Developers from Kram\n");
-			// Send message
+			
 			Transport.send(message);
 		
 			System.out.println("Sent email successfully....");

@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
+import java.util.TreeMap;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -105,42 +104,42 @@ public class AddModifyQuestionCotroller {
 	// SimpleObjectProperty<Zameranie>();
 	int pocet = 2;
 	int correctAnswers = 0;
-
+	
+	private void addOption(CheckBox chc, TextField txt) {
+		box1.getChildren().add(chc);
+		box.getChildren().add(txt);
+	}
+	
+	private void removeOption(int index) {
+		box.getChildren().remove(index);
+		box1.getChildren().remove(index);
+	}
+	
+	private void removeOption(int index) {
+		box.getChildren().remove(index);
+		box1.getChildren().remove(index);
+	}
+	
 	@FXML
 	void initialize() {
 		// int pocet = 4;
-		List<TextField> options = new ArrayList<TextField>();
-		List<CheckBox> correct = new ArrayList<CheckBox>();
-		boolean[] iscorrect = new boolean[8];
-		options.add(option);
-		options.add(option1);
-		correct.add(check);
-		correct.add(check1);
-		check.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				if (iscorrect[0]) {
-					iscorrect[0] = false;
-				} else {
-					iscorrect[0] = true;
-				}
-
-			}
-		});
-
-		check1.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				if (iscorrect[1]) {
-					iscorrect[1] = false;
-				} else {
-					iscorrect[1] = true;
-				}
-
-			}
-		});
+		Map<CheckBox, TextField> options = new TreeMap<CheckBox, TextField>();
+		
+		if(edit) {
+			
+		} else {
+			options.put(new CheckBox(), new TextField());
+			options.put(new CheckBox(), new TextField());
+			pocet = 2;
+			
+		}
+		
+		EventHandler addOption = new EventHandler<ActionEvent>()
+			
+		}
+ 		
+		add.setOnAction(addOption);
+		
 		addquestion.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -174,28 +173,7 @@ public class AddModifyQuestionCotroller {
 					errorfield2.setText("There is no correct answer, nonononono");
 				}
 				if (done) {
-					/*Stage prg = new Stage();
-					ImageView wait = new ImageView(new Image(this.getClass().getResource("wait.gif").toExternalForm()));
-					Label lbl = new Label();
-					lbl.setText("Už len èakáme, že nieèo");
-					stage.close();
-					AnchorPane pane = new AnchorPane();
-					pane.getChildren().add(lbl);
-					pane.getChildren().add(wait);
-					Scene scenes = new Scene(pane);
-					prg.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-						@Override
-						public void handle(WindowEvent event) {
-							prg.show();
-							
-						}
-					});
-					prg.setTitle("Už len èakáme, že nieèo");
-					prg.setScene(scenes);
-					prg.show();*/
-				
-					
+		
 					errorfield2.setTextFill(Color.GREEN);
 					errorfield2.setText("EWERYTHING OK");
 					if (question == null) {
@@ -364,10 +342,8 @@ public class AddModifyQuestionCotroller {
 						TextField txt = new TextField();
 						CheckBox chc = new CheckBox();
 						txt.setId("option" + pocet);
-						options.add(txt);
 						chc.setId("check" + pocet);
 						chc.setOnAction(new EventHandler<ActionEvent>() {
-
 							@Override
 							public void handle(ActionEvent event) {
 								if (iscorrect[pocet - 1]) {
@@ -378,7 +354,6 @@ public class AddModifyQuestionCotroller {
 
 							}
 						});
-						correct.add(chc);
 						box1.getChildren().add(chc);
 						box.getChildren().add(txt);
 						pocet++;
@@ -403,37 +378,37 @@ public class AddModifyQuestionCotroller {
 
 				}
 			});
-			add.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					if (pocet < 8) {
-						TextField txt = new TextField();
-						CheckBox chc = new CheckBox();
-						txt.setId("option" + pocet);
-						options.add(txt);
-						chc.setId("check" + pocet);
-						chc.setOnAction(new EventHandler<ActionEvent>() {
-
-							@Override
-							public void handle(ActionEvent event) {
-								if (iscorrect[pocet - 1]) {
-									iscorrect[pocet - 1] = false;
-								} else {
-									iscorrect[pocet - 1] = true;
-								}
-
-							}
-						});
-						correct.add(chc);
-						box1.getChildren().add(chc);
-						box.getChildren().add(txt);
-						pocet++;
-
-					}
-
-				}
-			});
+//			add.setOnAction(new EventHandler<ActionEvent>() {
+//
+//				@Override
+//				public void handle(ActionEvent event) {
+//					if (pocet < 8) {
+//						TextField txt = new TextField();
+//						CheckBox chc = new CheckBox();
+//						txt.setId("option" + pocet);
+//						options.add(txt);
+//						chc.setId("check" + pocet);
+//						chc.setOnAction(new EventHandler<ActionEvent>() {
+//
+//							@Override
+//							public void handle(ActionEvent event) {
+//								if (iscorrect[pocet - 1]) {
+//									iscorrect[pocet - 1] = false;
+//								} else {
+//									iscorrect[pocet - 1] = true;
+//								}
+//
+//							}
+//						});
+//						correct.add(chc);
+//						box1.getChildren().add(chc);
+//						box.getChildren().add(txt);
+//						pocet++;
+//
+//					}
+//
+//				}
+//			});
 
 		}
 

@@ -13,19 +13,17 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import kram.storage.course.Course;
 import kram.storage.question.Question;
 import kram.storage.subject.Subject;
+import kram.storage.test.KramTest;
 import kram.storage.user.User;
 import kram.storage.zameranie.Zameranie;
 
 public class UserTeacherClassesController {
-	private Stage stage;
-	private User user;
-	public UserTeacherClassesController(Stage stage, User user) {
-		this.stage = stage;
-		this.user = user;
-	}
 
+    @FXML
+    private Button tests;
 
     @FXML
     private Label username;
@@ -37,18 +35,34 @@ public class UserTeacherClassesController {
     private Button profile;
 
     @FXML
-    private ListView<?> listview;
+    private ListView<KramTest> testView;
 
     @FXML
-    private Button viewclass;
+    private Button addTest;
 
     @FXML
-    private Button tests;
+    private ListView<User> students;
 
     @FXML
-    private Label errorfield;
+    private ListView<User> waiting;
 
+    @FXML
+    private ChoiceBox<Course> courses;
 
+    @FXML
+    private Button addCourse;
+
+    @FXML
+    private Label errorField;
+
+	private Stage stage;
+	private User user;
+	
+	public UserTeacherClassesController(Stage stage, User user) {
+		this.stage = stage;
+		this.user = user;
+	}
+    
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
