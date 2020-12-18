@@ -42,6 +42,18 @@ public class Question {
 		this.options = options;
 	}
 	
+	@Override
+	public int hashCode()
+	{
+	    return idQuestion.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+	    return this.idQuestion.equals(o);
+	}
+	
 	public void addOption(Option option, boolean correct) {
 		this.options.put(option, correct);
 	}

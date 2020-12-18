@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.DaoFactory;
@@ -19,6 +20,7 @@ import kram.storage.option.Option;
 import kram.storage.option.OptionDao;
 import kram.storage.question.Question;
 import kram.storage.question.QuestionDao;
+import kram.storage.user.User;
 
 public class MysqlTestDao implements TestDao {
 
@@ -80,23 +82,15 @@ public class MysqlTestDao implements TestDao {
 		}
 	}
 	
-	private class InfoTestSetExtractor implements ResultSetExtractor<List<KramTest>> {
-		@SuppressWarnings("unused")
-		@Override
-		public List<KramTest> extractData(ResultSet rs) throws SQLException, DataAccessException {
-			List<KramTest> kramTests = new ArrayList<KramTest>();
-			KramTest kramTest = null;
-			while (rs.next()) {
-				Long idTest = rs.getLong("test_id");
-				long idUser = rs.getLong("user_id");
-				long idTopic = rs.getLong("topic_id");
-				String timeStart = rs.getString("time_start");
-				String timeEnd = rs.getString("time_end");
-				int hodnotenie = rs.getInt("hodnotenie");
-				kramTest = new KramTest(idTest, idUser, idTopic, timeStart, timeEnd, hodnotenie);
-				kramTests.add(kramTest);
-			}
-			return kramTests;
+	private class TestRowMapper implements RowMapper<KramTest>{
+		public KramTest mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Long idTest = rs.getLong("test_id");
+			long idUser = rs.getLong("user_id");
+			long idTopic = rs.getLong("topic_id");
+			String timeStart = rs.getString("time_start");
+			String timeEnd = rs.getString("time_end");
+			int hodnotenie = rs.getInt("hodnotenie");
+			return new KramTest(idTest, idUser, idTopic, timeStart, timeEnd, hodnotenie);
 		}
 	}
 
@@ -112,9 +106,11 @@ public class MysqlTestDao implements TestDao {
 	
 	@Override
 	public List<KramTest> getAllInfo(long userId) throws EntityNotFoundException {
-		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t where t.user_id = ?";
+
+		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t WHERE t.user_id = ?";
+
 		try {
-			return jdbcTemplate.query(sql, new InfoTestSetExtractor(), userId);
+			return jdbcTemplate.query(sql, new TestRowMapper(), userId);
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("Test not found");
 		}
@@ -130,9 +126,6 @@ public class MysqlTestDao implements TestDao {
 		}
 	}
 
-
-
-	
 	@Override
 	public KramTest getBySubjectId(Long id) throws EntityNotFoundException {
 		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t JOIN answer AS a USING(test_id) JOIN topic USING(topic_id) JOIN subject USING(subject_id) WHERE subject_id = ?";
