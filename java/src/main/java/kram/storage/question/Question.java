@@ -45,7 +45,6 @@ public class Question {
 	@Override
 	public int hashCode()
 	{
-//		System.out.println("hash " + idQuestion.hashCode());
 	    return idQuestion.hashCode();
 	}
 	
