@@ -95,7 +95,8 @@ public class TestController {
 
 				Label txt = new Label();
 				Label qstn = new Label();
-				qstn.setText("Question number " + krok);
+				
+				qstn.setText("Question number " + (krok+1));
 				qstn.setFont(Font.font("System", FontWeight.BOLD, 20));
 				qstn.setTextFill(Color.DARKCYAN);
 				txt.setTextFill(Color.LIGHTSLATEGRAY);
@@ -152,13 +153,35 @@ public class TestController {
 				public void handle(ActionEvent event) {
 
 					int otazka = 0;
+					int istomozes=0;
+					for (int i = 0; i < questions.size(); i++) {
+						boolean mozes = false;
+						for (int j = 0; j < 8; j++) {
+							if (checkboxes[i][j] != null) {
+								if (checkboxes[i][j].isSelected()) {
+									mozes=true;
+								}
+							}
+							
+						}
+						if (mozes) {
+							istomozes++;
+						}
+						
+					}
+					if (istomozes>=questions.size()) {
+						
+					
 
 					for (Question question : questions) {
 						int moznost = 0;
 						int hodnotenie = 0;
+						test.getAnswers().put(question, null);
 						for (Map.Entry<Option, Boolean> entry : question.getOptions().entrySet()) {
+						
 							if (checkboxes[otazka][moznost] != null) {
 								if (checkboxes[otazka][moznost].isSelected() ) {
+									
 									test.getAnswers().put(question, entry.getKey());
 								}
 
@@ -197,6 +220,7 @@ public class TestController {
 						e.printStackTrace();
 						System.out.println("fail again");
 					}
+					}
 				}
 			});
 		} else {
@@ -206,7 +230,7 @@ public class TestController {
 			System.out.println(kramTest.getIdTopic());
 			System.out.println(zameranieDao.getById(kramTest.getIdTopic()));
 			topic.setText(
-					"Your answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()).getTitle());
+					"Your answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()));
 			topic.setTextFill(Color.DODGERBLUE);
 			topic.setFont(Font.font("System", FontWeight.BOLD, 24));
 			VBox moznosti = new VBox();
@@ -247,13 +271,15 @@ public class TestController {
 					text.setText(moznost.getKey().getTitle());
 					text.setAlignment(Pos.CENTER_LEFT);
 					text.setFont(Font.font(16));
-					if (moznost.getValue()) {
+					
+					
+					if (moznost.getValue() ) {
 						text.setTextFill(Color.DARKORANGE);
 						text.setText(moznost.getKey().getTitle());
 					}
 					for (Option option : selected) {
 						//System.out.println(option.getIdOption() + "  " + moznost.getKey().getIdOption());
-						if (moznost.getKey().getIdOption().equals( option.getIdOption())) {
+						if (option!=null && (moznost.getKey().getIdOption().equals(option.getIdOption()))) {
 							System.out.println("rovnaju sa");
 							if (moznost.getValue()) {
 								text.setTextFill(Color.GREEN);

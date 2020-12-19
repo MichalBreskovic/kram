@@ -48,6 +48,12 @@ public class MysqlTestDao implements TestDao {
 				System.out.println("quesion_id : " + idQuestion);
 				if(idOption == 0) kramTest.addAnswer(questionDao.getById(idQuestion), null);
 				else kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
+				if (idOption!=0 && idQuestion!=0) {
+					kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
+				}else {
+					kramTest.addAnswer(questionDao.getById(idQuestion), null);
+				}
+
 			}
 			return kramTest;
 		}

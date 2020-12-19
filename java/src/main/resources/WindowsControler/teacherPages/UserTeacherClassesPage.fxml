@@ -23,18 +23,6 @@
             <BoxBlur width="255.0" />
          </effect>
       </Rectangle>
-      <Button fx:id="tests" layoutX="14.0" layoutY="99.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="91.0" textFill="#1268b9">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <graphic>
-            <ImageView fitHeight="64.0" fitWidth="62.0">
-               <image>
-                  <Image url="@../testicon.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1268b9" height="58.0" layoutX="14.0" layoutY="14.0" opacity="0.77" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="855.0" />
       <Label fx:id="username" layoutX="82.0" layoutY="17.0" prefHeight="53.0" prefWidth="666.0" textFill="WHITE">
          <font>
@@ -90,11 +78,16 @@
                                  <items>
                                     <Label prefHeight="35.0" prefWidth="193.0" text="Course Students" textFill="#1268b9">
                                        <font>
-                                          <Font name="System Bold" size="24.0" />
+                                          <Font name="System Bold" size="18.0" />
                                        </font>
                                     </Label>
                                  </items>
                               </ToolBar>
+                              <Button fx:id="dismis" layoutX="306.0" layoutY="398.0" mnemonicParsing="false" text="&gt;&gt;&gt;" textFill="#101c72">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
                            </children></AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
@@ -103,11 +96,16 @@
                                  <items>
                                     <Label prefHeight="35.0" prefWidth="204.0" text="Waiting Students" textFill="#1268b9">
                                        <font>
-                                          <Font name="System Bold" size="24.0" />
+                                          <Font name="System Bold" size="18.0" />
                                        </font>
                                     </Label>
                                  </items>
                               </ToolBar>
+                              <Button fx:id="add" layoutY="398.0" mnemonicParsing="false" text="&lt;&lt;&lt;" textFill="#26117c">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
                            </children></AnchorPane>
                     </items>
                   </SplitPane>
@@ -126,6 +124,18 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Label fx:id="errorField" alignment="CENTER" layoutX="415.0" layoutY="617.0" prefHeight="17.0" prefWidth="352.0" />
+      <Label fx:id="errorField" alignment="CENTER" layoutX="313.0" layoutY="617.0" prefHeight="17.0" prefWidth="496.0" />
+      <Button fx:id="tests" layoutX="16.0" layoutY="95.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="91.0" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="58.0" fitWidth="55.0">
+               <image>
+                  <Image url="@../question.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

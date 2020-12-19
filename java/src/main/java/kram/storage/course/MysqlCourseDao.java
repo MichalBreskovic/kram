@@ -163,6 +163,16 @@ public class MysqlCourseDao implements CourseDao {
 		return sql;
 	}
 	
+	public String acceptDismissStudent( int bool, Long idStudent, Long idCourse) {
+		try {
+			String sql ="Update course_user set accepted = ? where user_id=? and course_id=? ";
+			jdbcTemplate.update(sql,bool,idStudent,idCourse );
+			return sql;
+		} catch (Exception e) {
+			throw new EntityNotFoundException("f“uk :'C");
+		}
+	}
+	
 	@Override
 	public Course deleteCourse(Long id) throws EntityNotFoundException {
 		String deleteSql = "DELETE FROM question WHERE question_id = ?";
