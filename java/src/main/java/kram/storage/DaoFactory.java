@@ -93,13 +93,13 @@ public enum DaoFactory {
 				jdbcTemplate = new JdbcTemplate(ds);
 			} else {
 				MysqlDataSource dataSource = new MysqlDataSource();
-				dataSource.setUser("data_access");
-				dataSource.setPassword("m9TBqahvjE");
-				if(TEST) dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram_test");
-				else dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram");
-	//			dataSource.setUser("kram");
-	//			dataSource.setPassword("ahoj12345");
-	//			dataSource.setUrl("jdbc:mysql://localhost/kram?serverTimezone=Europe/Bratislava");
+//				dataSource.setUser("data_access");
+//				dataSource.setPassword("m9TBqahvjE");
+//				if(TEST) dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram_test");
+//				else dataSource.setUrl("jdbc:mysql://34.65.200.19:3306/kram");
+				dataSource.setUser("kram");
+				dataSource.setPassword("ahoj12345");
+				dataSource.setUrl("jdbc:mysql://localhost/kram?serverTimezone=Europe/Bratislava");
 				jdbcTemplate = new JdbcTemplate(dataSource);
 			}
 		}

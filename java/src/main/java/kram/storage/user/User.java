@@ -1,11 +1,8 @@
 package kram.storage.user;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import kram.storage.SHA256;
 import kram.storage.question.Question;
 import kram.storage.test.KramTest;
 
