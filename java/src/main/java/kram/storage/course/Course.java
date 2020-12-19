@@ -79,4 +79,11 @@ public class Course {
 		this.tests = tests;
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	
+
 }

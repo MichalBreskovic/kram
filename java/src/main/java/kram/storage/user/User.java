@@ -21,6 +21,12 @@ public class User {
 	
 	public User() {
 	}
+	
+	public User(Long idUser, String name, String surname) {
+		this.idUser = idUser;
+		this.name = name;
+		this.surname = surname;
+	}
 
 	public User(Long idUser, String name, String surname, String heslo, boolean teacher) {
 		this.idUser = idUser;
@@ -127,8 +133,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [idUser=" + idUser + ", name=" + name + ", surname=" + surname + ", heslo=" + heslo + ", teacher="
-				+ teacher + ", testy=" + testy + ", questions=" + questions + "]";
+		return name + " " + surname;
 	}
 
 }
