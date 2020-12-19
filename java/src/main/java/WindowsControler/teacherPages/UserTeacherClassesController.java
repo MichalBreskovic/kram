@@ -97,7 +97,7 @@ public class UserTeacherClassesController {
 			@Override
 			public void changed(ObservableValue<? extends Course> observable, Course oldValue, Course newValue) {
 				selectedCourse.setValue(newValue);
-				testView.setItems(FXCollections.observableArrayList(testDao.getByCourseTeacherId(selectedCourse.getValue().getIdCourse(), user.getIdUser())));
+				testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherId(selectedCourse.getValue().getIdCourse(), user.getIdUser())));
 				students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
 				waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
 			}

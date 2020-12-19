@@ -76,15 +76,17 @@ public class UserPageTestsController {
 	void initialize() {
 		username.setText(user.getName() + " " + user.getSurname());
 		testview.setItems(FXCollections.observableArrayList(testDao.getAllInfo(user.getIdUser())));
-		//subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.get));
-		//topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.get));
+		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForTeacher(user.getIdUser())));
+//		topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.get));
 		subjectchoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subject>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
 				selectedSubject.setValue(newValue);
-				//topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.get));
-				//testview.setItems(FXCollections.observableArrayList(zameranieDao.get));
+				topicchoice.getItems().clear();
+				topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
+				testview.getItems().clear();
+				testview.setItems(FXCollections.observableArrayList(testDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
 				
 			}
 		});
@@ -107,8 +109,9 @@ public class UserPageTestsController {
 			@Override
 			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
 				selectedTopic.setValue(newValue);
-				//topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.get));
-				//testview.setItems(FXCollections.observableArrayList(zameranieDao.get));
+//				topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllByTestUserId(idTest, idUser)));
+				testview.getItems().clear();
+				testview.setItems(FXCollections.observableArrayList(testDao.getAllByTopicId(selectedTopic.getValue().getIdZameranie())));
 				
 			}
 		});
@@ -233,6 +236,8 @@ public class UserPageTestsController {
 			@Override
 			public void handle(ActionEvent event) {
 				KramTest test = testDao.getById(selectedTest.getValue().getIdTest());
+				System.out.println("this test " + test);
+				System.out.println("this test " + selectedTest.getValue().getIdTest());
 				try {
 					TestController controller = new TestController(stage, user, test, true);
 					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));

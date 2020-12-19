@@ -202,6 +202,9 @@ public class TestController {
 		} else {
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
+			System.out.println(kramTest);
+			System.out.println(kramTest.getIdTopic());
+			System.out.println(zameranieDao.getById(kramTest.getIdTopic()));
 			topic.setText(
 					"Your answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()).getTitle());
 			topic.setTextFill(Color.DODGERBLUE);
