@@ -4,6 +4,9 @@ package WindowsControler.teacherPages;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,7 +22,6 @@ public class AddCourseController {
 
 
 	private Stage stage;
-	private Stage stage2;
 	private User user;
 	  @FXML
 	    private Label username1;
@@ -29,44 +31,75 @@ public class AddCourseController {
 
 	    @FXML
 	    private Button addtopic;
+	    
+	    @FXML
+	    private Button bck;
+
+	    @FXML
+	    private Label errorfield;
 
 
 
 
-	public AddCourseController(Stage stage, Stage stage2, User user) {
+
+	public AddCourseController(Stage stage, User user) {
 		this.stage = stage;
-		this.stage2 = stage2;
 		this.user = user;
 	}
 	
 
-	// private ObjectProperty<Subject> selectedSubject = new
-	// SimpleObjectProperty<Subject>();
-	// private ObjectProperty<Zameranie> selectedTopic = new
-	// SimpleObjectProperty<Zameranie>();
+
 	
 	@FXML
 	void initialize() {
+		title.setText(null);
 		addtopic.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				stage2.close();
-				if (title.getText()!=null || !title.getText().trim().isEmpty()) {
-					Course course = new Course(user.getIdUser(), title.getText().toString());
-					courseDao.saveCourse(course);
+				
+				if (title.getText()!=null && !title.getText().trim().isEmpty()) {
+					errorfield.setText("");
+					courseDao.saveCourse(new Course(user.getIdUser(), title.getText().toString()));
+					try {
+						UserTeacherClassesController controller = new UserTeacherClassesController(stage, user);
+						FXMLLoader fxmlLoader2 = new FXMLLoader(
+								UserTeacherPageControler.class.getResource("UserTeacherClassesPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						courseDao.saveCourse(new Course(user.getIdUser(), title.getText().toString()));
+						stage.setTitle("Classes");
+						stage.setScene(scene);
+						stage.show();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}else {
+					errorfield.setText("Insert name of your course");
 				}
 
 				
-				stage.show();
 				
 			}
 		});
-		stage2.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		bck.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-			public void handle(WindowEvent event) {
-				stage.show();
+			public void handle(ActionEvent event) {
+				try {
+					UserTeacherClassesController controller = new UserTeacherClassesController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(
+							UserTeacherPageControler.class.getResource("UserTeacherClassesPage.fxml"));
+					fxmlLoader2.setController(controller);
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("Classes");
+					stage.setScene(scene);
+					stage.show();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				
 			}
 		});

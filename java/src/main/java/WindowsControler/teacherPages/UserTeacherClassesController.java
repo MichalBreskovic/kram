@@ -101,7 +101,6 @@ public class UserTeacherClassesController {
 	void initialize() {
 
 		courses.setItems(FXCollections.observableArrayList(courseDao.getAllByTeacherId(user.getIdUser())));
-		
 		courses.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
 
 			@Override
@@ -245,17 +244,15 @@ public class UserTeacherClassesController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					Stage stage2 = new Stage();
-					AddCourseController controller = new AddCourseController(stage,stage2, user);
+					AddCourseController controller = new AddCourseController(stage, user);
 					FXMLLoader fxmlLoader2 = new FXMLLoader(
 							UserTeacherPageControler.class.getResource("AddCourse.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
-					stage.close();
-					stage2.setTitle("Questions");
-					stage2.setScene(scene);
-					stage2.show();
+					stage.setTitle("ADD COURSE");
+					stage.setScene(scene);
+					stage.show();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -334,5 +331,6 @@ public class UserTeacherClassesController {
 			}
 
 		});
+		System.out.println(stage.isShowing());
 	}
 }
