@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,9 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
 import javafx.stage.Stage;
-import junit.framework.Test;
 import kram.storage.DaoFactory;
 import kram.storage.subject.Subject;
 import kram.storage.subject.SubjectDao;
@@ -28,10 +25,12 @@ import kram.storage.test.KramTest;
 import kram.storage.test.TestDao;
 import kram.storage.user.User;
 import kram.storage.zameranie.Zameranie;
+import kram.storage.zameranie.ZameranieDao;
 
 public class UserPageTestsController {
 	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private TestDao testDao = DaoFactory.INSTATNCE.getTestDao();
+	private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
 	private Stage stage;
 	private User user;
 	@FXML
@@ -71,11 +70,62 @@ public class UserPageTestsController {
 
 	private ObjectProperty<KramTest> selectedTest = new SimpleObjectProperty<KramTest>();
 	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>();
+	private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>();
 
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " " + user.getSurname());
 		testview.setItems(FXCollections.observableArrayList(testDao.getAllInfo(user.getIdUser())));
+		//subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.get));
+		//topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.get));
+		subjectchoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subject>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
+				selectedSubject.setValue(newValue);
+				//topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.get));
+				//testview.setItems(FXCollections.observableArrayList(zameranieDao.get));
+				
+			}
+		});
+		selectedSubject.addListener(new ChangeListener<Subject>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
+				if (newValue == null) {
+					subjectchoice.getSelectionModel().clearSelection();
+
+				} else {
+					subjectchoice.getSelectionModel().select(newValue);
+				}
+				
+			}
+		});
+		
+		topicchoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Zameranie>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
+				selectedTopic.setValue(newValue);
+				//topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.get));
+				//testview.setItems(FXCollections.observableArrayList(zameranieDao.get));
+				
+			}
+		});
+		selectedTopic.addListener(new ChangeListener<Zameranie>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
+				if (newValue == null) {
+					topicchoice.getSelectionModel().clearSelection();
+
+				} else {
+					topicchoice.getSelectionModel().select(newValue);
+				}
+				
+			}
+		});
+		
 		testview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<KramTest>() {
 
 			@Override
