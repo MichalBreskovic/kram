@@ -1,66 +1,38 @@
 package WindowsControler.userPages;
 
-import java.sql.PseudoColumnUsage;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.sound.midi.Soundbank;
-
-import org.apache.commons.collections4.MultiMap;
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import kram.storage.DaoFactory;
 import kram.storage.option.Option;
-import kram.storage.option.OptionDao;
 import kram.storage.question.Question;
-import kram.storage.question.QuestionDao;
-import kram.storage.subject.Subject;
-import kram.storage.subject.SubjectDao;
 import kram.storage.test.KramTest;
-import kram.storage.test.MysqlTestDao;
 import kram.storage.test.TestDao;
 import kram.storage.user.User;
 import kram.storage.zameranie.Zameranie;
 import kram.storage.zameranie.ZameranieDao;
 
 public class TestController {
-	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
+
 	private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
-	private QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
-	private OptionDao optionDao = DaoFactory.INSTATNCE.getOptionDao();
 	private TestDao testdao = DaoFactory.INSTATNCE.getTestDao();
 
 	private Stage stage;
@@ -68,9 +40,7 @@ public class TestController {
 	private boolean justLook;
 	private Zameranie zameranie;
 	private List<Question> questions;
-	private Question question;
 	private KramTest kramTest;
-	private int poradie;
 
 	public TestController(Stage stage, User user, List<Question> questions, Zameranie zameranie, boolean justLook) {
 		this.stage = stage;
@@ -92,24 +62,18 @@ public class TestController {
 
 	@FXML
 	private Label topic;
-	// private ObjectProperty<Subject> selectedSubject = new
-	// SimpleObjectProperty<Subject>();
-	// private ObjectProperty<Zameranie> selectedTopic = new
-	// SimpleObjectProperty<Zameranie>();
 
 	int finalhodnotenie = 0;
 
 	@FXML
 	void initialize() {
 
-		// https://www.javatpoint.com/java-get-current-date
 		if (!justLook) {
-
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 			// https://www.javatpoint.com/java-get-current-date
 			KramTest test = new KramTest(user.getIdUser(), zameranie.getIdZameranie(), dtf.format(now));
-			boolean[][] pole = new boolean[questions.size()][8];
+			CheckBox[][] checkboxes = new CheckBox[questions.size()][8];
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
 			topic.setText("This is test from " + zameranie.getTitle());
@@ -118,14 +82,17 @@ public class TestController {
 			int krok = 0;
 			for (Question question : questions) {
 				HBox otazkaBox = new HBox();
-				// otazkaBox.setId(""+krok);
+
 				otazkaBox.setSpacing(18);
 				otazkaBox.setAlignment(Pos.CENTER);
+
 				VBox chosen = new VBox();
 				chosen.setAlignment(Pos.CENTER);
 				chosen.setSpacing(9);
+
 				VBox moznosti = new VBox();
 				moznosti.setAlignment(Pos.CENTER_LEFT);
+
 				Label txt = new Label();
 				Label qstn = new Label();
 				qstn.setText("Question number " + krok);
@@ -133,10 +100,9 @@ public class TestController {
 				qstn.setTextFill(Color.DARKCYAN);
 				txt.setTextFill(Color.LIGHTSLATEGRAY);
 				txt.setText(question.getTitle());
-				// txt.setFont(Font.font(20));
 				txt.setFont(Font.font("System", FontWeight.BOLD, 20));
 				txt.setTextFill(Color.LIGHTSLATEGRAY);
-				// panebix.getChildren().add(qstn);
+
 				panebix.getChildren().add(qstn);
 				panebix.getChildren().add(txt);
 				Map<Option, Boolean> option = question.getOptions();
@@ -144,22 +110,22 @@ public class TestController {
 				for (Map.Entry<Option, Boolean> entry : option.entrySet()) {
 
 					CheckBox check = new CheckBox();
-					check.setId(krok + " " + id);
-					check.setLayoutY(20);
-					check.setOnAction(new EventHandler<ActionEvent>() {
-
-						@Override
-						public void handle(ActionEvent event) {
-							String[] ids = check.getId().split(" ");
-							if (pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])]) {
-								pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])] = false;
-							} else {
-								pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])] = true;
-							}
-
-						}
-					});
+					// check.setId(krok + " " + id);
+					// check.setLayoutY(20);
+					/*
+					 * check.setOnAction(new EventHandler<ActionEvent>() {
+					 * 
+					 * @Override public void handle(ActionEvent event) { String[] ids =
+					 * check.getId().split(" "); if
+					 * (pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])]) {
+					 * pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])] = false; } else {
+					 * pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])] = true; }
+					 * 
+					 * } });
+					 */
 					chosen.getChildren().add(check);
+					checkboxes[krok][id] = check;
+
 					Label text = new Label();
 					text.setText(entry.getKey().getTitle());
 					text.setAlignment(Pos.CENTER_LEFT);
@@ -191,14 +157,15 @@ public class TestController {
 						int moznost = 0;
 						int hodnotenie = 0;
 						for (Map.Entry<Option, Boolean> entry : question.getOptions().entrySet()) {
-							if (pole[otazka][moznost]) {
-								// System.out.println(question.getTitle());
-								// System.out.println(test.getAnswers());
-								// System.out.println(entry.getKey());
-								test.getAnswers().put(question, entry.getKey());
-							}
+							if (checkboxes[otazka][moznost] != null) {
+								if (checkboxes[otazka][moznost].isSelected() ) {
+									test.getAnswers().put(question, entry.getKey());
+								}
 
-							if (entry.getValue() == pole[otazka][moznost]) {
+							}
+							
+
+							if (entry.getValue() == checkboxes[otazka][moznost].isSelected()) {
 								System.out.println(entry.getValue() + "	" + finalhodnotenie);
 								hodnotenie++;
 
@@ -236,35 +203,40 @@ public class TestController {
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
 			topic.setText(
-					"Yout answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()).getTitle());
+					"Your answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()).getTitle());
 			topic.setTextFill(Color.DODGERBLUE);
 			topic.setFont(Font.font("System", FontWeight.BOLD, 24));
 			VBox moznosti = new VBox();
 			int krok = 1;
-			Long aktualId = 0l;
 			System.out.println(kramTest.getAnswers().keys());
-			
+
 			for (Question entry : kramTest.getAnswers().keySet()) {
 				HBox otazkaBox = new HBox();
 				otazkaBox.setSpacing(18);
 				otazkaBox.setAlignment(Pos.CENTER);
+				
 				Label txt = new Label();
 				Label qstn = new Label();
+				
 				qstn.setText("Question number " + krok);
 				qstn.setFont(Font.font("System", FontWeight.BOLD, 20));
 				qstn.setTextFill(Color.DARKCYAN);
+				
 				txt.setTextFill(Color.LIGHTSLATEGRAY);
 				txt.setText(entry.getTitle());
 				txt.setFont(Font.font("System", FontWeight.BOLD, 20));
 				txt.setTextFill(Color.LIGHTSLATEGRAY);
+				
 				panebix.getChildren().add(qstn);
 				panebix.getChildren().add(txt);
+				
 				krok++;
 				moznosti = new VBox();
 				moznosti.setAlignment(Pos.CENTER);
+				
 				List<Option> selected = new ArrayList<Option>(kramTest.getAnswers().get(entry));
 				System.out.println(entry);
-				System.out.println(kramTest.getAnswers().get(entry));
+				//System.out.println(kramTest.getAnswers().get(entry));
 				System.out.println(selected);
 				for (Map.Entry<Option, Boolean> moznost : entry.getOptions().entrySet()) {
 					Label text = new Label();
@@ -277,31 +249,30 @@ public class TestController {
 						text.setText(moznost.getKey().getTitle());
 					}
 					for (Option option : selected) {
-						System.out.println(option.getIdOption() +"  "+ moznost.getKey().getIdOption());
-						if (moznost.getKey().getIdOption()==option.getIdOption()) {
-							
+						System.out.println(option.getIdOption() + "  " + moznost.getKey().getIdOption());
+						if (moznost.getKey().getIdOption().equals( option.getIdOption())) {
+							System.out.println("rovnaju sa");
 							if (moznost.getValue()) {
 								text.setTextFill(Color.GREEN);
 								text.setText("✓  " + moznost.getKey().getTitle());
 								text.setAlignment(Pos.CENTER_LEFT);
 								text.setFont(Font.font(16));
-							}if (!moznost.getValue()) {
+							}
+							if (!moznost.getValue()) {
 								text.setTextFill(Color.RED);
 								text.setText("✕  " + moznost.getKey().getTitle());
 								text.setAlignment(Pos.CENTER_LEFT);
 								text.setFont(Font.font(16));
 							}
-							
+
 						}
-						
-					}/*
-					Label text = new Label();
-					text.setTextFill(Color.GREEN);
-					text.setText("✓  " + moznost.getKey().getTitle());
-					text.setAlignment(Pos.CENTER_LEFT);
-					text.setFont(Font.font(16));
-					System.out.println(moznost);
-					moznosti.getChildren().add(text);*/
+
+					} /*
+						 * Label text = new Label(); text.setTextFill(Color.GREEN); text.setText("✓  " +
+						 * moznost.getKey().getTitle()); text.setAlignment(Pos.CENTER_LEFT);
+						 * text.setFont(Font.font(16)); System.out.println(moznost);
+						 * moznosti.getChildren().add(text);
+						 */
 					moznosti.getChildren().add(text);
 				}
 				otazkaBox.getChildren().add(moznosti);

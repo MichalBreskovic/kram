@@ -60,7 +60,7 @@ public class MysqlZameranieDao implements ZameranieDao {
 				subjectId);
 
 	}
-	
+
 	@Override
 	public List<Zameranie> getAll() throws EntityNotFoundException {
 
