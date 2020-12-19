@@ -2,7 +2,6 @@ package kram.storage.zameranie;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.EntityNotFoundException;
-import kram.storage.subject.Subject;
 
 
 public class MysqlZameranieDao implements ZameranieDao {
@@ -62,7 +60,6 @@ public class MysqlZameranieDao implements ZameranieDao {
 				subjectId);
 
 	}
-	
 
 	@Override
 	public List<Zameranie> getAll() throws EntityNotFoundException {
@@ -70,6 +67,17 @@ public class MysqlZameranieDao implements ZameranieDao {
 		return jdbcTemplate.query("SELECT topic_id, title, subject_id FROM topic", new ZameranieRowMapper());
 
 	}
+	
+	@Override
+	public List<Zameranie> getAllByTestUserId(long idTest, long idUser) throws EntityNotFoundException {
+		String sql = "SELECT t.topic_id, t.title FROM topic AS t JOIN test USING(topic_id) WHERE test_id = ? AND user_id = ? ORDER BY t.title";
+		try {
+			return jdbcTemplate.query(sql, new ZameranieRowMapper(), idTest, idUser);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User not found");
+		}
+	}
+	
 	@Override
 	public Zameranie saveZameranie(Zameranie zameranie) throws EntityNotFoundException, NullPointerException {
 		if (zameranie.getIdZameranie() == null) {

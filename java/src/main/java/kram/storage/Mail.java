@@ -29,7 +29,7 @@ public class Mail {
 			u++;
 		}
 		for (int i = 0; i < codeLength; i++) {
-			code += znaky[(int)(Math.random() * 62)];
+			code += znaky[(int)(Math.random() * 61)];
 		}
 		return code;
 	}
