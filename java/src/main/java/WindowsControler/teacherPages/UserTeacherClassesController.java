@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,17 +22,10 @@ import javafx.stage.Stage;
 import kram.storage.DaoFactory;
 import kram.storage.course.Course;
 import kram.storage.course.CourseDao;
-import kram.storage.question.Question;
-import kram.storage.question.QuestionDao;
-import kram.storage.subject.Subject;
-import kram.storage.subject.SubjectDao;
 import kram.storage.test.KramTest;
 import kram.storage.test.TestDao;
 import kram.storage.user.User;
 import kram.storage.user.UserDao;
-import kram.storage.zameranie.Zameranie;
-import kram.storage.zameranie.ZameranieDao;
-
 public class UserTeacherClassesController {
 
     @FXML
@@ -109,9 +101,7 @@ public class UserTeacherClassesController {
 				testView.getItems().clear();
 				students.getItems().clear();
 				waiting.getItems().clear();
-				testView.setItems(FXCollections.observableArrayList(testDao.getByCourseTeacherId(selectedCourse.getValue().getIdCourse(), user.getIdUser())));
-				students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
-				waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
+				testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherId(selectedCourse.getValue().getIdCourse(), user.getIdUser())));
 			}
 
 		});
