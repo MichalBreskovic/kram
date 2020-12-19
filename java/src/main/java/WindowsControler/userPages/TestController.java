@@ -249,7 +249,7 @@ public class TestController {
 						text.setText(moznost.getKey().getTitle());
 					}
 					for (Option option : selected) {
-						System.out.println(option.getIdOption() + "  " + moznost.getKey().getIdOption());
+						//System.out.println(option.getIdOption() + "  " + moznost.getKey().getIdOption());
 						if (moznost.getKey().getIdOption().equals( option.getIdOption())) {
 							System.out.println("rovnaju sa");
 							if (moznost.getValue()) {
