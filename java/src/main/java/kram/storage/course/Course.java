@@ -16,7 +16,7 @@ public class Course {
 		this.name = name;
 		this.idUser = idUser;
 	}
-	
+
 	public Course(Long idCourse, Long idUser, String name) {
 		this.idCourse = idCourse;
 		this.idUser = idUser;

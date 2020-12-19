@@ -233,6 +233,7 @@ public class UserPageTestsController {
 			@Override
 			public void handle(ActionEvent event) {
 				KramTest test = testDao.getById(selectedTest.getValue().getIdTest());
+				Zameranie topic = zameranieDao.getById(test.getIdTopic());
 				try {
 					TestController controller = new TestController(stage, user, test, true);
 					FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));

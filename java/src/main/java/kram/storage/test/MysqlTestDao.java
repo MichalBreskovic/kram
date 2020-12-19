@@ -45,7 +45,12 @@ public class MysqlTestDao implements TestDao {
 				QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
 				Long idQuestion = rs.getLong("question_id");
 				Long idOption = rs.getLong("option_id");
-				kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
+				if (idOption!=0 && idQuestion!=0) {
+					kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
+				}else {
+					kramTest.addAnswer(questionDao.getById(idQuestion), null);
+				}
+
 			}
 			return kramTest;
 		}
@@ -101,7 +106,7 @@ public class MysqlTestDao implements TestDao {
 	}
 	
 	@Override
-	public List<KramTest> getAllInfo(long userId) throws EntityNotFoundException {
+	public List<KramTest> getAllInfo(long userId) throws EntityNotFoundException, NullPointerException {
 
 		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t WHERE t.user_id = ?";
 
@@ -114,7 +119,7 @@ public class MysqlTestDao implements TestDao {
 
 	@Override
 	public KramTest getById(Long id) throws EntityNotFoundException {
-		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t JOIN answer AS a USING(test_id) WHERE t.test_id = ?";
+		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t left outer JOIN answer AS a USING(test_id) WHERE t.test_id = ?";
 		try {
 			return jdbcTemplate.query(sql, new TestSetExtractor(), id);
 		} catch (DataAccessException e) {
@@ -210,10 +215,11 @@ public class MysqlTestDao implements TestDao {
 			System.out.println(kramTest.getAnswers().get(entry.getKey()));
 			if (entry.getValue() != null) {
 				stop = false;
-				sqlBuilder.append("(" + kramTest.getIdTest() + "," + entry.getKey().getIdQuestion() + ","
-						+ entry.getValue().getIdOption() + "),");
+              sqlBuilder.append("(" + kramTest.getIdTest() + "," + entry.getKey().getIdQuestion() + ","
+                      + entry.getValue().getIdOption() + "),");
 			}
 		}
+
 		if (stop)
 			return "";
 		String sql = sqlBuilder.substring(0, sqlBuilder.length() - 1);

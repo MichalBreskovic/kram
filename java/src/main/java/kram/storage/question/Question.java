@@ -51,7 +51,7 @@ public class Question {
 	@Override
 	public boolean equals(Object o)
 	{
-		if(o != null) return idQuestion.hashCode() == o.hashCode();
+		if(o != null) return idQuestion.hashCode() ==  o.hashCode();
 	    return false;
 	}
 	
