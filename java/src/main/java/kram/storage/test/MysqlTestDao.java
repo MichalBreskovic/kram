@@ -97,13 +97,9 @@ public class MysqlTestDao implements TestDao {
 		public KramTest mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Long idTest = rs.getLong("test_id");
 			long idUser = rs.getLong("user_id"); 
-			
 			long idTopic = rs.getLong("topic_id");
 			String timeStart = rs.getString("time_start");
-			System.out.println(timeStart);
-			//if(timeStart.equals("0")) timeStart = null;
 			String timeEnd = rs.getString("time_end");
-			//if(timeEnd.equals("0")) timeEnd = null;
 			int hodnotenie = rs.getInt("hodnotenie");
 			return new KramTest(idTest, idUser, idTopic, timeStart, timeEnd, hodnotenie);
 
@@ -120,7 +116,7 @@ public class MysqlTestDao implements TestDao {
 
 		}
 	}
-
+	
 	@Override
 	public List<KramTest> getAll() throws EntityNotFoundException {
 		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t JOIN answer AS a USING(test_id)";
@@ -185,9 +181,6 @@ public class MysqlTestDao implements TestDao {
 		}
 	}
 	
-	
-	
-	
 	@Override
     public List<KramTest> getAllByTopicId(Long id) throws EntityNotFoundException {
         String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t JOIN answer AS a USING(test_id) WHERE topic_id = ?";
@@ -208,9 +201,6 @@ public class MysqlTestDao implements TestDao {
         }
     }
 	
-	
-	
-	
 	@Override
     public List<KramTest> getAllByCourseId(Long id) throws EntityNotFoundException {
         String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t JOIN answer AS a USING(test_id) WHERE topic_id = ?";
@@ -221,13 +211,21 @@ public class MysqlTestDao implements TestDao {
         }
     }
 	
-	
-	
 	@Override
-    public List<KramTest> getAllByCourseTeacherId(Long id, Long idUser) throws EntityNotFoundException {
+    public List<KramTest> getAllByCourseTeacherId(Long id, Long idTeacher) throws EntityNotFoundException {
         String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t JOIN course_test AS ct USING(test_id) JOIN course AS c USING(course_id) WHERE course_id = ? AND c.user_id = ?";
         try {
-            return jdbcTemplate.query(sql, new TestRowMapper(), id, idUser);
+            return jdbcTemplate.query(sql, new TestRowMapper(), id, idTeacher);
+        } catch (DataAccessException e) {
+            throw new EntityNotFoundException("Test with " + id + " not found");
+        }
+    }
+	
+	@Override
+    public List<KramTest> getAllByCourseTeacherUserId(Long id, Long idTeacher, Long idUser) throws EntityNotFoundException {
+        String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t JOIN course_test AS ct USING(test_id) JOIN course AS c USING(course_id) WHERE course_id = ? AND c.user_id = ? AND t.user_id = ?";
+        try {
+            return jdbcTemplate.query(sql, new TestRowMapper(), id, idTeacher, idUser);
         } catch (DataAccessException e) {
             throw new EntityNotFoundException("Test with " + id + " not found");
         }

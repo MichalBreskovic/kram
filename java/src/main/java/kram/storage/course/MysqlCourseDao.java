@@ -137,7 +137,15 @@ public class MysqlCourseDao implements CourseDao {
 			throw new EntityNotFoundException("Course for teacher with id " + id + " not found");
 		}
 	}
+	
+	@Override
+	public void addToCourse(Long idCourse, Long idUser) throws EntityNotFoundException {
+		String sql = "INSERT INTO course_user (course_id, user_id) VALUES (?,?)";
 
+		int changed = jdbcTemplate.update(sql, idCourse, idUser);
+		if(changed == 1) throw new EntityNotFoundException("Course with id " + idCourse + " or student with id " + idUser + " not found");
+	}
+	
 	@Override
 	public List<Course> getAllByStudentId(Long id) throws EntityNotFoundException {
 		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id) WHERE cu.user_id = ?";
