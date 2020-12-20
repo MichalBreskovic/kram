@@ -51,6 +51,8 @@ public class UserTeacherClassesController {
 
     @FXML
     private Button dismis;
+    @FXML
+    private Button dismis1;
 
     @FXML
     private ListView<User> waiting;
@@ -182,7 +184,6 @@ public class UserTeacherClassesController {
 				
 			}
 		});
-		
 		waiting.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
 
 			@Override
@@ -238,9 +239,8 @@ public class UserTeacherClassesController {
 				else {
 					errorField.setText("");
 					courseDao.acceptDismissStudent(1, selectedStudentWaiting.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
-					selectedStudentWaiting.setValue(null);
-					selectedStudentAccepted.setValue(null);
 					students.getItems().add(selectedStudentWaiting.getValue());
+					//students.getItems().add(selectedStudentWaiting.getValue());
 					
 					waiting.getItems().remove(selectedStudentWaiting.getValue());
 					selectedStudentWaiting.setValue(null);
@@ -263,6 +263,26 @@ public class UserTeacherClassesController {
 					errorField.setText("");
 					courseDao.acceptDismissStudent(0, selectedStudentAccepted.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
 					students.getItems().remove(selectedStudentAccepted.getValue());
+					selectedStudentWaiting.setValue(null);
+					selectedStudentAccepted.setValue(null);
+					
+				}
+				
+			}
+		});
+		dismis1.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (selectedStudentAccepted.getValue()==null) {
+					errorField.setTextFill(Color.RED);
+					errorField.setText("Select waiting student you want to kick from course");
+				}
+				else {
+					errorField.setText("");
+					errorField.setText("");
+					courseDao.acceptDismissStudent(0, selectedStudentWaiting.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
+					waiting.getItems().remove(selectedStudentWaiting.getValue());
 					selectedStudentWaiting.setValue(null);
 					selectedStudentAccepted.setValue(null);
 					

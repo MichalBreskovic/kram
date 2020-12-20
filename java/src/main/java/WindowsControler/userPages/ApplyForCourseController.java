@@ -70,7 +70,7 @@ public class ApplyForCourseController {
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " " + user.getSurname());
-		list.setItems(FXCollections.observableArrayList(courseDao.getAllRowMapper()));
+		list.setItems(FXCollections.observableArrayList(courseDao.getAllRowMapperWithoutUser(user.getIdUser())));
 		list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
 
 			@Override
@@ -97,7 +97,7 @@ public class ApplyForCourseController {
 			public void handle(ActionEvent event) {
 				if (selectedCourse != null) {
 					errorfield.setText("");
-					
+					courseDao.addToCourse(selectedCourse.getValue().getIdCourse(), user.getIdUser());
 					
 				}else {
 					errorfield.setTextFill(Color.RED);
@@ -110,7 +110,7 @@ public class ApplyForCourseController {
 			@Override
 			public void handle(ActionEvent event) {
 				list.getItems().clear();
-				list.setItems(FXCollections.observableArrayList(courseDao.getBySubstring(substr.getText())));
+				list.setItems(FXCollections.observableArrayList(courseDao.getBySubstringWithoutU(substr.getText(), user.getIdUser())));
 				
 			}
 		});

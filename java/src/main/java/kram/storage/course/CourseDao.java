@@ -16,5 +16,7 @@ public interface CourseDao {
 	void addToCourse(Long idCourse, Long idUser) throws EntityNotFoundException;
 	List<Course> getBySubstring(String string) throws EntityNotFoundException ;
 	List<Course> getAllRowMapper() throws EntityNotFoundException;
+	List<Course> getAllRowMapperWithoutUser(Long id) throws EntityNotFoundException;
+	List<Course> getBySubstringWithoutU(String string, Long id);
 	
 }

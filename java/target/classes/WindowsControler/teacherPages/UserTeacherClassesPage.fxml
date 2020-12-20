@@ -57,10 +57,16 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="421.0" prefWidth="703.0">
                      <children>
-                        <ListView fx:id="testView" prefHeight="385.0" prefWidth="703.0" />
-                        <Button fx:id="addTest" layoutX="553.0" layoutY="385.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="ADD TEST" textFill="#1268b9">
+                        <ListView fx:id="testView" prefHeight="358.0" prefWidth="703.0" />
+                        <Label layoutY="353.0" prefHeight="35.0" prefWidth="76.0" text="Tests of" textFill="#1268b9">
                            <font>
                               <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="courseStudents" layoutX="76.0" layoutY="358.0" prefHeight="25.0" prefWidth="150.0" />
+                        <Button fx:id="viewTest" layoutX="241.0" layoutY="358.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="111.0" text="VIEW TEST" textFill="#1268b9">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
                      </children>
@@ -106,6 +112,11 @@
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Button>
+                              <Button fx:id="dismis1" layoutX="308.0" layoutY="398.0" mnemonicParsing="false" text="&gt;&gt;&gt;" textFill="#101c72">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
                            </children></AnchorPane>
                     </items>
                   </SplitPane>
@@ -113,13 +124,13 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Label layoutX="123.0" layoutY="99.0" prefHeight="17.0" prefWidth="105.0" text="Courses" textFill="#1268b9">
+      <Label layoutX="123.0" layoutY="99.0" prefHeight="35.0" prefWidth="91.0" text="Course" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="courses" layoutX="228.0" layoutY="104.0" prefWidth="150.0" />
-      <Button fx:id="addCourse" layoutX="123.0" layoutY="606.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="ADD COURSE" textFill="#1268b9">
+      <ChoiceBox fx:id="courses" layoutX="214.0" layoutY="104.0" prefWidth="150.0" />
+      <Button fx:id="addCourse" layoutX="506.0" layoutY="606.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="ADD COURSE" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -137,11 +148,10 @@
             </ImageView>
          </graphic>
       </Button>
-      <ChoiceBox fx:id="courseStudents" layoutX="676.0" layoutY="104.0" prefWidth="150.0" />
-      <Label layoutX="561.0" layoutY="99.0" prefHeight="17.0" prefWidth="105.0" text="Students" textFill="#1268b9">
+      <Button fx:id="addTest" layoutX="676.0" layoutY="606.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="ADD TEST" textFill="#1268b9">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
-      </Label>
+      </Button>
    </children>
 </AnchorPane>
