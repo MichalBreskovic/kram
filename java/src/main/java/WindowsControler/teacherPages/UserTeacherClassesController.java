@@ -73,7 +73,7 @@ public class UserTeacherClassesController {
     @FXML
     private Button tests;
     @FXML
-    private Button viewTests;
+    private Button viewTest;
     @FXML
     private ChoiceBox<User> courseStudents;
     
@@ -342,7 +342,7 @@ public class UserTeacherClassesController {
 				
 			}
 		});
-		viewTests.setOnAction(new EventHandler<ActionEvent>() {
+		viewTest.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
@@ -354,7 +354,7 @@ public class UserTeacherClassesController {
 						Stage stage2 = new Stage();
 						TestController controller = new TestController(stage,stage2, selectedStudent.getValue(),user, selectedTest.getValue(), true);
 						FXMLLoader fxmlLoader2 = new FXMLLoader(
-								UserTeacherPageControler.class.getResource("UserTeacherQuestionsPage.fxml"));
+								UserPageControler.class.getResource("TestPage.fxml"));
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
