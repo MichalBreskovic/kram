@@ -64,27 +64,38 @@ public class TestController {
 	private Label topic;
 
 	int finalhodnotenie = 0;
-
+	private KramTest test ;
 	@FXML
 	void initialize() {
 
 		if (!justLook) {
-			KramTest test ;
+			
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 			// https://www.javatpoint.com/java-get-current-date
-			if (zameranie != null) {
+			if (kramTest==null) {
 				test = new KramTest(user.getIdUser(), zameranie.getIdZameranie(), dtf.format(now));
 			}else {
 				test=kramTest;
+				test=testdao.getById(kramTest.getIdTest());
+				test.setStart(dtf.format(now));
+			System.out.println(kramTest);
+			System.out.println(kramTest.getAnswers().keySet());
+			
 			}if (questions==null) {				
-				questions=new ArrayList<Question>(kramTest.getAnswers().keySet());
+				questions=new ArrayList<Question>(test.getAnswers().keySet());
 			}
+			System.out.println(questions);
 			
 			CheckBox[][] checkboxes = new CheckBox[questions.size()][8];
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
-			topic.setText("This is test from " + zameranie.getTitle());
+			if (zameranie==null) {
+				topic.setText("This is test from your course");
+			}else {
+				topic.setText("This is test from " + zameranie.getTitle());
+			}
+			
 			topic.setTextFill(Color.DODGERBLUE);
 			topic.setFont(Font.font("System", FontWeight.BOLD, 24));
 			int krok = 0;
@@ -223,14 +234,22 @@ public class TestController {
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
 			System.out.println(kramTest);
-			System.out.println(kramTest.getIdTopic());
-			System.out.println(zameranieDao.getById(kramTest.getIdTopic()));
-			topic.setText(
-					"Your answers from generated test from " + zameranieDao.getById(kramTest.getIdTopic()));
+			//System.out.println(kramTest.getIdTopic());
+			//System.out.println(zameranieDao.getById(kramTest.getIdTopic()));
+			if (kramTest.getIdTopic()!=0) {
+				topic.setText(
+						"Your answers from test from " + zameranieDao.getById(kramTest.getIdTopic()));
+			}else {
+				topic.setText(
+						"Your answers from test from your course" );
+			}
+			
 			topic.setTextFill(Color.DODGERBLUE);
 			topic.setFont(Font.font("System", FontWeight.BOLD, 24));
 			VBox moznosti = new VBox();
 			int krok = 1;
+			kramTest=testdao.getById(kramTest.getIdTest());
+
 			System.out.println(kramTest.getAnswers().keys());
 
 			for (Question entry : kramTest.getAnswers().keySet()) {

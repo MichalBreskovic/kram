@@ -5,25 +5,37 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1268b9" height="58.0" layoutX="24.0" layoutY="24.0" opacity="0.77" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="556.0" />
-      <Label fx:id="username1" layoutX="74.0" layoutY="27.0" prefHeight="53.0" prefWidth="484.0" text="APPLY FOR COURSE" textFill="WHITE">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1268b9" height="58.0" layoutX="14.0" layoutY="14.0" opacity="0.77" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="557.0" />
+      <Label fx:id="username" layoutX="58.0" layoutY="17.0" prefHeight="53.0" prefWidth="358.0" text="APPLY FOR COURSE" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button fx:id="apply" layoutX="501.0" layoutY="575.0" mnemonicParsing="false" text="APPLY" textFill="#1268b9">
+      <Polygon fill="DODGERBLUE" layoutX="6.0" layoutY="434.0" opacity="0.16" points="-6.0, 246.0, 389.0, 246.0, -6.0, -51.0" stroke="#ffffffa6" strokeType="INSIDE" />
+      <Button fx:id="apply" layoutX="488.0" layoutY="617.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="83.0" text="APPLY" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <ListView fx:id="courseview" layoutX="24.0" layoutY="133.0" prefHeight="428.0" prefWidth="556.0" />
-      <TextField fx:id="errorfield" layoutX="296.0" layoutY="96.0" prefHeight="25.0" prefWidth="169.0" promptText="🔍 Find course" />
-      <Button fx:id="refresh" layoutX="479.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="Refresh" textFill="#1268b9" />
-      <Label fx:id="errorfield" alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="586.0" prefHeight="17.0" prefWidth="457.0" textFill="RED" />
+      <ListView fx:id="list" layoutX="20.0" layoutY="132.0" prefHeight="470.0" prefWidth="542.0" />
+      <Label layoutX="190.0" layoutY="149.0" prefHeight="35.0" prefWidth="186.0" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="substr" layoutX="166.0" layoutY="95.0" prefHeight="25.0" prefWidth="280.0" promptText="🔍 Find course" />
+      <Button fx:id="refresh" layoutX="461.0" layoutY="95.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="Refresh" textFill="#1268b9" />
+      <Button fx:id="bck" layoutX="20.0" layoutY="617.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="83.0" text="BACK" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="errorfield" alignment="CENTER" contentDisplay="CENTER" layoutX="111.0" layoutY="628.0" prefHeight="17.0" prefWidth="370.0" />
    </children>
 </AnchorPane>

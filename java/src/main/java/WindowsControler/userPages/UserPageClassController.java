@@ -87,7 +87,9 @@ public class UserPageClassController {
 			@Override
 			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
 				selectedDoneTest.setValue(newValue);
-				selectedWaitingTest.setValue(null);
+				// selectedWaitingTest.setValue(null);
+				System.out.println(selectedDoneTest.getValue());
+				System.out.println(selectedWaitingTest.getValue());
 				viewTest.setText("VIEW TEST");
 
 			}
@@ -110,7 +112,9 @@ public class UserPageClassController {
 			@Override
 			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
 				selectedWaitingTest.setValue(newValue);
-				selectedDoneTest.setValue(null);
+				// selectedDoneTest.setValue(null);
+				System.out.println(selectedDoneTest.getValue());
+				System.out.println(selectedWaitingTest.getValue());
 				viewTest.setText("DO TEST");
 
 			}
@@ -133,7 +137,20 @@ public class UserPageClassController {
 			public void changed(ObservableValue<? extends Course> observable, Course oldValue, Course newValue) {
 				selectedCourse.setValue(newValue);
 				waitList.getItems().clear();
-				waitList.setItems(FXCollections.observableArrayList());
+				compList.getItems().clear();
+				List<KramTest> waitin = new ArrayList<KramTest>();
+				List<KramTest> done = new ArrayList<KramTest>();
+				for (KramTest test : testDao.getAllInfoByCourse(user.getIdUser(),
+						selectedCourse.getValue().getIdCourse())) {
+					if (test.getEnd() == null) {
+						waitin.add(test);
+					} else {
+						done.add(test);
+					}
+
+				}
+				waitList.setItems(FXCollections.observableArrayList(waitin));
+				compList.setItems(FXCollections.observableArrayList(done));
 
 			}
 		});
@@ -154,41 +171,47 @@ public class UserPageClassController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (selectedWaitingTest != null) {
-					/*errorField.setTextFill(Color.DARKGREEN);
-					errorField.setText("STARTING");
-					//List<Question> otazky = questionDao.generateTestQuestions(Integer.parseInt(numString),
-					//		selectedTopic.getValue().getIdZameranie());
+				if (selectedDoneTest != null || selectedWaitingTest != null) {
 
-					try {
-						//TestController controller = new TestController(stage, user, otazky, selectedTopic.getValue(),false);
-						FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));
-						fxmlLoader2.setController(controller);
-						Parent rootPane = fxmlLoader2.load();
-						Scene scene = new Scene(rootPane);
-						stage.setTitle("TEST");
-						stage.setScene(scene);
-					} catch (Exception e) {
-						e.printStackTrace();
-						System.out.println("fail again");
-					}*/
+					if (viewTest.getText() == "DO TEST") {
+						errorField.setTextFill(Color.DARKGREEN);
+						errorField.setText("STARTING");
 
-				}if (selectedDoneTest!=null) {
-					errorField.setTextFill(Color.DARKGREEN);
-					errorField.setText("STARTING");
-					//List<Question> otazky =new ArrayList<Question>(selectedDoneTest.getValue().getAnswers().keySet());
+						try {
+							TestController controller = new TestController(stage, user, selectedWaitingTest.getValue(),
+									false);
+							FXMLLoader fxmlLoader2 = new FXMLLoader(
+									UserPageControler.class.getResource("TestPage.fxml"));
+							fxmlLoader2.setController(controller);
+							Parent rootPane = fxmlLoader2.load();
+							Scene scene = new Scene(rootPane);
+							stage.setTitle("TEST");
+							stage.setScene(scene);
+						} catch (Exception e) {
+							e.printStackTrace();
+							System.out.println("fail again");
+						}
 
-					try {
-						TestController controller = new TestController(stage, user, selectedDoneTest.getValue(), true);
-						FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));
-						fxmlLoader2.setController(controller);
-						Parent rootPane = fxmlLoader2.load();
-						Scene scene = new Scene(rootPane);
-						stage.setTitle("TEST");
-						stage.setScene(scene);
-					} catch (Exception e) {
-						e.printStackTrace();
-						System.out.println("fail again");
+					} else {
+						errorField.setTextFill(Color.DARKGREEN);
+						errorField.setText("STARTING");
+						// List<Question> otazky =new
+						// ArrayList<Question>(selectedDoneTest.getValue().getAnswers().keySet());
+
+						try {
+							TestController controller = new TestController(stage, user, selectedDoneTest.getValue(),
+									true);
+							FXMLLoader fxmlLoader2 = new FXMLLoader(
+									UserPageControler.class.getResource("TestPage.fxml"));
+							fxmlLoader2.setController(controller);
+							Parent rootPane = fxmlLoader2.load();
+							Scene scene = new Scene(rootPane);
+							stage.setTitle("TEST");
+							stage.setScene(scene);
+						} catch (Exception e) {
+							e.printStackTrace();
+							System.out.println("fail again");
+						}
 					}
 				}
 
@@ -253,6 +276,28 @@ public class UserPageClassController {
 
 			}
 
+		});
+		newCourse.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					ApplyForCourseController controller = new ApplyForCourseController(stage, user);
+					FXMLLoader fxmlLoader2 = new FXMLLoader(
+							UserPageClassController.class.getResource("ApplyForCoursePage.fxml"));
+					fxmlLoader2.setController(controller);
+					System.out.println("so far so good");
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("Application for course");
+					stage.setScene(scene);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("moûeö teraz hodinu pred zaverecnou nefungovaù ??");
+				}
+				
+			}
 		});
 
 	}

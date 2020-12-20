@@ -10,9 +10,12 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import kram.storage.EntityNotFoundException;
+import kram.storage.user.User;
+
 
 public class MysqlCourseDao implements CourseDao {
 
@@ -22,6 +25,14 @@ public class MysqlCourseDao implements CourseDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
+	private class CourseRowMapper implements RowMapper<Course>{
+		public Course mapRow(ResultSet rs, int rowNum) throws SQLException {
+			long course_id = rs.getLong("course_id");
+			long user_id = rs.getLong("user_id");
+			String name = rs.getString("name");
+			return new Course(course_id, user_id, name);
+		}
+	}
 	private class CourseSetExtractor implements ResultSetExtractor<Course>{
 		@SuppressWarnings("unused")
 		@Override
@@ -74,6 +85,37 @@ public class MysqlCourseDao implements CourseDao {
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("Course not found");
 		}
+	}
+	
+	@Override
+	public List<Course> getAllRowMapper() throws EntityNotFoundException {
+		String sql = "select course_id, user_id, name from course";
+		try {
+			return jdbcTemplate.query(sql, new CourseRowMapper());
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Course not found");
+		}
+	}
+	
+	
+	@Override
+	public List<Course> getBySubstring(String string) throws EntityNotFoundException {
+		try {
+			
+			String str = "%" + string +"%";
+			String sql = "SELECT course_id , user_id, name FROM course WHERE name LIKE ?";
+			if (string == null || string.trim().isEmpty()) {
+				return getAllRowMapper();
+			}else {
+				return jdbcTemplate.query(sql, new CourseRowMapper(),str);
+			}
+		
+			
+
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Course not found");
+		}
+	
 	}
 
 	@Override
