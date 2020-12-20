@@ -13,5 +13,6 @@ public interface CourseDao {
 	Course saveCourse(Course question) throws EntityNotFoundException;
 	Course deleteCourse(Long id) throws EntityNotFoundException;
 	public String acceptDismissStudent( int bool, Long idStudent, Long idCourse);
+	void getAllByStudentId(Long idCourse, Long idUser) throws EntityNotFoundException;
 	
 }

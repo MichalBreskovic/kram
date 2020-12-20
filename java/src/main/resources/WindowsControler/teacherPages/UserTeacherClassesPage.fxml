@@ -137,5 +137,11 @@
             </ImageView>
          </graphic>
       </Button>
+      <ChoiceBox fx:id="courseStudents" layoutX="676.0" layoutY="104.0" prefWidth="150.0" />
+      <Label layoutX="561.0" layoutY="99.0" prefHeight="17.0" prefWidth="105.0" text="Students" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

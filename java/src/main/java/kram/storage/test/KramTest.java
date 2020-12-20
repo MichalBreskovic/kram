@@ -141,7 +141,11 @@ public class KramTest {
 
 	@Override
 	public String toString() {
-		return DaoFactory.INSTATNCE.getZameranieDao().getById(idTopic).toString().toUpperCase()+" you got " + hodnotenie+ "%"  ;
+		if(idTopic == 0) {
+			return " you got " + hodnotenie+ "%"  ;
+		} else {
+			return DaoFactory.INSTATNCE.getZameranieDao().getById(idTopic).toString().toUpperCase()+" you got " + hodnotenie+ "%"  ;
+		}
 	}
 	
 	

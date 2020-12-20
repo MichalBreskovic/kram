@@ -1,5 +1,7 @@
 package WindowsControler.teacherPages;
 
+import java.util.List;
+
 import WindowsControler.UserPageProfileController;
 import WindowsControler.WelcomePageControler;
 import WindowsControler.userPages.UserPageControler;
@@ -68,6 +70,8 @@ public class UserTeacherClassesController {
     @FXML
     private Button tests;
     
+    @FXML
+    private ChoiceBox<User> courseStudents;
     
 	private Stage stage;
 	private User user;
@@ -83,6 +87,7 @@ public class UserTeacherClassesController {
 	//private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>();
 	//private ObjectProperty<Question> selectedQuestion = new SimpleObjectProperty<Question>();
 	private ObjectProperty<Course> selectedCourse = new SimpleObjectProperty<Course>();
+	private ObjectProperty<User> selectedStudent = new SimpleObjectProperty<User>();
 	private ObjectProperty<User> selectedStudentAccepted = new SimpleObjectProperty<User>();
 	private ObjectProperty<User> selectedStudentWaiting = new SimpleObjectProperty<User>();
 	private ObjectProperty<KramTest> selectedTest = new SimpleObjectProperty<KramTest>();
@@ -92,9 +97,25 @@ public class UserTeacherClassesController {
 		this.user = user;
 	}
 
+//	List<User> accepted = userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse());
+	
 	@FXML
 	void initialize() {
-
+		
+		courseStudents.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(user.getIdUser())));
+		courseStudents.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
+			@Override
+			public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+				selectedStudent.setValue(newValue);
+				testView.getItems().clear();
+				students.getItems().clear();
+				waiting.getItems().clear();
+				if(selectedCourse.getValue() != null) students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
+				if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
+				if(selectedCourse.getValue() != null) waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
+			}
+		});
+		
 		courses.setItems(FXCollections.observableArrayList(courseDao.getAllByTeacherId(user.getIdUser())));
 		courses.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
 
@@ -104,13 +125,15 @@ public class UserTeacherClassesController {
 				testView.getItems().clear();
 				students.getItems().clear();
 				waiting.getItems().clear();
-				testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherId(selectedCourse.getValue().getIdCourse(), user.getIdUser())));
-				students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
-				waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
+				List<User> users = userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse());
+				courseStudents.setItems(FXCollections.observableArrayList(users));
+				if(selectedCourse.getValue() != null)students.setItems(FXCollections.observableArrayList(users));
+				if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
+				if(selectedCourse.getValue() != null)waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
+				
 			}
 
 		});
-		
 
 		selectedCourse.addListener(new ChangeListener<Course>() {
 			
@@ -124,6 +147,20 @@ public class UserTeacherClassesController {
 			}
 			
 		});
+		
+		selectedStudent.addListener(new ChangeListener<User>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+				if (newValue == null) {
+					courseStudents.getSelectionModel().clearSelection();
+				} else {
+					courseStudents.getSelectionModel().select(newValue);
+				}
+			}
+			
+		});
+		
 		students.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
 
 			@Override
@@ -132,6 +169,7 @@ public class UserTeacherClassesController {
 				System.out.println(selectedStudentAccepted);
 			}
 		});
+		
 		selectedStudentAccepted.addListener(new ChangeListener<User>() {
 
 			@Override
