@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import kram.storage.DaoFactory;
 import kram.storage.Mail;
@@ -26,6 +27,15 @@ import kram.storage.user.UserDao;
 
 public class EmailController {
 
+    @FXML
+    private Rectangle infoLabel;
+
+    @FXML
+    private Label titleLabel;
+    
+    @FXML
+    private Label codeLabel;
+	
     @FXML
     private Button check;
 
@@ -90,7 +100,7 @@ public class EmailController {
 					errorField.setText("Correct code");
 			    	try {
 			    		System.out.println(user);
-			    		userDao.saveUser(user);
+			    		user = userDao.saveUser(user);
 				    	if (user.isTeacher()) {
 				    		UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), user);
 				    		FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));

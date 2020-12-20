@@ -60,7 +60,9 @@ public class AddTestToCourseController {
 		this.course = course;
 	}
 	  
-
+	@FXML
+    private TextField name;
+	
     @FXML
     private Label username1;
 
@@ -90,6 +92,7 @@ public class AddTestToCourseController {
 
     @FXML
     private ListView<Question> qstnsttt;
+    
     @FXML
     private Button dltquestion;
 
@@ -246,10 +249,10 @@ public class AddTestToCourseController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (qstnsttt.getItems().size()==0) {
+				if (qstnsttt.getItems().size() == 0 || name.getText() == null || name.getText().isBlank()) {
 					errorfield.setTextFill(Color.RED);
-					errorfield.setText("You have no questions in your test");
-				}else {
+					errorfield.setText("You have no questions or there is no name in your test");
+				} else {
 					List<Question> showing = new ArrayList<Question>(qstnsttt.getItems());
 					System.out.println(showing);
 					for (User student : userDao.getAllAcceptedInCourse(course.getIdCourse())) {
@@ -257,6 +260,7 @@ public class AddTestToCourseController {
 						System.out.println(student.getName());
 						KramTest test = new KramTest(student.getIdUser());
 						test.setQuestions(showing);
+						test.setName(name.getText());
 						System.out.println(test.getAnswers().keys());
 						testDao.saveTestToCourse(test, course.getIdCourse());
 					}

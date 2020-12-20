@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -70,7 +71,7 @@ public class TestController {
 
 		if (!justLook) {
 			
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.GERMAN);
 			LocalDateTime now = LocalDateTime.now();
 			// https://www.javatpoint.com/java-get-current-date
 			if (kramTest==null) {
@@ -214,7 +215,7 @@ public class TestController {
 
 					LocalDateTime now2 = LocalDateTime.now();
 					test.setEnd(dtf.format(now2));
-					testdao.saveTest(test);
+					test = testdao.saveTest(test);
 					try {
 						TestController controller = new TestController(stage, user, test, true);
 						FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("TestPage.fxml"));
@@ -239,7 +240,7 @@ public class TestController {
 			if (kramTest.getIdTopic()!=0) {
 				topic.setText(
 						"Your answers from test from " + zameranieDao.getById(kramTest.getIdTopic()));
-			}else {
+			} else {
 				topic.setText(
 						"Your answers from test from your course" );
 			}
@@ -248,9 +249,12 @@ public class TestController {
 			topic.setFont(Font.font("System", FontWeight.BOLD, 24));
 			VBox moznosti = new VBox();
 			int krok = 1;
-			kramTest=testdao.getById(kramTest.getIdTest());
+			System.out.println("id " + kramTest.getIdTest());
+			kramTest = testdao.getById(kramTest.getIdTest());
 
-			System.out.println(kramTest.getAnswers().keys());
+//			System.out.println(kramTest.getAnswers().keys());
+			System.out.println("this " + kramTest);
+			System.out.println(kramTest.getAnswers());
 
 			for (Question entry : kramTest.getAnswers().keySet()) {
 				HBox otazkaBox = new HBox();

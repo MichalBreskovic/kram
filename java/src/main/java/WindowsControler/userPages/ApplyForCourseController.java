@@ -99,7 +99,7 @@ public class ApplyForCourseController {
 					errorfield.setText("");
 					courseDao.addToCourse(selectedCourse.getValue().getIdCourse(), user.getIdUser());
 					
-				}else {
+				} else {
 					errorfield.setTextFill(Color.RED);
 					errorfield.setText("Choose course");
 				}
@@ -129,7 +129,7 @@ public class ApplyForCourseController {
 					stage.setTitle("Classes");
 					stage.setScene(scene);
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 
 			}

@@ -70,7 +70,7 @@ public class Mail {
 			
 			String registrationCode = codeGenerator(6);
 			
-			message.setText("Hi there,\nyour registration code is\n" + registrationCode + ".\n\n"
+			message.setText("Hi there,\nyour registration code is\n" + registrationCode + "\n\n"
 					+ "This is automaticaly generated email, please do not respond.\n"
 					+ "\n"
 					+ "Developers from Kram\n");
