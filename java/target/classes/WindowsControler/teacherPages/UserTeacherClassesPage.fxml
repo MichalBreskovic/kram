@@ -83,7 +83,7 @@
                                     </Label>
                                  </items>
                               </ToolBar>
-                              <Button fx:id="dismis" layoutX="306.0" layoutY="398.0" mnemonicParsing="false" text="&gt;&gt;&gt;" textFill="#101c72">
+                              <Button fx:id="dismis" layoutX="305.0" layoutY="398.0" mnemonicParsing="false" text="&gt;&gt;&gt;" textFill="#101c72">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -102,6 +102,11 @@
                                  </items>
                               </ToolBar>
                               <Button fx:id="add" layoutY="398.0" mnemonicParsing="false" text="&lt;&lt;&lt;" textFill="#26117c">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="dismis1" layoutX="308.0" layoutY="398.0" mnemonicParsing="false" text="&gt;&gt;&gt;" textFill="#101c72">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
