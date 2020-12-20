@@ -48,7 +48,7 @@ public class MysqlTestDao implements TestDao {
 				System.out.println("quesion_id : " + idQuestion);
 				if(idOption == 0) kramTest.addAnswer(questionDao.getById(idQuestion), null);
 				else kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
-				if (idOption!=0 && idQuestion!=0) {
+				if (idOption!=0 ) {
 					kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
 				}else {
 					kramTest.addAnswer(questionDao.getById(idQuestion), null);
@@ -118,7 +118,7 @@ public class MysqlTestDao implements TestDao {
 	@Override
 	public List<KramTest> getAllInfo(long userId) throws EntityNotFoundException {
 
-		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t WHERE t.user_id = ?";
+		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t WHERE t.user_id = ? and t.topic_id is not null";
 
 		try {
 			return jdbcTemplate.query(sql, new TestRowMapper(), userId);
@@ -148,7 +148,7 @@ public class MysqlTestDao implements TestDao {
 			throw new EntityNotFoundException("Test with " + id + " not found");
 		}
 	}
-
+	
 	@Override
 	public List<KramTest> getAllBySubjectId(Long id) throws EntityNotFoundException {
 		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie, a.question_id, a.option_id FROM test AS t JOIN answer AS a USING(test_id) JOIN topic USING(topic_id) JOIN subject USING(subject_id) WHERE subject_id = ?";
@@ -158,6 +158,18 @@ public class MysqlTestDao implements TestDao {
 			throw new EntityNotFoundException("Test with " + id + " not found");
 		}
 	}
+
+	@Override
+	public List<KramTest> getAllBySubjectUserId(Long id, Long userId) throws EntityNotFoundException {
+		String sql = " SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie FROM test AS t  JOIN topic as top  USING(topic_id) JOIN subject as s USING(subject_id) WHERE top.subject_id = ? and user_id=?";
+		try {
+			return jdbcTemplate.query(sql, new TestRowMapper(), id, userId);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Test with " + id + " not found");
+		}
+	}
+	
+	
 	
 	
 	@Override
@@ -169,6 +181,19 @@ public class MysqlTestDao implements TestDao {
             throw new EntityNotFoundException("Test with " + id + " not found");
         }
     }
+	
+	@Override
+    public List<KramTest> getAllByTopicUserId(Long id, Long userId) throws EntityNotFoundException {
+        String sql = " SELECT t.test_id, t.user_id, t.topic_id, t.time_start, t.time_end, t.hodnotenie from test as t WHERE topic_id = ? and user_id = ?";
+        try {
+            return jdbcTemplate.query(sql, new TestRowMapper(), id, userId);
+        } catch (DataAccessException e) {
+            throw new EntityNotFoundException("Test with " + id + " not found");
+        }
+    }
+	
+	
+	
 	
 	@Override
     public List<KramTest> getAllByCourseId(Long id) throws EntityNotFoundException {
@@ -230,6 +255,38 @@ public class MysqlTestDao implements TestDao {
 			return kramTest;
 		}
 	}
+	
+	@Override
+	public KramTest saveTest2(KramTest kramTest) throws EntityNotFoundException {
+		if (kramTest.getIdTest() == null) {
+			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+			insert.withTableName("test");
+			insert.usingGeneratedKeyColumns("test_id");
+			insert.usingColumns("user_id");
+
+			Map<String, String> valuesMap = new HashMap<String, String>();
+			valuesMap.put("user_id", kramTest.getIdUser().toString());
+
+			KramTest newTest = new KramTest(insert.executeAndReturnKey(valuesMap).longValue(), kramTest.getIdUser());
+			if (newTest.getAnswers().size() != 0) {
+				String sql = insert(newTest);
+				if (sql != "")
+					jdbcTemplate.update(sql);
+			}
+			return newTest;
+		} else {
+			if (kramTest.getAnswers().size() != 0) {
+				String sql = "UPDATE test SET user_id = ? WHERE test_id = ?";
+				int now = jdbcTemplate.update(sql, kramTest.getIdUser());
+				if (now != 1)
+					throw new EntityNotFoundException("Test with id " + kramTest.getIdTest() + " not found");
+				String deleteSql = "DELETE FROM answer WHERE test_id = ?";
+				jdbcTemplate.update(deleteSql, kramTest.getIdTest());
+				jdbcTemplate.update(insert(kramTest));
+			}
+			return kramTest;
+		}
+	}
 
 	private String insert(KramTest kramTest) {
 		StringBuilder sqlBuilder = new StringBuilder();
@@ -240,7 +297,7 @@ public class MysqlTestDao implements TestDao {
 				sqlBuilder.append("(" + kramTest.getIdTest() + "," + entry.getKey().getIdQuestion() + ","
 						+ entry.getValue().getIdOption() + "),");
 			} else {
-				sqlBuilder.append("(" + kramTest.getIdTest() + "," + entry.getKey().getIdQuestion() + ", 1),");
+				sqlBuilder.append("(" + kramTest.getIdTest() + "," + entry.getKey().getIdQuestion() + ", NULL),");
 			}
 		}
 		String sql = sqlBuilder.substring(0, sqlBuilder.length() - 1);

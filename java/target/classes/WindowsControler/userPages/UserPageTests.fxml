@@ -77,9 +77,9 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Label layoutX="153.0" layoutY="106.0" text="YOUR TESTS" textFill="#1268b9">
+      <Label layoutX="153.0" layoutY="106.0" text="YOUR GENERATED TESTS" textFill="#1268b9">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </Label>
       <Button fx:id="view" layoutX="667.0" layoutY="624.0" mnemonicParsing="false" text="VIEW" textFill="#1268b9">

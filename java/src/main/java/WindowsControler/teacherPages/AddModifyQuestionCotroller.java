@@ -1,6 +1,5 @@
 package WindowsControler.teacherPages;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -51,8 +51,12 @@ public class AddModifyQuestionCotroller {
 		this.edit = edit;
 	}
 
+
+
 	@FXML
 	private TextField option;
+	@FXML
+	private AnchorPane pane;
 	@FXML
 	private TextField option1;
 	@FXML
@@ -122,25 +126,25 @@ public class AddModifyQuestionCotroller {
 					errorfield2.setText("There is no correct answer, nonononono");
 				}
 				if (done) {
-								
-					
+
 					errorfield2.setTextFill(Color.GREEN);
 					errorfield2.setText("EWERYTHING OK");
 					if (question == null) {
 						question = new Question(title.getText(), zameranie.getIdZameranie(), user.getIdUser());
-					}else {
+					} else {
 						question.setTitle(title.getText());
 						question.setOptions(new HashMap<Option, Boolean>());
 					}
-					
+
 					for (CheckBox b : correct) {
 						System.out.println(b.isSelected());
 					}
-					
+
 					int index = 0;
 					for (TextField option : options) {
-						System.out.println(option.getText()+"\t"+correct.get(index).isSelected());
-						question.addOption(optionDao.saveOption(new Option(option.getText())), correct.get(index).isSelected());
+						System.out.println(option.getText() + "\t" + correct.get(index).isSelected());
+						question.addOption(optionDao.saveOption(new Option(option.getText())),
+								correct.get(index).isSelected());
 						index++;
 					}
 					questionDao.saveQuestion(question);
@@ -154,18 +158,18 @@ public class AddModifyQuestionCotroller {
 							Scene scene = new Scene(rootPane);
 							stage.setTitle("Welcome");
 							stage.setScene(scene);
-							
+
 							stage.show();
 
 						} catch (Exception e) {
 							stage.show();
 							System.out.println("chybicka");
 						}
-					}else {
+					} else {
 						try {
 
-							AddModifyQuestionCotroller controller = new AddModifyQuestionCotroller(stage, user, zameranie,
-									false);
+							AddModifyQuestionCotroller controller = new AddModifyQuestionCotroller(stage, user,
+									zameranie, false);
 							FXMLLoader fxmlLoader2 = new FXMLLoader(
 									UserTeacherPageControler.class.getResource("QuestionAddModifyPage.fxml"));
 							fxmlLoader2.setController(controller);
@@ -180,7 +184,6 @@ public class AddModifyQuestionCotroller {
 							System.out.println("chybiöka, pa'Ëiùeæ stalo sa, prepaöte nam prosÌÌÌm");
 						}
 					}
-					
 
 				}
 
@@ -218,30 +221,29 @@ public class AddModifyQuestionCotroller {
 			title.setText(question.getTitle());
 
 			for (Map.Entry<Option, Boolean> entry : moznosti.entrySet()) {
-				
+
 				if (krok < 2) {
 					if (krok == 0) {
-						//System.out.println(entry.getKey().getTitle());
+						// System.out.println(entry.getKey().getTitle());
 						option.setText(entry.getKey().getTitle());
 						check.setSelected(entry.getValue());
 
 					}
 					if (krok == 1) {
-						//System.out.println(entry.getKey().getTitle());
+						// System.out.println(entry.getKey().getTitle());
 						option1.setText(entry.getKey().getTitle());
 						check1.setSelected(entry.getValue());
 
 					}
 					options.get(krok).setText(entry.getKey().getTitle());
-					
-					
+
 				} else {
 					System.out.println(entry.getKey().getTitle());
 					TextField txt = new TextField();
 					CheckBox chc = new CheckBox();
 
 					txt.setText(entry.getKey().getTitle());
-		
+
 					chc.setSelected(entry.getValue());
 					options.add(txt);
 					correct.add(chc);
@@ -251,13 +253,14 @@ public class AddModifyQuestionCotroller {
 
 				krok++;
 			}
+
 			dlt.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
 				public void handle(ActionEvent event) {
 					if (pocet > 2) {
-						box.getChildren().remove(pocet -1);
-						box1.getChildren().remove(pocet -1);
+						box.getChildren().remove(pocet - 1);
+						box1.getChildren().remove(pocet - 1);
 						System.out.println(pocet);
 						options.remove(pocet - 1);
 						correct.remove(pocet - 1);
@@ -266,6 +269,7 @@ public class AddModifyQuestionCotroller {
 
 				}
 			});
+
 			add.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -274,7 +278,7 @@ public class AddModifyQuestionCotroller {
 						TextField txt = new TextField();
 						CheckBox chc = new CheckBox();
 						options.add(txt);
-		
+
 						correct.add(chc);
 						box1.getChildren().add(chc);
 						box.getChildren().add(txt);
@@ -286,6 +290,7 @@ public class AddModifyQuestionCotroller {
 			});
 
 		} else {
+
 			dlt.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -300,6 +305,7 @@ public class AddModifyQuestionCotroller {
 
 				}
 			});
+
 			add.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override

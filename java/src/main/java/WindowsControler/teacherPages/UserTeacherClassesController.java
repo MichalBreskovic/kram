@@ -2,12 +2,12 @@ package WindowsControler.teacherPages;
 
 import WindowsControler.UserPageProfileController;
 import WindowsControler.WelcomePageControler;
+import WindowsControler.userPages.UserPageControler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,17 +23,10 @@ import javafx.stage.Stage;
 import kram.storage.DaoFactory;
 import kram.storage.course.Course;
 import kram.storage.course.CourseDao;
-import kram.storage.question.Question;
-import kram.storage.question.QuestionDao;
-import kram.storage.subject.Subject;
-import kram.storage.subject.SubjectDao;
 import kram.storage.test.KramTest;
 import kram.storage.test.TestDao;
 import kram.storage.user.User;
 import kram.storage.user.UserDao;
-import kram.storage.zameranie.Zameranie;
-import kram.storage.zameranie.ZameranieDao;
-
 public class UserTeacherClassesController {
 
     @FXML
@@ -74,6 +67,8 @@ public class UserTeacherClassesController {
 
     @FXML
     private Button tests;
+    
+    
 	private Stage stage;
 	private User user;
 	//private QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
@@ -101,7 +96,6 @@ public class UserTeacherClassesController {
 	void initialize() {
 
 		courses.setItems(FXCollections.observableArrayList(courseDao.getAllByTeacherId(user.getIdUser())));
-		
 		courses.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Course>() {
 
 			@Override
@@ -111,6 +105,8 @@ public class UserTeacherClassesController {
 				students.getItems().clear();
 				waiting.getItems().clear();
 				testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherId(selectedCourse.getValue().getIdCourse(), user.getIdUser())));
+				students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
+				waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
 			}
 
 		});
@@ -243,17 +239,15 @@ public class UserTeacherClassesController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					Stage stage2 = new Stage();
-					AddCourseController controller = new AddCourseController(stage,stage2, user);
+					AddCourseController controller = new AddCourseController(stage, user);
 					FXMLLoader fxmlLoader2 = new FXMLLoader(
 							UserTeacherPageControler.class.getResource("AddCourse.fxml"));
 					fxmlLoader2.setController(controller);
 					Parent rootPane = fxmlLoader2.load();
 					Scene scene = new Scene(rootPane);
-					stage.close();
-					stage2.setTitle("Questions");
-					stage2.setScene(scene);
-					stage2.show();
+					stage.setTitle("ADD COURSE");
+					stage.setScene(scene);
+					stage.show();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -264,7 +258,25 @@ public class UserTeacherClassesController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// pridaj test do kurzu
+				if (selectedCourse.getValue()==null) {
+					errorField.setText("Choose your course");
+				}else {
+					
+				
+				try {
+					AddTestToCourseController controller = new AddTestToCourseController(stage, user, selectedCourse.getValue());
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("AddTestToCourse.fxml"));
+					fxmlLoader2.setController(controller);
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("VIEWTEST");
+					stage.setScene(scene);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("fail again");
+				}
+				
+			}
 				
 			}
 		});
@@ -332,5 +344,7 @@ public class UserTeacherClassesController {
 			}
 
 		});
+
+		
 	}
 }
