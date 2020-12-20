@@ -13,5 +13,7 @@ public interface CourseDao {
 	Course saveCourse(Course question) throws EntityNotFoundException;
 	Course deleteCourse(Long id) throws EntityNotFoundException;
 	public String acceptDismissStudent( int bool, Long idStudent, Long idCourse);
+	List<Course> getBySubstring(String string) throws EntityNotFoundException ;
+	List<Course> getAllRowMapper() throws EntityNotFoundException;
 	
 }

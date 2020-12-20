@@ -202,12 +202,12 @@ public class UserTeacherClassesController {
 					courseDao.acceptDismissStudent(1, selectedStudentWaiting.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
 					selectedStudentWaiting.setValue(null);
 					selectedStudentAccepted.setValue(null);
-					students.getItems().clear();
-					students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
-					waiting.getItems().clear();
-					waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
-					//userDao.saveUser(selectedStudentWaiting.getValue())
-					//accept student
+					students.getItems().add(selectedStudentWaiting.getValue());
+					
+					waiting.getItems().remove(selectedStudentWaiting.getValue());
+					selectedStudentWaiting.setValue(null);
+					selectedStudentAccepted.setValue(null);
+					
 				}
 				
 			}
@@ -224,12 +224,10 @@ public class UserTeacherClassesController {
 					errorField.setText("");
 					errorField.setText("");
 					courseDao.acceptDismissStudent(0, selectedStudentAccepted.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
+					students.getItems().remove(selectedStudentAccepted.getValue());
 					selectedStudentWaiting.setValue(null);
 					selectedStudentAccepted.setValue(null);
-					students.getItems().clear();
-					students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
-					waiting.getItems().clear();
-					waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
+					
 				}
 				
 			}

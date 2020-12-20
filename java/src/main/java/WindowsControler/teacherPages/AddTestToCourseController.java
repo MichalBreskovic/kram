@@ -251,12 +251,14 @@ public class AddTestToCourseController {
 					errorfield.setText("You have no questions in your test");
 				}else {
 					List<Question> showing = new ArrayList<Question>(qstnsttt.getItems());
+					System.out.println(showing);
 					for (User student : userDao.getAllAcceptedInCourse(course.getIdCourse())) {
 						System.out.println(student.getIdUser());
 						System.out.println(student.getName());
 						KramTest test = new KramTest(student.getIdUser());
 						test.setQuestions(showing);
-						testDao.saveTest2(test);
+						System.out.println(test.getAnswers().keys());
+						testDao.saveTestToCourse(test, course.getIdCourse());
 					}
 					
 					try {
