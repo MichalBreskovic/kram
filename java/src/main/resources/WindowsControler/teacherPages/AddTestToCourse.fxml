@@ -67,7 +67,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <TextField fx:id="name" layoutX="99.0" layoutY="102.0" prefHeight="25.0" prefWidth="484.0" text="name" />
+      <TextField fx:id="name" layoutX="99.0" layoutY="102.0" prefHeight="25.0" prefWidth="484.0" />
       <Label layoutX="25.0" layoutY="105.0" text="NAME:" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="14.0" />
