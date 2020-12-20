@@ -200,8 +200,7 @@ public class UserTeacherClassesController {
 				else {
 					errorField.setText("");
 					courseDao.acceptDismissStudent(1, selectedStudentWaiting.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
-					selectedStudentWaiting.setValue(null);
-					selectedStudentAccepted.setValue(null);
+					students.getItems().add(selectedStudentWaiting.getValue());
 					students.getItems().add(selectedStudentWaiting.getValue());
 					
 					waiting.getItems().remove(selectedStudentWaiting.getValue());

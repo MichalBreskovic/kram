@@ -97,7 +97,7 @@ public class ApplyForCourseController {
 			public void handle(ActionEvent event) {
 				if (selectedCourse != null) {
 					errorfield.setText("");
-					
+					//courseDao.
 					
 				}else {
 					errorfield.setTextFill(Color.RED);
