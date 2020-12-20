@@ -14,5 +14,6 @@ public interface UserDao {
 	List<User> getAllAcceptedInCourse(Long idCourse) throws EntityNotFoundException;
 	List<User> getAllWaitingInCourse(Long idCourse) throws EntityNotFoundException;
 	boolean checkUsername(String username) throws EntityNotFoundException;
+	User getByUsername(String username) throws EntityNotFoundException;
 
 }

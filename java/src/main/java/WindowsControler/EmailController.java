@@ -148,7 +148,7 @@ public class EmailController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-		    		codes.add(Mail.send(user.getEmail()));
+		    		codes.add(Mail.sendCode(user.getEmail()));
 		    	} catch(RuntimeException e) {
 		    		System.out.println("Incorrect email");
 		    		errorField.setTextFill(Color.RED);
@@ -166,30 +166,6 @@ public class EmailController {
 				}
 			}
 		});
-    	
-//    	try {
-//    		userDao.saveUser(user);
-//	    	if (user.isTeacher()) {
-//	    		UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), user);
-//	    		FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
-//	    		fxmlLoader2.setController(controller);
-//	    		Parent rootPane = fxmlLoader2.load();
-//	    		Scene scene = new Scene(rootPane);
-//	    		getStage().setTitle("Welcome " + user.getSurname());
-//	    		getStage().setScene(scene);
-//	    	} else {
-//	    		System.out.println("Som tu");
-//	    		UserPageControler controller = new UserPageControler(getStage(), user);
-//	    		FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
-//	    		fxmlLoader2.setController(controller);
-//	    		Parent rootPane = fxmlLoader2.load();
-//	    		Scene scene = new Scene(rootPane);
-//	    		getStage().setTitle("Welcome " + user.getSurname());
-//	    		getStage().setScene(scene);
-//	    	}
-//    	} catch(IOException e) {
-//    		e.printStackTrace();
-//    	}
     	
     }
     

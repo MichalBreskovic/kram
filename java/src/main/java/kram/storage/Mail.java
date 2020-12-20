@@ -34,9 +34,7 @@ public class Mail {
 		return code;
 	}
 	
-	
-	// https://jaxenter.com/java-app-emails-smtp-server-164144.html
-	public static String send(String email) {	
+	public static String sendCode(String email) {	
 		System.out.println("Sending registration email to " + email);
 		
 		String from = "kram.paz.app@gmail.com";
@@ -79,6 +77,55 @@ public class Mail {
 		
 			System.out.println("Sent email successfully....");
 			return registrationCode;
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static String sendPassword(String email) {	
+		System.out.println("Sending password email to " + email);
+		
+		String from = "kram.paz.app@gmail.com";
+		final String username = "kram.paz.app@gmail.com";
+		final String password = "m9TBqahvjE";
+	
+		String host = "smtp.gmail.com";
+	
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true"); 
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", "587");
+	
+		Session session = Session.getInstance(props,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+	
+		try {
+			Message message = new MimeMessage(session);
+			
+			message.setFrom(new InternetAddress(from));
+			
+			message.setRecipients(Message.RecipientType.TO,
+			InternetAddress.parse(email));
+			
+			message.setSubject("Password reset");
+			
+			String pass = codeGenerator(10);
+			
+			message.setText("Hi there,\nyour new temporary password is is\n" + pass + "\n\n"
+					+ "It can be used for onetime login. Then you can change it in your user profile.\n"
+					+ "This is automaticaly generated email, please do not respond.\n"
+					+ "\n"
+					+ "Developers from Kram\n");
+			
+			Transport.send(message);
+		
+			System.out.println("Sent email successfully....");
+			return pass;
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}

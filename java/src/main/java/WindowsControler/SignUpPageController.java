@@ -165,7 +165,7 @@ public class SignUpPageController {
 						try {
 							if(userDao.checkUsername(check.getUsername())) {
 								User registrate = new User(check.getName(), check.getUsername(), check.getSurname(), SHA256.getHash(check.getHeslo()), check.isTeacher(), check.getEmail());
-								String generatedCode = Mail.send(check.getEmail());
+								String generatedCode = Mail.sendCode(check.getEmail());
 								System.out.println("code: " + generatedCode);
 								EmailController emailController = new EmailController(getStage(), registrate, generatedCode);
 								FXMLLoader fxmlLoader3 = new FXMLLoader(EmailController.class.getResource("EmailVerification.fxml"));

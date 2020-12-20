@@ -14,6 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+
 import WindowsControler.SignUpPageController;
 import WindowsControler.teacherPages.UserTeacherPageControler;
 import WindowsControler.userPages.UserPageControler;
@@ -45,15 +48,34 @@ public class WelcomePageControler {
 	private TextField HESLO;
 
 	private UserFxModel check = new UserFxModel();
+	
 	@FXML
     private Label errorfield;
+    @FXML
+    private Button forgot;
 	
 	@FXML
 	void initialize() {
 		MENO.textProperty().bindBidirectional(check.getUsernameProperty());
 		HESLO.textProperty().bindBidirectional(check.getHesloProperty());
 
-	    
+	    forgot.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					ForgottenPassword control = new ForgottenPassword(getStage());
+					FXMLLoader fxmlLoader = new FXMLLoader(ForgottenPassword.class.getResource("ForgotPassword.fxml"));
+					fxmlLoader.setController(control);
+					Parent rootPane2 = fxmlLoader.load();
+					Scene scene = new Scene(rootPane2);
+					getStage().setScene(scene);
+					getStage().show();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		
 		signupbutton.setOnAction(new EventHandler<ActionEvent>() {
 
