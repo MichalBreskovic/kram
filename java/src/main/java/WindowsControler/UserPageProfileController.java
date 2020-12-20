@@ -28,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import kram.appka.App;
 import kram.storage.DaoFactory;
+import kram.storage.SHA256;
 import kram.storage.subject.SubjectDao;
 import kram.storage.user.User;
 import kram.storage.user.UserDao;
@@ -209,8 +210,10 @@ public class UserPageProfileController {
 				else {
 					errorfield.setTextFill(Color.GREEN);
 					errorfield.setText("You changed your password");
-					user.setHeslo(heslo.getText());
+					user.setHeslo(SHA256.getHash(heslo.getText()));
 					user=userDao.saveUser(user);
+					heslo.setText("");
+					heslo2.setText("");
 				}
 				
 			}

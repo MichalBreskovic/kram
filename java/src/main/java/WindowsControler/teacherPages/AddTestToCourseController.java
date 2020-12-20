@@ -27,6 +27,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import kram.storage.DaoFactory;
 import kram.storage.course.Course;
@@ -293,18 +295,23 @@ public class AddTestToCourseController {
 
 				} else {
 					AnchorPane pane =new AnchorPane();
-					pane.setPrefSize(400, 300);
+					pane.setPrefSize(500, 350);
 					VBox box = new VBox();
-					box.setAlignment(Pos.TOP_CENTER);
-				
+					box.setAlignment(Pos.CENTER);
+					box.setPrefSize(500, 350);
 					Label label = new Label();
-					label.setText(selectedQuestion.getName());
+					label.setFont(Font.font("System", FontWeight.BOLD, 20));
+					label.setTextFill(Color.DARKCYAN);
+					label.setText(selectedQuestion.getValue().getTitle());
 					box.getChildren().add(label);
 					for (Entry<Option, Boolean> entry : selectedQuestion.getValue().getOptions().entrySet()) {
 						Label label2 = new Label();
+						label2.setTextFill(Color.DODGERBLUE);
 						if (entry.getValue()) {
-							label.setTextFill(Color.GREEN);
+							label2.setTextFill(Color.GREEN);
 						}
+						label2.setFont(Font.font(16));
+						label2.setTextFill(Color.DODGERBLUE);
 						label2.setText(entry.getKey().getTitle());
 						box.getChildren().add(label2);
 					}

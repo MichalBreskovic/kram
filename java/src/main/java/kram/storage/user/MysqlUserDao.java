@@ -126,7 +126,7 @@ public class MysqlUserDao implements UserDao {
 			return newUser;
 		} else {
 			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?, email=?  WHERE user_id like ?";
-			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser(), user.getEmail());
+			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getEmail(), user.getIdUser());
 			if (now == 1) return user;
 			else throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
 		}

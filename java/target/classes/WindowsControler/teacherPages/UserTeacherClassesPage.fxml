@@ -55,7 +55,7 @@
         <tabs>
           <Tab text="Test">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="421.0" prefWidth="703.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="703.0">
                      <children>
                         <ListView fx:id="testView" prefHeight="358.0" prefWidth="703.0" />
                         <Label layoutY="353.0" prefHeight="35.0" prefWidth="76.0" text="Tests of" textFill="#1268b9">
@@ -130,12 +130,12 @@
          </font>
       </Label>
       <ChoiceBox fx:id="courses" layoutX="214.0" layoutY="104.0" prefWidth="150.0" />
-      <Button fx:id="addCourse" layoutX="506.0" layoutY="606.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="ADD COURSE" textFill="#1268b9">
+      <Button fx:id="addCourse" layoutX="549.0" layoutY="626.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="ADD COURSE" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Label fx:id="errorField" alignment="CENTER" layoutX="234.0" layoutY="617.0" prefHeight="17.0" prefWidth="260.0" textFill="RED" />
+      <Label fx:id="errorField" alignment="CENTER" layoutX="533.0" layoutY="598.0" prefHeight="17.0" prefWidth="311.0" textFill="RED" />
       <Button fx:id="tests" layoutX="16.0" layoutY="95.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="91.0" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -148,7 +148,12 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="addTest" layoutX="676.0" layoutY="606.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="ADD TEST" textFill="#1268b9">
+      <Button fx:id="addTest" layoutX="714.0" layoutY="626.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="ADD TEST" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="dltCourse" layoutX="370.0" layoutY="626.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="169.0" text="DELETE COURSE" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
