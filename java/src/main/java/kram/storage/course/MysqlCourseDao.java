@@ -186,6 +186,7 @@ public class MysqlCourseDao implements CourseDao {
 	
 	@Override
 	public Course saveCourse(Course course) throws EntityNotFoundException {
+		System.out.println("robim");
 		if (course.getIdCourse() == null) {
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 			insert.withTableName("course");
@@ -197,9 +198,11 @@ public class MysqlCourseDao implements CourseDao {
 			valuesMap.put("name", course.getName());
 			Course newCourse = new Course(insert.executeAndReturnKey(valuesMap).longValue(), course.getIdUser(), course.getName());
 			if(newCourse.getStudents().size() != 0) {
+				System.out.println("omyl");
 				jdbcTemplate.update(insertStudents(newCourse));
 			}
 			if(newCourse.getTests().size() != 0) {
+				System.out.println("omyl2");
 				jdbcTemplate.update(insertTests(newCourse));
 			}
 			return newCourse;

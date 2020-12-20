@@ -98,6 +98,8 @@ public class ApplyForCourseController {
 				if (selectedCourse != null) {
 					errorfield.setText("");
 					courseDao.addToCourse(selectedCourse.getValue().getIdCourse(), user.getIdUser());
+					list.getItems().remove(selectedCourse.getValue());
+					selectedCourse.setValue(null);
 					
 				} else {
 					errorfield.setTextFill(Color.RED);

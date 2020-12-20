@@ -4,6 +4,7 @@ import java.util.List;
 
 import WindowsControler.UserPageProfileController;
 import WindowsControler.WelcomePageControler;
+import WindowsControler.userPages.TestController;
 import WindowsControler.userPages.UserPageControler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -71,7 +72,8 @@ public class UserTeacherClassesController {
 
     @FXML
     private Button tests;
-    
+    @FXML
+    private Button viewTest;
     @FXML
     private ChoiceBox<User> courseStudents;
     
@@ -103,18 +105,18 @@ public class UserTeacherClassesController {
 	
 	@FXML
 	void initialize() {
-		
-		courseStudents.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(user.getIdUser())));
+
 		courseStudents.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
 			@Override
 			public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
 				selectedStudent.setValue(newValue);
 				testView.getItems().clear();
-				students.getItems().clear();
-				waiting.getItems().clear();
-				if(selectedCourse.getValue() != null) students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
+				selectedTest.setValue(null);
+				//students.getItems().clear();
+				//waiting.getItems().clear();
+				//if(selectedCourse.getValue() != null) students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
 				if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
-				if(selectedCourse.getValue() != null) waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
+				//if(selectedCourse.getValue() != null) waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
 			}
 		});
 		
@@ -127,10 +129,14 @@ public class UserTeacherClassesController {
 				testView.getItems().clear();
 				students.getItems().clear();
 				waiting.getItems().clear();
+				selectedStudentAccepted.setValue(null);
+				selectedStudentWaiting.setValue(null);
+				selectedTest.setValue(null);
+				selectedStudent.setValue(null);
 				List<User> users = userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse());
 				courseStudents.setItems(FXCollections.observableArrayList(users));
 				if(selectedCourse.getValue() != null)students.setItems(FXCollections.observableArrayList(users));
-				if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
+				//if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
 				if(selectedCourse.getValue() != null)waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
 				
 			}
@@ -274,7 +280,7 @@ public class UserTeacherClassesController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (selectedStudentAccepted.getValue()==null) {
+				if (selectedStudentWaiting.getValue()==null) {
 					errorField.setTextFill(Color.RED);
 					errorField.setText("Select waiting student you want to kick from course");
 				}
@@ -333,6 +339,33 @@ public class UserTeacherClassesController {
 				}
 				
 			}
+				
+			}
+		});
+		viewTest.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (selectedTest==null) {
+					errorField.setText("Choose test you want to view");
+				}else {
+					errorField.setText("");
+					try {
+						Stage stage2 = new Stage();
+						TestController controller = new TestController(stage,stage2, selectedStudent.getValue(),user, selectedTest.getValue(), true);
+						FXMLLoader fxmlLoader2 = new FXMLLoader(
+								UserPageControler.class.getResource("TestPage.fxml"));
+						fxmlLoader2.setController(controller);
+						Parent rootPane = fxmlLoader2.load();
+						Scene scene = new Scene(rootPane);
+						stage2.setTitle("ViewTest");
+						stage2.setScene(scene);
+						stage.close();
+						stage2.show();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
 				
 			}
 		});

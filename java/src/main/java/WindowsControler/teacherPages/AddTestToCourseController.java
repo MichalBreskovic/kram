@@ -96,7 +96,6 @@ public class AddTestToCourseController {
     @FXML
     private Button dltquestion;
 
-
 	boolean zmena = false;
 	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>();
 	private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>();
@@ -253,6 +252,8 @@ public class AddTestToCourseController {
 					errorfield.setTextFill(Color.RED);
 					errorfield.setText("You have no questions or there is no name in your test");
 				} else {
+					
+					errorfield.setText("");
 					List<Question> showing = new ArrayList<Question>(qstnsttt.getItems());
 					System.out.println(showing);
 					for (User student : userDao.getAllAcceptedInCourse(course.getIdCourse())) {
@@ -261,7 +262,7 @@ public class AddTestToCourseController {
 						KramTest test = new KramTest(student.getIdUser());
 						test.setQuestions(showing);
 						test.setName(name.getText());
-						System.out.println(test.getAnswers().keys());
+//						System.out.println(test.getAnswers().keys());
 						testDao.saveTestToCourse(test, course.getIdCourse());
 					}
 					
