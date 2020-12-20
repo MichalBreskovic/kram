@@ -264,7 +264,7 @@ public class MysqlCourseDao implements CourseDao {
 	
 	@Override
 	public Course deleteCourse(Long id) throws EntityNotFoundException {
-		String deleteSql = "DELETE FROM question WHERE question_id = ?";
+		String deleteSql = "DELETE FROM course WHERE course_id = ?";
 		Course course = getById(id);
 		int changed = jdbcTemplate.update(deleteSql, id);
 		if(changed == 0) throw new EntityNotFoundException("Course with id " + id + " not found");

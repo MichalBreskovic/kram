@@ -72,6 +72,9 @@ public class UserTeacherClassesController {
 
     @FXML
     private Button tests;
+    
+    @FXML
+    private Button dltCourse;
     @FXML
     private Button viewTest;
     @FXML
@@ -366,6 +369,30 @@ public class UserTeacherClassesController {
 						// TODO: handle exception
 					}
 				}
+				
+			}
+		});
+		dltCourse.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (selectedCourse.getValue()==null) {
+					errorField.setText("Choose course you want to delete");
+				}else {
+					errorField.setText("");
+					courseDao.deleteCourse(selectedCourse.getValue().getIdCourse());
+					testView.getItems().clear();
+					students.getItems().clear();
+					waiting.getItems().clear();
+					courses.getItems().remove(selectedCourse.getValue());
+					courseStudents.getItems().clear();
+					selectedCourse.setValue(null);
+					selectedStudent.setValue(null);
+					selectedStudentAccepted.setValue(null);
+					selectedStudentWaiting.setValue(null);
+					selectedTest.setValue(null);
+				}
+				
 				
 			}
 		});
