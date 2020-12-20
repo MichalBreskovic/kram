@@ -182,7 +182,6 @@ public class UserTeacherClassesController {
 				
 			}
 		});
-		
 		waiting.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
 
 			@Override
@@ -239,7 +238,7 @@ public class UserTeacherClassesController {
 					errorField.setText("");
 					courseDao.acceptDismissStudent(1, selectedStudentWaiting.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
 					students.getItems().add(selectedStudentWaiting.getValue());
-					students.getItems().add(selectedStudentWaiting.getValue());
+					//students.getItems().add(selectedStudentWaiting.getValue());
 					
 					waiting.getItems().remove(selectedStudentWaiting.getValue());
 					selectedStudentWaiting.setValue(null);

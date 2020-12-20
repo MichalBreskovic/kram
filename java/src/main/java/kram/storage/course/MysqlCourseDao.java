@@ -89,9 +89,19 @@ public class MysqlCourseDao implements CourseDao {
 	
 	@Override
 	public List<Course> getAllRowMapper() throws EntityNotFoundException {
-		String sql = "select course_id, user_id, name from course";
+		String sql = "select course_id, user_id, name from course ";
 		try {
 			return jdbcTemplate.query(sql, new CourseRowMapper());
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Course not found");
+		}
+	}
+	
+	@Override
+	public List<Course> getAllRowMapperWithoutUser(Long id) throws EntityNotFoundException {
+		String sql = "SELECT course_id, user_id, name FROM course WHERE course_id NOT IN (SELECT course_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) WHERE cu.user_id = ?)";
+		try {
+			return jdbcTemplate.query(sql, new CourseRowMapper(),id);
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("Course not found");
 		}
@@ -108,6 +118,25 @@ public class MysqlCourseDao implements CourseDao {
 				return getAllRowMapper();
 			}else {
 				return jdbcTemplate.query(sql, new CourseRowMapper(),str);
+			}
+		
+			
+
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Course not found");
+		}
+	
+	}
+	@Override
+	public List<Course> getBySubstringWithoutU(String string, Long id) throws EntityNotFoundException {
+		try {
+			
+			String str = "%" + string +"%";
+			String sql = "SELECT course_id, user_id, name FROM course WHERE course_id NOT IN (SELECT course_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) WHERE cu.user_id = ?) where name like ?";
+			if (string == null || string.trim().isEmpty()) {
+				return getAllRowMapperWithoutUser(id);
+			}else {
+				return jdbcTemplate.query(sql, new CourseRowMapper(),id,str);
 			}
 		
 			
@@ -140,10 +169,10 @@ public class MysqlCourseDao implements CourseDao {
 	
 	@Override
 	public void addToCourse(Long idCourse, Long idUser) throws EntityNotFoundException {
-		String sql = "INSERT INTO course_user (course_id, user_id) VALUES (?,?)";
+		String sql = "INSERT INTO course_user (course_id, user_id, accepted) VALUES (?,?,0)";
 
 		int changed = jdbcTemplate.update(sql, idCourse, idUser);
-		if(changed == 1) throw new EntityNotFoundException("Course with id " + idCourse + " or student with id " + idUser + " not found");
+		if(changed == 0) throw new EntityNotFoundException("Course with id " + idCourse + " or student with id " + idUser + " not found");
 	}
 	
 	@Override
