@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import WindowsControler.teacherPages.UserTeacherPageControler;
+import WindowsControler.userPages.UserPageControler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -17,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import kram.storage.DaoFactory;
 import kram.storage.Mail;
 import kram.storage.user.User;
 import kram.storage.user.UserDao;
@@ -42,7 +45,7 @@ public class EmailController {
     private Label emailField;
 
     
-    UserDao userDao;
+    UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
     
     Long lastTime = -10000L;
     
@@ -65,10 +68,7 @@ public class EmailController {
     
     @FXML
     void initialize() {
-//    	System.out.println("user " + user);
-//    	System.out.println("email " + user.getEmail());
     	emailField.setText(user.getEmail());
-//    	String generatedCode = Mail.send(user.getEmail());
     	codeField.textProperty().bindBidirectional(userCode);
     	
     	check.setOnAction(new EventHandler<ActionEvent>() {
@@ -82,11 +82,36 @@ public class EmailController {
 						System.out.println("Funguje");
 					}
 				}
-				errorField.setTextFill(Color.GREEN);
-				errorField.setText("Correct code");
 				if(codeNotFind) {
 					errorField.setTextFill(Color.RED);
 					errorField.setText("Incorrect registration code");
+				} else {
+					errorField.setTextFill(Color.GREEN);
+					errorField.setText("Correct code");
+			    	try {
+			    		System.out.println(user);
+			    		userDao.saveUser(user);
+				    	if (user.isTeacher()) {
+				    		UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), user);
+				    		FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
+				    		fxmlLoader2.setController(controller);
+				    		Parent rootPane = fxmlLoader2.load();
+				    		Scene scene = new Scene(rootPane);
+				    		getStage().setTitle("Welcome " + user.getSurname());
+				    		getStage().setScene(scene);
+				    	} else {
+				    		System.out.println("Som tu");
+				    		UserPageControler controller = new UserPageControler(getStage(), user);
+				    		FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
+				    		fxmlLoader2.setController(controller);
+				    		Parent rootPane = fxmlLoader2.load();
+				    		Scene scene = new Scene(rootPane);
+				    		getStage().setTitle("Welcome " + user.getSurname());
+				    		getStage().setScene(scene);
+				    	}
+			    	} catch(IOException e) {
+			    		e.printStackTrace();
+			    	}
 				}
 			}
 		});
@@ -112,13 +137,13 @@ public class EmailController {
     	resend.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-//				try {
-//		    		codes.add(Mail.send(user.getEmail()));
-//		    	} catch(RuntimeException e) {
-//		    		System.out.println("Incorrect email");
-//		    		errorField.setTextFill(Color.RED);
-//		    		errorField.setText("Incorrect email");
-//		    	}
+				try {
+		    		codes.add(Mail.send(user.getEmail()));
+		    	} catch(RuntimeException e) {
+		    		System.out.println("Incorrect email");
+		    		errorField.setTextFill(Color.RED);
+		    		errorField.setText("Incorrect email");
+		    	}
 				int timeToWait = 60;
 				Long nextTime = System.currentTimeMillis();
 				if(nextTime - lastTime > timeToWait*1000) {
@@ -155,6 +180,7 @@ public class EmailController {
 //    	} catch(IOException e) {
 //    		e.printStackTrace();
 //    	}
+    	
     }
     
 }

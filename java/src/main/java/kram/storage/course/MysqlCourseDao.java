@@ -140,7 +140,7 @@ public class MysqlCourseDao implements CourseDao {
 	
 	@Override
 	public void addToCourse(Long idCourse, Long idUser) throws EntityNotFoundException {
-		String sql = "INSERT INTO course_user (course_id, user_id) VALUES (?,?)";
+		String sql = "INSERT INTO course_user (course_id, user_id, accepred) VALUES (?,?,0)";
 
 		int changed = jdbcTemplate.update(sql, idCourse, idUser);
 		if(changed == 1) throw new EntityNotFoundException("Course with id " + idCourse + " or student with id " + idUser + " not found");

@@ -13,5 +13,6 @@ public interface UserDao {
 	User deleteUser(Long id) throws EntityNotFoundException;
 	List<User> getAllAcceptedInCourse(Long idCourse) throws EntityNotFoundException;
 	List<User> getAllWaitingInCourse(Long idCourse) throws EntityNotFoundException;
+	boolean checkUsername(String username) throws EntityNotFoundException;
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -72,6 +73,25 @@ public class MysqlUserDao implements UserDao {
 			return jdbcTemplate.queryForObject(sql, new UserRowMapper());
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("User not found");
+		}
+	}
+	
+	@Override
+	public boolean checkUsername(String username) throws EntityNotFoundException {
+		String sql = "SELECT username FROM user WHERE username LIKE ?";
+		try {
+			return jdbcTemplate.queryForObject(sql, new RowMapper<Boolean>() {
+	
+				@Override
+				public Boolean mapRow(ResultSet rs, int rowNum) throws SQLException {
+					String username = rs.getString("username");
+					if(username != null) return false;
+					return true;
+				}
+			
+			}, username); 
+		} catch(EmptyResultDataAccessException e) {
+			return true;
 		}
 	}
 	
