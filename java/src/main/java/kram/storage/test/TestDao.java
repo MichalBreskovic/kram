@@ -16,5 +16,8 @@ public interface TestDao {
 	List<KramTest> getAllByCourseTeacherId(Long id, Long idUser) throws EntityNotFoundException;
 	List<KramTest> getAllByCourseId(Long id) throws EntityNotFoundException;
 	List<KramTest> getAllByTopicId(Long id) throws EntityNotFoundException;
+	List<KramTest> getAllBySubjectUserId(Long id, Long userId) throws EntityNotFoundException;
+	List<KramTest> getAllByTopicUserId(Long id, Long userId) throws EntityNotFoundException;
+	KramTest saveTest2(KramTest kramTest) throws EntityNotFoundException;
 	
 }

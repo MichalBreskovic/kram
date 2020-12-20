@@ -243,7 +243,7 @@ public class CreateQuestionController {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					if (selectedSubject.getValue() == null || selectedTopic.getValue() == null) {
+					if ( selectedTopic.getValue() == null) {
 						errorfield2.setTextFill(javafx.scene.paint.Color.RED);
 						errorfield2.setText("Choose topic where you want to add question");
 					} else {

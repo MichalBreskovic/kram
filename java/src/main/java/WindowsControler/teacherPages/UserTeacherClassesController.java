@@ -2,6 +2,7 @@ package WindowsControler.teacherPages;
 
 import WindowsControler.UserPageProfileController;
 import WindowsControler.WelcomePageControler;
+import WindowsControler.userPages.UserPageControler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -66,6 +67,8 @@ public class UserTeacherClassesController {
 
     @FXML
     private Button tests;
+    
+    
 	private Stage stage;
 	private User user;
 	//private QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
@@ -102,6 +105,8 @@ public class UserTeacherClassesController {
 				students.getItems().clear();
 				waiting.getItems().clear();
 				testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherId(selectedCourse.getValue().getIdCourse(), user.getIdUser())));
+				students.setItems(FXCollections.observableArrayList(userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse())));
+				waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
 			}
 
 		});
@@ -253,7 +258,25 @@ public class UserTeacherClassesController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// pridaj test do kurzu
+				if (selectedCourse.getValue()==null) {
+					errorField.setText("Choose your course");
+				}else {
+					
+				
+				try {
+					AddTestToCourseController controller = new AddTestToCourseController(stage, user, selectedCourse.getValue());
+					FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("AddTestToCourse.fxml"));
+					fxmlLoader2.setController(controller);
+					Parent rootPane = fxmlLoader2.load();
+					Scene scene = new Scene(rootPane);
+					stage.setTitle("VIEWTEST");
+					stage.setScene(scene);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("fail again");
+				}
+				
+			}
 				
 			}
 		});
@@ -321,6 +344,7 @@ public class UserTeacherClassesController {
 			}
 
 		});
-		System.out.println(stage.isShowing());
+
+		
 	}
 }

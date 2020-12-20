@@ -165,9 +165,17 @@ public class MysqlCourseDao implements CourseDao {
 	
 	public String acceptDismissStudent( int bool, Long idStudent, Long idCourse) {
 		try {
-			String sql ="Update course_user set accepted = ? where user_id=? and course_id=? ";
-			jdbcTemplate.update(sql,bool,idStudent,idCourse );
-			return sql;
+			if (bool==1) {
+				String sql ="Update course_user set accepted = ? where user_id=? and course_id=? ";
+				jdbcTemplate.update(sql,bool,idStudent,idCourse );
+				return sql;
+			}else {
+				String sql ="DELETE FROM course_user WHERE user_id=? and course_id=? ";
+				jdbcTemplate.update(sql,idStudent,idCourse );
+				return sql;
+			}
+			
+			
 		} catch (Exception e) {
 			throw new EntityNotFoundException("f“uk :'C");
 		}

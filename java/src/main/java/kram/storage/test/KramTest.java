@@ -26,7 +26,16 @@ public class KramTest {
 		this.idTopic = idTopic;
 		this.idUser = idUser;
 	}
+	public KramTest(Long idTest, Long idTopic) {
+		this.idTest=idTest;
+		this.idUser = idUser;
+	}
 	
+	public KramTest(Long idUser) {
+		this.idUser = idUser;
+
+	}
+
 	public KramTest(Long idUser, Long idTopic, String start, String end, int hodnotenie) {
 		this.start = start;
 		this.idTopic = idTopic;
@@ -134,6 +143,7 @@ public class KramTest {
 	public String toString() {
 		return DaoFactory.INSTATNCE.getZameranieDao().getById(idTopic).toString().toUpperCase()+" you got " + hodnotenie+ "%"  ;
 	}
+	
 	
 	
 	

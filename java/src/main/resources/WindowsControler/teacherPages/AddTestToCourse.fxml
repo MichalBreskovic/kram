@@ -8,41 +8,62 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1268b9" height="58.0" layoutX="24.0" layoutY="24.0" opacity="0.77" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="556.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1268b9" height="58.0" layoutX="24.0" layoutY="24.0" opacity="0.77" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="829.0" />
       <Label fx:id="username1" layoutX="74.0" layoutY="27.0" prefHeight="53.0" prefWidth="484.0" text="CREATE TEST" textFill="WHITE">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button fx:id="apply" layoutX="380.0" layoutY="588.0" mnemonicParsing="false" text="ADD QUESTION" textFill="#1268b9">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
-      <ListView fx:id="qstns" layoutX="24.0" layoutY="143.0" prefHeight="418.0" prefWidth="556.0" />
-      <Label fx:id="errorfield" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="98.0" layoutY="573.0" prefHeight="49.0" prefWidth="276.0" textFill="RED" />
-      <ChoiceBox fx:id="subjectchoice" layoutX="213.0" layoutY="107.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="topicchoice" layoutX="430.0" layoutY="108.0" prefWidth="150.0" />
-      <Label layoutX="145.0" layoutY="110.0" text="SUBJECT:" textFill="#1268b9">
+      <ListView fx:id="qstns" layoutX="24.0" layoutY="162.0" prefHeight="432.0" prefWidth="401.0" />
+      <Label fx:id="errorfield" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="140.0" layoutY="609.0" prefHeight="49.0" prefWidth="597.0" textFill="RED" />
+      <ChoiceBox fx:id="subjectchoice" layoutX="98.0" layoutY="109.0" prefHeight="25.0" prefWidth="204.0" />
+      <ChoiceBox fx:id="topicchoice" layoutX="368.0" layoutY="108.0" prefHeight="25.0" prefWidth="212.0" />
+      <Label layoutX="24.0" layoutY="111.0" text="SUBJECT:" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="374.0" layoutY="110.0" text="TOPIC: " textFill="#1268b9">
+      <Label layoutX="316.0" layoutY="112.0" text="TOPIC: " textFill="#1268b9">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="apply1" layoutX="24.0" layoutY="588.0" mnemonicParsing="false" text="BACK" textFill="#1268b9">
+      <Button fx:id="back" layoutX="14.0" layoutY="633.0" mnemonicParsing="false" text="BACK" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="apply2" layoutX="509.0" layoutY="588.0" mnemonicParsing="false" text="CREATE" textFill="#1268b9">
+      <Button fx:id="createtest" layoutX="757.0" layoutY="633.0" mnemonicParsing="false" text="CREATE TEST" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="view" layoutX="16.0" layoutY="598.0" mnemonicParsing="false" text="VIEW QUESTION" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <ListView fx:id="qstnsttt" layoutX="453.0" layoutY="161.0" prefHeight="434.0" prefWidth="401.0" />
+      <Label layoutX="793.0" layoutY="142.0" text="Your test" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="142.0" text="Question database" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="addquestion" layoutX="418.0" layoutY="353.0" mnemonicParsing="false" text="&gt;&gt;&gt;" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="dltquestion" layoutX="418.0" layoutY="388.0" mnemonicParsing="false" text="&lt;&lt;&lt;" textFill="#1268b9">
+         <font>
+            <Font name="System Bold" size="12.0" />
          </font>
       </Button>
    </children>

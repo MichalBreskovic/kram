@@ -279,20 +279,12 @@ public class UserTeacherQuestionsController {
 			public void handle(ActionEvent event) {
 				if (selectedQuestion.getValue()==null) {
 					errorfield.setTextFill(Color.RED);
-					errorfield.setText("Choose question you wan t to delete");
+					errorfield.setText("Choose question you want to delete");
 				}else {
 					errorfield.setText("");
 					questionDao.deleteQuestion(selectedQuestion.getValue().getIdQuestion());
-					listview.getItems().clear();
-					if (selectedSubject.getValue()==null) {
-						listview.setItems(FXCollections.observableArrayList(questionDao.getAllByUserId(user.getIdUser())));
-					}
-					if (selectedTopic.getValue()==null && selectedTopic.getValue()!=null) {
-						listview.setItems(FXCollections.observableArrayList(questionDao.getBySubjectUserId(user.getIdUser(),selectedSubject.getValue().getIdSubject())));
-					}
-					if (selectedTopic.getValue()!=null) {
-						listview.setItems(FXCollections.observableArrayList(questionDao.getByTopicUserId(selectedQuestion.getValue().getIdQuestion(), user.getIdUser())));
-					}
+					listview.getItems().remove(selectedQuestion.getValue());
+					selectedQuestion.setValue(null);
 					
 				}
 				

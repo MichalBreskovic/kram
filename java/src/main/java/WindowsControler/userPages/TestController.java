@@ -69,10 +69,18 @@ public class TestController {
 	void initialize() {
 
 		if (!justLook) {
+			KramTest test ;
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 			// https://www.javatpoint.com/java-get-current-date
-			KramTest test = new KramTest(user.getIdUser(), zameranie.getIdZameranie(), dtf.format(now));
+			if (zameranie != null) {
+				test = new KramTest(user.getIdUser(), zameranie.getIdZameranie(), dtf.format(now));
+			}else {
+				test=kramTest;
+			}if (questions==null) {				
+				questions=new ArrayList<Question>(kramTest.getAnswers().keySet());
+			}
+			
 			CheckBox[][] checkboxes = new CheckBox[questions.size()][8];
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
@@ -111,19 +119,7 @@ public class TestController {
 				for (Map.Entry<Option, Boolean> entry : option.entrySet()) {
 
 					CheckBox check = new CheckBox();
-					// check.setId(krok + " " + id);
-					// check.setLayoutY(20);
-					/*
-					 * check.setOnAction(new EventHandler<ActionEvent>() {
-					 * 
-					 * @Override public void handle(ActionEvent event) { String[] ids =
-					 * check.getId().split(" "); if
-					 * (pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])]) {
-					 * pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])] = false; } else {
-					 * pole[Integer.parseInt(ids[0])][Integer.parseInt(ids[1])] = true; }
-					 * 
-					 * } });
-					 */
+
 					chosen.getChildren().add(check);
 					checkboxes[krok][id] = check;
 
@@ -172,11 +168,11 @@ public class TestController {
 					if (istomozes>=questions.size()) {
 						
 					
-
+						
 					for (Question question : questions) {
 						int moznost = 0;
 						int hodnotenie = 0;
-						test.getAnswers().put(question, null);
+						//test.getAnswers().put(question, null);
 						for (Map.Entry<Option, Boolean> entry : question.getOptions().entrySet()) {
 						
 							if (checkboxes[otazka][moznost] != null) {

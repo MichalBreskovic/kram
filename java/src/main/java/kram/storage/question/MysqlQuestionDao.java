@@ -130,6 +130,17 @@ public class MysqlQuestionDao implements QuestionDao{
 	}
 	
 	@Override
+	public List<Question> getByTopicId(Long id) throws EntityNotFoundException, NullPointerException  {
+		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) WHERE  q.topic_id = ? ";
+		try {
+			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(),  id);	
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Questions are there not lol");
+		}
+	}
+	
+	
+	@Override
 	public List<Question> generateTestQuestions(int pocet, long idZamerania) throws EntityNotFoundException, NullPointerException  {
 		String sql = "  select qe.question_id, qe.title AS question_title, qe.topic_id, qe.user_id, o.option_id, o.title AS option_title, qo.correct from \r\n" + 
 				"  (SELECT q.question_id, q.title, q.topic_id, q.user_id from question q where q.topic_id like ? order by rand() LIMIT 0,?) as qe\r\n" + 
@@ -139,6 +150,16 @@ public class MysqlQuestionDao implements QuestionDao{
 			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), idZamerania, pocet);	
 		} catch (DataAccessException e) {
 			throw new EntityNotFoundException("There are zero questions");
+		}
+	}
+	
+	@Override
+	public List<Question> getBySubjectId(Long id) throws EntityNotFoundException, NullPointerException {
+		String sql = "SELECT q.question_id, q.title AS question_title, q.topic_id, q.user_id, o.option_id, o.title AS option_title, qo.correct FROM question AS q LEFT OUTER JOIN question_option AS qo USING(question_id) LEFT OUTER JOIN `option` AS o USING(option_id) JOIN (SELECT t.topic_id FROM topic t where t.subject_id = ?) as tab USING(topic_id)";
+		try {
+			return jdbcTemplate.query(sql, new MultipleQuestionSetExtractor(), id);	
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Haha totot Question with id " + id + " not found");
 		}
 	}
 	
