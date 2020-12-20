@@ -90,7 +90,7 @@ public class EmailController {
 					errorField.setText("Correct code");
 			    	try {
 			    		System.out.println(user);
-			    		userDao.saveUser(user);
+			    		user=userDao.saveUser(user);
 				    	if (user.isTeacher()) {
 				    		UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), user);
 				    		FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));

@@ -68,7 +68,7 @@ public class AddCourseController {
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
-						courseDao.saveCourse(new Course(user.getIdUser(), title.getText().toString()));
+						//courseDao.saveCourse(new Course(user.getIdUser(), title.getText().toString()));
 						stage.setTitle("Classes");
 						stage.setScene(scene);
 						stage.show();

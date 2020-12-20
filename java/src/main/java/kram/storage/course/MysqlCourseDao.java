@@ -169,7 +169,7 @@ public class MysqlCourseDao implements CourseDao {
 	
 	@Override
 	public void addToCourse(Long idCourse, Long idUser) throws EntityNotFoundException {
-		String sql = "INSERT INTO course_user (course_id, user_id, accepred) VALUES (?,?,0)";
+		String sql = "INSERT INTO course_user (course_id, user_id, accepted) VALUES (?,?,0)";
 
 		int changed = jdbcTemplate.update(sql, idCourse, idUser);
 		if(changed == 0) throw new EntityNotFoundException("Course with id " + idCourse + " or student with id " + idUser + " not found");
@@ -187,6 +187,7 @@ public class MysqlCourseDao implements CourseDao {
 	
 	@Override
 	public Course saveCourse(Course course) throws EntityNotFoundException {
+		System.out.println("robim");
 		if (course.getIdCourse() == null) {
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 			insert.withTableName("course");
@@ -198,9 +199,11 @@ public class MysqlCourseDao implements CourseDao {
 			valuesMap.put("name", course.getName());
 			Course newCourse = new Course(insert.executeAndReturnKey(valuesMap).longValue(), course.getIdUser(), course.getName());
 			if(newCourse.getStudents().size() != 0) {
+				System.out.println("omyl");
 				jdbcTemplate.update(insertStudents(newCourse));
 			}
 			if(newCourse.getTests().size() != 0) {
+				System.out.println("omyl2");
 				jdbcTemplate.update(insertTests(newCourse));
 			}
 			return newCourse;
