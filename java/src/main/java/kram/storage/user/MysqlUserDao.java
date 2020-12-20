@@ -25,12 +25,13 @@ public class MysqlUserDao implements UserDao {
 	private class UserRowMapper implements RowMapper<User>{
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 			long user_id = rs.getLong("user_id");
+			String email = rs.getString("email");
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
 			String heslo = rs.getString("password");
 			String username = rs.getString("username");
 			boolean teacher = rs.getBoolean("teacher");
-			return new User(user_id, name, username, surname,  heslo, teacher);
+			return new User(user_id, name, username, surname,  heslo, teacher, email);
 		}
 	}
 	
@@ -66,7 +67,7 @@ public class MysqlUserDao implements UserDao {
 	
 	@Override
 	public User getById(Long id) throws EntityNotFoundException {
-		String sql = "SELECT user_id, name, surname, password, teacher, username FROM `user` WHERE user_id = " + id;
+		String sql = "SELECT user_id, name, surname, password, teacher, username, email FROM `user` WHERE user_id = " + id;
 		try {
 			return jdbcTemplate.queryForObject(sql, new UserRowMapper());
 		} catch (DataAccessException e) {
@@ -76,7 +77,7 @@ public class MysqlUserDao implements UserDao {
 	
 	@Override
 	public User login(String meno, String heslo) throws EntityNotFoundException {
-		String sql = "SELECT user_id, name, surname, password, teacher, username FROM user where username like ? and password like ?";
+		String sql = "SELECT user_id, name, surname, password, teacher, username, email FROM user where username like ? and password like ?";
 		String hashValue = SHA256.getHash(heslo);
 		try {
 			return jdbcTemplate.queryForObject(sql, new UserRowMapper(), meno, hashValue);
@@ -91,20 +92,21 @@ public class MysqlUserDao implements UserDao {
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 			insert.withTableName("user");
 			insert.usingGeneratedKeyColumns("user_id");
-			insert.usingColumns("name","surname","password","teacher", "username");
+			insert.usingColumns("name","surname","password","teacher", "username", "email");
 			
 			Map<String, String> valuesMap = new HashMap<String, String>();
+			valuesMap.put("email", user.getEmail());
 			valuesMap.put("name", user.getName());
 			valuesMap.put("surname", user.getSurname());
 			valuesMap.put("password", user.getHeslo());
 			valuesMap.put("teacher", Boolean.toString(user.isTeacher()));
 			valuesMap.put("username", user.getUsername());
 			//(Long idUser, String name, String username, String surname, String password, boolean teacher)
-			User newUser = new User(insert.executeAndReturnKey(valuesMap).longValue(), user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher());
+			User newUser = new User(insert.executeAndReturnKey(valuesMap).longValue(), user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getEmail());
 			return newUser;
 		} else {
-			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?  WHERE user_id like ?";
-			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser());
+			String sql = "UPDATE user SET name = ?, username = ?, surname=?, password=?, teacher=?, email=?  WHERE user_id like ?";
+			int now = jdbcTemplate.update(sql,user.getName(), user.getUsername(), user.getSurname(), user.getHeslo(), user.isTeacher(), user.getIdUser(), user.getEmail());
 			if (now == 1) return user;
 			else throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
 		}

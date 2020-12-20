@@ -47,13 +47,13 @@
          </graphic>
       </Button>
       <Polygon fill="DODGERBLUE" layoutX="6.0" layoutY="434.0" opacity="0.16" points="-6.0, 246.0, 389.0, 246.0, -6.0, -51.0" stroke="#ffffffa6" strokeType="INSIDE" />
-      <Label layoutX="123.0" layoutY="99.0" prefHeight="17.0" prefWidth="105.0" text="Courses" textFill="#1268b9">
+      <Label layoutX="132.0" layoutY="100.0" prefHeight="17.0" prefWidth="105.0" text="Courses" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="courses" layoutX="228.0" layoutY="104.0" prefWidth="150.0" />
-      <Button fx:id="newCourse" layoutX="123.0" layoutY="606.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="254.0" text="APPLY FOR NEW COURSE " textFill="#1268b9">
+      <ChoiceBox fx:id="courses" layoutX="237.0" layoutY="105.0" prefWidth="150.0" />
+      <Button fx:id="newCourse" layoutX="132.0" layoutY="607.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="254.0" text="APPLY FOR NEW COURSE " textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -71,19 +71,19 @@
             </ImageView>
          </graphic>
       </Button>
-      <ListView fx:id="compList" layoutX="123.0" layoutY="194.0" prefHeight="388.0" prefWidth="320.0" />
-      <ListView fx:id="waitList" layoutX="469.0" layoutY="194.0" prefHeight="388.0" prefWidth="320.0" />
-      <Label layoutX="554.0" layoutY="149.0" prefHeight="35.0" prefWidth="150.0" text="Waiting tests" textFill="#1268b9">
+      <ListView fx:id="compList" layoutX="132.0" layoutY="195.0" prefHeight="388.0" prefWidth="349.0" />
+      <ListView fx:id="waitList" layoutX="483.0" layoutY="195.0" prefHeight="388.0" prefWidth="349.0" />
+      <Label layoutX="583.0" layoutY="150.0" prefHeight="35.0" prefWidth="150.0" text="Waiting tests" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="190.0" layoutY="149.0" prefHeight="35.0" prefWidth="186.0" text="Completed tests" textFill="#1268b9">
+      <Label layoutX="214.0" layoutY="150.0" prefHeight="35.0" prefWidth="186.0" text="Completed tests" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="viewTest" layoutX="639.0" layoutY="606.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="VIEW TEST" textFill="#1268b9">
+      <Button fx:id="viewTest" layoutX="682.0" layoutY="607.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="VIEW TEST" textFill="#1268b9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

@@ -23,7 +23,7 @@ class MysqlUserDaoTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		newUser = new User("Peter", "piko" ,"Vysoký", "12345", true);
+		newUser = new User("Peter", "piko" ,"Vysoký", "12345", true, "a@b");
 		savedUser = userDao.saveUser(newUser);
 	}
 

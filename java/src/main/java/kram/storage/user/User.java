@@ -8,6 +8,7 @@ import kram.storage.test.KramTest;
 
 public class User {
 	private Long idUser;
+	private String email;
 	private String name;
 	private String username;
 	private String surname;
@@ -17,6 +18,8 @@ public class User {
 	private List<Question> questions = new ArrayList<Question>();
 	
 	public User() {
+		System.out.println("kons " + email);
+		System.out.println("kons this " + this.email);
 	}
 	
 	public User(Long idUser, String name, String surname) {
@@ -46,22 +49,25 @@ public class User {
 		this.heslo = heslo;
 	}
 	
-	public User( String name, String username, String surname, String heslo, boolean teacher) {
+	public User(String name, String username, String surname, String heslo, boolean teacher, String email) {
 		this.name = name;
 		this.username = username;
 		this.surname = surname;
 		this.heslo = heslo;
 		this.teacher = teacher;
-
+		this.email = email;
+		
 	}
-	public User(Long idUser, String name, String username, String surname, String heslo, boolean teacher) {
+	public User(Long idUser, String name, String username, String surname, String heslo, boolean teacher, String email) {
 		this.idUser = idUser;
 		this.name = name;
 		this.username = username;
 		this.surname = surname;
 		this.heslo = heslo;
 		this.teacher = teacher;
-
+		this.email = email;
+		System.out.println("kons " + email);
+		System.out.println("kons this " + this.email);
 	}
 	
 	public String getUsername() {
@@ -128,6 +134,14 @@ public class User {
 		this.questions = questions;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	@Override
 	public String toString() {
 		return name + " " + surname;

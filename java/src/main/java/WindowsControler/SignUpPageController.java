@@ -1,7 +1,9 @@
 package WindowsControler;
 
-import WindowsControler.teacherPages.UserTeacherPageControler;
-import WindowsControler.userPages.UserPageControler;
+
+import java.io.IOException;
+
+import javax.mail.SendFailedException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -9,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
@@ -25,18 +26,8 @@ public class SignUpPageController {
 	private boolean ucitel = false;
 	private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
-	public SignUpPageController(Stage stage) {
-		this.stage = stage;
-	}
-
-	public void setStage(Stage stage) {
-		this.stage = stage;
-	}
-
-	public Stage getStage() {
-		return stage;
-	}
-
+	@FXML
+    private TextField email;
 	@FXML
 	private TextField username;
 	@FXML
@@ -59,6 +50,26 @@ public class SignUpPageController {
 	private Button student;
 
 	private UserFxModel check = new UserFxModel();
+	
+	public SignUpPageController(Stage stage) {
+		this.stage = stage;
+	}
+	
+	User user;
+	
+	public SignUpPageController(Stage stage, User user) {
+		this.stage = stage;
+		this.user = user;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
+	public Stage getStage() {
+		return stage;
+	}
+
 
 	boolean checkFormatUsername(String string) {
 		for (char s : string.toCharArray()) {
@@ -94,11 +105,21 @@ public class SignUpPageController {
 
 	@FXML
 	void initialize() {
+		email.textProperty().bindBidirectional(check.getEmailProperty());
 		username.textProperty().bindBidirectional(check.getUsernameProperty());
 		name.textProperty().bindBidirectional(check.getNameProperty());
 		surname.textProperty().bindBidirectional(check.getSurnameProperty());
 		password.textProperty().bindBidirectional(check.getHesloProperty());
 		password2.textProperty().bindBidirectional(check.getHeslo2Property());
+		
+		if(user != null) {
+			System.out.println("tututut");
+			email.setText(user.getEmail());
+			name.setText(user.getName());
+			username.setText(user.getUsername());
+			surname.setText(user.getSurname());
+		}
+		
 		sign.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -106,14 +127,16 @@ public class SignUpPageController {
 					boolean mozeme = true;
 					//System.out.println("daco robime");
 					errorfield.setTextFill(Color.RED);
-					if (check.getUsername() == null || check.getHeslo2() == null || check.getSurname() == null
+					if (check.getEmail() == null || check.getEmail().isBlank()
+							|| check.getUsername() == null 
+							|| check.getHeslo2() == null || check.getSurname() == null
 							|| check.getName() == null || check.getHeslo() == null
 							|| check.getUsername().trim().isEmpty() || check.getHeslo().trim().isEmpty()
 							|| check.getName().trim().isEmpty() || check.getHeslo2().trim().isEmpty()
 							|| check.getUsername().trim().isEmpty() || !ucitel) {
 						mozeme = false;
 						errorfield.setText("You need to input values");
-					}else {
+					} else {
 						mozeme = true;
 						if (!checkPasswords(check.getHeslo(), check.getHeslo2())) {
 							errorfield.setTextFill(Color.RED);
@@ -140,39 +163,33 @@ public class SignUpPageController {
 					}
 					if (mozeme) {
 						try {
+//							System.out.println("1 email " + check.getEmail());
+							User registrate = new User(check.getName(), check.getUsername(), check.getSurname(), SHA256.getHash(check.getHeslo()), check.isTeacher(), check.getEmail());
+//							System.out.println("2 email " + registrate.getEmail());
+							String generatedCode = Mail.send(check.getEmail());
+							EmailController emailController = new EmailController(getStage(), registrate, generatedCode);
+							FXMLLoader fxmlLoader3 = new FXMLLoader(EmailController.class.getResource("EmailVerification.fxml"));
+							fxmlLoader3.setController(emailController);
+							Parent rootPane = fxmlLoader3.load();
+							Scene scene = new Scene(rootPane);
+							getStage().setTitle("Email verification");
+							getStage().setScene(scene);
 							
-							User registrate = new User(check.getName(), check.getUsername(), check.getSurname(), SHA256.getHash(check.getHeslo()), check.isTeacher());
-//							userDao.saveUser(registrate);
 
-							userDao.saveUser(registrate);
-							//mozno budeme menit, po registracii sa nebude hned dat vojst do user prostredia, uvidime , spytame sa gurskeho
-							if (registrate.isTeacher()) {
-								UserTeacherPageControler controller = new UserTeacherPageControler(getStage(), registrate);
-								FXMLLoader fxmlLoader2 = new FXMLLoader(UserTeacherPageControler.class.getResource("UserTeacherPage.fxml"));
-								fxmlLoader2.setController(controller);
-								Parent rootPane = fxmlLoader2.load();
-								Scene scene = new Scene(rootPane);
-								getStage().setTitle("Welcome "+registrate.getSurname());
-								getStage().setScene(scene);
-							} else {
-								System.out.println("Som tu");
-								UserPageControler controller = new UserPageControler(getStage(), registrate);
-								FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
-								fxmlLoader2.setController(controller);
-								Parent rootPane = fxmlLoader2.load();
-								Scene scene = new Scene(rootPane);
-								getStage().setTitle("Welcome "+registrate.getSurname());
-								getStage().setScene(scene);
-							}
-							
-						} catch (Exception e) {
-							e.printStackTrace();
-							errorfield.setText("Username already taken");
+//							catch (Exception e) {
+//							e.printStackTrace();
+//							errorfield.setText("Username already taken");
+						} catch (RuntimeException e) {
+							errorfield.setTextFill(Color.RED);
+				    		errorfield.setText("Incorrect email");
+						} catch (IOException e) {
+							System.out.println("chybiska");
 						}
 					}
 					
 
 				} catch (Exception e) {
+					e.printStackTrace();;
 					System.out.println("fail");
 				}
 

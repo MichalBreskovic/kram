@@ -30,9 +30,9 @@ class MysqlCourseDaoTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		tempTeacher = userDao.saveUser(new User("TestName", "testTeacher", "TestSurname", "TestPassword", true));
+		tempTeacher = userDao.saveUser(new User("TestName", "testTeacher", "TestSurname", "TestPassword", true, "a@b"));
 		newCourse = new Course(tempTeacher.getIdUser(), "Test course");
-		tempStudent = userDao.saveUser(new User("TestName", "testStudent", "TestSurname", "TestPassword", false));
+		tempStudent = userDao.saveUser(new User("TestName", "testStudent", "TestSurname", "TestPassword", false, "a@b"));
 		newCourse.addStudent(tempStudent.getIdUser());
 		tempTest = new KramTest(tempStudent.getIdUser(), (long) 1, "2020", "2020", 100);
 		newCourse.addTest(tempTest.getIdTest());

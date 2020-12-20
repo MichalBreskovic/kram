@@ -5,6 +5,8 @@ import javafx.beans.property.StringProperty;
 
 public class UserFxModel {
 	private long user_id;
+	
+	StringProperty email = new SimpleStringProperty();
 	StringProperty username = new SimpleStringProperty();
 	StringProperty surname = new SimpleStringProperty();
 	StringProperty name = new SimpleStringProperty();
@@ -18,13 +20,14 @@ public class UserFxModel {
 
 	}
 	public UserFxModel(StringProperty username, StringProperty surname, StringProperty name, StringProperty heslo,
-			StringProperty heslo2, boolean teacher) {
+			StringProperty heslo2, boolean teacher, StringProperty email) {
 		this.username = username;
 		this.surname = surname;
 		this.name = name;
 		this.heslo = heslo;
 		this.heslo2 = heslo2;
 		this.teacher = teacher;
+		this.email = email;
 	}
 	public long getUser_id() {
 		return user_id;
@@ -86,6 +89,16 @@ public class UserFxModel {
 		return heslo;
 	}
 	
-
+	public StringProperty getEmailProperty() {
+		return email;
+	}
+	
+	public String getEmail() {
+		return email.get();
+	}
+	
+	public void setEmail(StringProperty email) {
+		this.email = email;
+	}
 
 }
