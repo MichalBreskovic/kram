@@ -21,9 +21,11 @@ import kram.storage.user.User;
 public class UserTeacherPageControler {
 	private Stage stage;
 	private User user;
+	
 	public UserTeacherPageControler(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
+		System.out.println("Teacher '" + user.getName() + "' logged in");
 	}
 
     @FXML

@@ -31,8 +31,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class UserPageControler {
+	
 	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private Stage stage;
+	
+	public UserPageControler(Stage stage, User user) {
+		this.stage = stage;
+		this.user = user;
+		System.out.println("Student '" + user.getUsername() + "' logged in");
+	}
+	
 	private User user;
     @FXML
     private Button tests;
@@ -45,12 +53,7 @@ public class UserPageControler {
 
     @FXML
     private Button profile;
-
-	public UserPageControler(Stage stage, User user) {
-		this.stage = stage;
-		this.user = user;
-		System.out.println(user.getUsername() + " logged in");
-	}
+    
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
