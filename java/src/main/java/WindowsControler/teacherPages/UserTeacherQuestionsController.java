@@ -81,7 +81,7 @@ public class UserTeacherQuestionsController {
 		username.setText(user.getName() + " " + user.getSurname());
 		listview.setItems(FXCollections.observableArrayList(questionDao.getAllByUserId(user.getIdUser())));
 		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForTeacher(user.getIdUser())));
-		topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllForTeacher(user.getIdUser())));
+		//topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllForTeacher(user.getIdUser())));
 		
 		listview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {
 
@@ -284,6 +284,15 @@ public class UserTeacherQuestionsController {
 					errorfield.setText("");
 					questionDao.deleteQuestion(selectedQuestion.getValue().getIdQuestion());
 					listview.getItems().remove(selectedQuestion.getValue());
+					if (listview.getItems().size()==0) {
+						topicchoice.getItems().remove(selectedTopic.getValue());
+						selectedTopic.setValue(null);
+						
+					}
+					if (topicchoice.getItems().size()==0) {
+						subjectchoice.getItems().remove(selectedSubject.getValue());
+						selectedSubject.setValue(null);
+					}
 					selectedQuestion.setValue(null);
 					
 				}

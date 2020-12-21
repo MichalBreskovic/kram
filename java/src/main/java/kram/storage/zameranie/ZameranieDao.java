@@ -25,4 +25,6 @@ public interface ZameranieDao {
 	List<Zameranie> getBySubstringSubjectId(String sub, long subjectId) throws NullPointerException;
 
 	List<Zameranie> getAllByTestUserId(long idTest, long idUser) throws EntityNotFoundException;
+
+	Zameranie deleteZameranie(long id) throws EntityNotFoundException;
 }

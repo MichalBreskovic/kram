@@ -22,6 +22,20 @@ public class User {
 		System.out.println("kons this " + this.email);
 	}
 	
+	
+	
+	public int hashCode() {
+		return idUser.hashCode();
+	}
+
+
+
+	public boolean equals(Object obj) {
+		return idUser.equals(obj);
+	}
+
+
+
 	public User(Long idUser, String name, String surname) {
 		this.idUser = idUser;
 		this.name = name;

@@ -226,9 +226,9 @@ public class MysqlCourseDao implements CourseDao {
 
 	private String insertStudents(Course course) {
 		StringBuilder sqlBuilder = new StringBuilder();
-		sqlBuilder.append("INSERT INTO course_user (course_id, user_id) VALUES ");
+		sqlBuilder.append("INSERT INTO course_user (course_id, user_id, accepted) VALUES ");
 		for (Long id : course.getStudents()) {
-			sqlBuilder.append("("+ course.getIdCourse() + "," + id + "),");
+			sqlBuilder.append("("+ course.getIdCourse() + "," + id + "," + 1 + "),");
 	    }
 		String sql = sqlBuilder.substring(0, sqlBuilder.length() - 1);
 		return sql;

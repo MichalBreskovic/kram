@@ -57,6 +57,16 @@ public class MysqlUserDao implements UserDao {
 	}
 	
 	@Override
+	public List<User> getAll() throws EntityNotFoundException {
+		String sql = "SELECT user_id, name, surname, password, teacher, username, email FROM `user`";
+		try {
+			return jdbcTemplate.query(sql, new UserRowMapper());
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User not found");
+		}
+	}
+	
+	@Override
 	public List<User> getAllWaitingInCourse(Long idCourse) throws EntityNotFoundException {
 		String sql = "SELECT u.user_id, u.name, u.surname FROM course AS c JOIN course_user AS cu USING(course_id) JOIN user AS u ON(cu.user_id = u.user_id) WHERE c.course_id = ? and accepted = 0";
 		try {

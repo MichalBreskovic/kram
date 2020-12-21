@@ -132,4 +132,14 @@ public class MysqlZameranieDao implements ZameranieDao {
 		String sql = "SELECT topic_id , title, subject_id FROM topic WHERE title LIKE ? and subject_id like ?";
 		return jdbcTemplate.query(sql, new ZameranieRowMapper(),str, subjectId);
 	}
+	@Override
+    public Zameranie deleteZameranie(long id) throws EntityNotFoundException {
+        String deleteSql = "DELETE FROM topic WHERE topic_id = " + id;
+        Zameranie topic = getById(id);
+        int changed = jdbcTemplate.update(deleteSql);
+        if(changed == 0) {
+            throw new EntityNotFoundException("Topic with id " + id + " not found");
+        }
+        return topic;
+    }
 }
