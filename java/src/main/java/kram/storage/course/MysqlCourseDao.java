@@ -76,15 +76,15 @@ public class MysqlCourseDao implements CourseDao {
 		}
 	}
 	
-//	@Override
-//	public List<Course> getAll() throws EntityNotFoundException {
-//		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id)";
-//		try {
-//			return jdbcTemplate.query(sql, new MultipleCourseSetExtractor());
-//		} catch (DataAccessException e) {
-//			throw new EntityNotFoundException("Course not found");
-//		}
-//	}
+	@Override
+	public List<Course> getAll() throws EntityNotFoundException {
+		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id)";
+		try {
+			return jdbcTemplate.query(sql, new MultipleCourseSetExtractor());
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Course not found");
+		}
+	}
 	
 //	@Override
 //	public List<Course> getAllRowMapper() throws EntityNotFoundException {
@@ -144,15 +144,15 @@ public class MysqlCourseDao implements CourseDao {
 	
 	}
 
-//	@Override
-//	public Course getById(Long id) throws EntityNotFoundException {
-//		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id) WHERE c.course_id = ?";
-//		try {
-//			return jdbcTemplate.query(sql, new CourseSetExtractor(), id);
-//		} catch (DataAccessException e) {
-//			throw new EntityNotFoundException("Course with " + id + " not found");
-//		}
-//	}
+	@Override
+	public Course getById(Long id) throws EntityNotFoundException {
+		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id) WHERE c.course_id = ?";
+		try {
+			return jdbcTemplate.query(sql, new CourseSetExtractor(), id);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Course with " + id + " not found");
+		}
+	}
 
 	@Override
 	public List<Course> getAllByTeacherId(Long id) throws EntityNotFoundException {
@@ -224,9 +224,9 @@ public class MysqlCourseDao implements CourseDao {
 
 	private String insertStudents(Course course) {
 		StringBuilder sqlBuilder = new StringBuilder();
-		sqlBuilder.append("INSERT INTO course_user (course_id, user_id) VALUES ");
+		sqlBuilder.append("INSERT INTO course_user (course_id, user_id, accepted) VALUES ");
 		for (Long id : course.getStudents()) {
-			sqlBuilder.append("("+ course.getIdCourse() + "," + id + "),");
+			sqlBuilder.append("("+ course.getIdCourse() + "," + id + "," + 1 + "),");
 	    }
 		String sql = sqlBuilder.substring(0, sqlBuilder.length() - 1);
 		return sql;

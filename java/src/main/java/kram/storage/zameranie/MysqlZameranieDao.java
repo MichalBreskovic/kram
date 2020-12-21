@@ -68,15 +68,15 @@ public class MysqlZameranieDao implements ZameranieDao {
 
 	}
 	
-//	@Override
-//	public List<Zameranie> getAllByTestUserId(long idTest, long idUser) throws EntityNotFoundException {
-//		String sql = "SELECT t.topic_id, t.title FROM topic AS t JOIN test USING(topic_id) WHERE test_id = ? AND user_id = ? ORDER BY t.title";
-//		try {
-//			return jdbcTemplate.query(sql, new ZameranieRowMapper(), idTest, idUser);
-//		} catch (DataAccessException e) {
-//			throw new EntityNotFoundException("User not found");
-//		}
-//	}
+	@Override
+	public List<Zameranie> getAllByTestUserId(long idTest, long idUser) throws EntityNotFoundException {
+		String sql = "SELECT t.topic_id, t.title FROM topic AS t JOIN test USING(topic_id) WHERE test_id = ? AND user_id = ? ORDER BY t.title";
+		try {
+			return jdbcTemplate.query(sql, new ZameranieRowMapper(), idTest, idUser);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User not found");
+		}
+	}
 	
 	@Override
 	public Zameranie saveZameranie(Zameranie zameranie) throws EntityNotFoundException, NullPointerException {
@@ -90,8 +90,7 @@ public class MysqlZameranieDao implements ZameranieDao {
 			Map<String, String> valuesMap = new HashMap<String, String>();
 			valuesMap.put("subject_id", zameranie.getIdSubject().toString());
 			valuesMap.put("title", zameranie.getTitle());
-		
-			//(Long idUser, String name, String username, String surname, String password, boolean teacher)
+			
 			Zameranie newZameranie = new Zameranie(insert.executeAndReturnKey(valuesMap).longValue(), zameranie.getIdSubject(), zameranie.getTitle());
 			return newZameranie;
 		} else {
@@ -105,7 +104,6 @@ public class MysqlZameranieDao implements ZameranieDao {
 				throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
 			}
 			*/
-
 		}
 	@Override
 	public List<Zameranie> getBySubstring(String sub) throws NullPointerException {
@@ -123,16 +121,16 @@ public class MysqlZameranieDao implements ZameranieDao {
 	@Override
 	public List<Zameranie> getBySubstringSubjectId(String sub, long subjectId) throws NullPointerException {
 		if (sub == null) {
-			return getAll();
+			return getAllBySubjectId(subjectId);
 		}
 		if (sub.isBlank()) {
-			return getAll();
+			return getAllBySubjectId(subjectId);
 		}
 		String str = "%" + sub +"%";
 		String sql = "SELECT topic_id , title, subject_id FROM topic WHERE title LIKE ? and subject_id like ?";
 		return jdbcTemplate.query(sql, new ZameranieRowMapper(),str, subjectId);
 	}
-	
+
 	@Override
 	public Zameranie deleteZameranie(long id) throws EntityNotFoundException {
 		String deleteSql = "DELETE FROM topic WHERE topic_id = " + id;

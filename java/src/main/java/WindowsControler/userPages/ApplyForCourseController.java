@@ -1,6 +1,5 @@
 package WindowsControler.userPages;
 
-
 import WindowsControler.teacherPages.UserTeacherClassesController;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -27,45 +26,42 @@ import kram.storage.course.CourseDao;
 import kram.storage.test.TestDao;
 import kram.storage.user.User;
 
-
 public class ApplyForCourseController {
 
 	private Stage stage;
 	private User user;
 
-    @FXML
-    private Label username;
+	@FXML
+	private Label username;
 
-    @FXML
-    private Button apply;
+	@FXML
+	private Button apply;
 
+	@FXML
+	private ListView<Course> list;
 
-    @FXML
-    private ListView<Course> list;
+	@FXML
+	private TextField substr;
 
-    @FXML
-    private TextField substr;
+//	@FXML
+//	private Button refresh;
 
-    @FXML
-    private Button refresh;
+	@FXML
+	private Button bck;
 
-    @FXML
-    private Button bck;
-
-    @FXML
-    private Label errorfield;
-
-
+	@FXML
+	private Label errorfield;
 
 	public ApplyForCourseController(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
 	}
 
-	//private TestDao testDao = DaoFactory.INSTATNCE.getTestDao();
+	// private TestDao testDao = DaoFactory.INSTATNCE.getTestDao();
 	private CourseDao courseDao = DaoFactory.INSTATNCE.getCourseDao();
 
 	private ObjectProperty<Course> selectedCourse = new SimpleObjectProperty<Course>();
+	private ObjectProperty<String> selectedString = new SimpleObjectProperty<String>();
 
 	@FXML
 	void initialize() {
@@ -100,22 +96,33 @@ public class ApplyForCourseController {
 					courseDao.addToCourse(selectedCourse.getValue().getIdCourse(), user.getIdUser());
 					list.getItems().remove(selectedCourse.getValue());
 					selectedCourse.setValue(null);
-					
+
 				} else {
 					errorfield.setTextFill(Color.RED);
 					errorfield.setText("Choose course");
 				}
 			}
 		});
-		refresh.setOnAction(new EventHandler<ActionEvent>() {
+		substr.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
-			public void handle(ActionEvent event) {
-				list.getItems().clear();
-				list.setItems(FXCollections.observableArrayList(courseDao.getBySubstringWithoutU(substr.getText(), user.getIdUser())));
-				
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				selectedString.setValue(newValue);
+				list.setItems(FXCollections.observableArrayList(
+						courseDao.getBySubstringWithoutU(selectedString.getValue(), user.getIdUser())));
+				selectedCourse.setValue(null);
+
 			}
 		});
+		/*
+		 * refresh.setOnAction(new EventHandler<ActionEvent>() {
+		 * 
+		 * @Override public void handle(ActionEvent event) { list.getItems().clear();
+		 * list.setItems(FXCollections.observableArrayList(courseDao.
+		 * getBySubstringWithoutU(substr.getText(), user.getIdUser())));
+		 * 
+		 * } });
+		 */
 
 		bck.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -137,6 +144,6 @@ public class ApplyForCourseController {
 			}
 
 		});
-		
+
 	}
 }

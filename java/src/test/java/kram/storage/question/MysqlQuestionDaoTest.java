@@ -15,8 +15,13 @@ import org.junit.jupiter.api.function.Executable;
 
 import kram.storage.DaoFactory;
 import kram.storage.EntityNotFoundException;
+import kram.storage.SHA256;
 import kram.storage.option.Option;
 import kram.storage.option.OptionDao;
+import kram.storage.user.User;
+import kram.storage.user.UserDao;
+import kram.storage.zameranie.Zameranie;
+import kram.storage.zameranie.ZameranieDao;
 
 class MysqlQuestionDaoTest {
 
@@ -26,22 +31,30 @@ class MysqlQuestionDaoTest {
 	Question savedQuestion;
 	List<Question> questions;
 	Map<Option,Boolean> options;
+	User newUser;
+	Zameranie newTopic;
+	UserDao userDao;
+	ZameranieDao topicDao;
 	
 	public MysqlQuestionDaoTest() {
 		questionDao = DaoFactory.INSTATNCE.getQuestionDao(); 
 		optionDao = DaoFactory.INSTATNCE.getOptionDao();  
+		userDao = DaoFactory.INSTATNCE.getUserDao();
+		topicDao = DaoFactory.INSTATNCE.getZameranieDao();
 	}
 	
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		newUser = userDao.saveUser(new User("Peter", "piko" ,"Vysoký", SHA256.getHash("12345"), true, "a@b"));
+		newTopic = topicDao.saveZameranie(new Zameranie("CurrentTopic"));
 		options = new HashMap<Option,Boolean>();
 		options.put(optionDao.saveOption(new Option("KramTest option1")), true);
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
-//		optionDao.saveOptions(options);
-		newQuestion = new Question("Je test test?", (long) 1, (long) 1, options);
+		
+		newQuestion = new Question("Je test test?", newTopic.getIdZameranie(), newUser.getIdUser(), options);
 		savedQuestion = questionDao.saveQuestion(newQuestion);
 	}
 
@@ -49,6 +62,8 @@ class MysqlQuestionDaoTest {
 	void tearDown() throws Exception {
 		questionDao.deleteQuestion(savedQuestion.getIdQuestion());
 		optionDao.deleteOptions(options);
+		userDao.deleteUser(newUser.getIdUser());
+		
 	}
 
 //	@KramTest

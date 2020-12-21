@@ -26,7 +26,7 @@ class MysqlUserDaoTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		newUser = userDao.saveUser(new User("Peter", "piko" ,"Vysoký", SHA256.getHash("12345"), true, "a@b"));
+		newUser = new User("Peter", "piko" ,"Vysoký", SHA256.getHash("12345"), true, "a@b");
 		savedUser = userDao.saveUser(newUser);
 	}
 
