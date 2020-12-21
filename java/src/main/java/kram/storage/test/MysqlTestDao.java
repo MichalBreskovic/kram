@@ -47,7 +47,7 @@ public class MysqlTestDao implements TestDao {
 				QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
 				Long idQuestion = rs.getLong("question_id");
 				Long idOption = rs.getLong("option_id");
-				System.out.println("quesion_id : " + idQuestion);
+//				System.out.println("quesion_id : " + idQuestion);
 				if(idOption == 0) kramTest.addAnswer(questionDao.getById(idQuestion), null);
 				else kramTest.addAnswer(questionDao.getById(idQuestion), optionDao.getById(idOption));
 				if (idOption!=0 ) {
@@ -118,9 +118,7 @@ public class MysqlTestDao implements TestDao {
 	
 	@Override
 	public List<KramTest> getAllInfo(long userId) throws EntityNotFoundException {
-
 		String sql = "SELECT t.test_id, t.user_id, t.topic_id, t.name, t.time_start, t.time_end, t.hodnotenie FROM test AS t WHERE t.user_id = ? and t.topic_id is not null";
-
 		try {
 			return jdbcTemplate.query(sql, new TestRowMapper(), userId);
 		} catch (DataAccessException e) {
@@ -130,9 +128,7 @@ public class MysqlTestDao implements TestDao {
 	
 	@Override
 	public List<KramTest> getAllInfoByCourse(long idUser, long idCourse) throws EntityNotFoundException {
-
 		String sql = "SELECT ct.test_id, t.user_id, t.topic_id, t.name, t.time_start, t.time_end, t.hodnotenie FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) JOIN course_test AS ct USING(course_id) LEFT OUTER JOIN test AS t USING(test_id) WHERE cu.user_id = ? AND c.course_id = ?";
-
 		try {
 			return jdbcTemplate.query(sql, new TestRowMapper(), idUser, idCourse);
 		} catch (DataAccessException e) {
@@ -228,7 +224,7 @@ public class MysqlTestDao implements TestDao {
 			insert.usingGeneratedKeyColumns("test_id");
 			insert.usingColumns("user_id", "topic_id", "name", "time_start", "time_end", "hodnotenie");
 
-			System.out.println("this name " + kramTest.getName());
+//			System.out.println("this name " + kramTest.getName());
 			
 			Map<String, String> valuesMap = new HashMap<String, String>();
 			valuesMap.put("user_id", kramTest.getIdUser().toString());
@@ -274,44 +270,12 @@ public class MysqlTestDao implements TestDao {
 			return kramTest;
 		}
 	}
-	
-	@Override
-	public KramTest saveTest2(KramTest kramTest) throws EntityNotFoundException {
-		if (kramTest.getIdTest() == null) {
-			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
-			insert.withTableName("test");
-			insert.usingGeneratedKeyColumns("test_id");
-			insert.usingColumns("user_id");
-
-			Map<String, String> valuesMap = new HashMap<String, String>();
-			valuesMap.put("user_id", kramTest.getIdUser().toString());
-
-			KramTest newTest = new KramTest(insert.executeAndReturnKey(valuesMap).longValue(), kramTest.getIdUser());
-			if (newTest.getAnswers().size() != 0) {
-				String sql = insert(newTest);
-				if (sql != "")
-					jdbcTemplate.update(sql);
-			}
-			return newTest;
-		} else {
-			if (kramTest.getAnswers().size() != 0) {
-				String sql = "UPDATE test SET user_id = ? WHERE test_id = ?";
-				int now = jdbcTemplate.update(sql, kramTest.getIdUser());
-				if (now != 1)
-					throw new EntityNotFoundException("Test with id " + kramTest.getIdTest() + " not found");
-				String deleteSql = "DELETE FROM answer WHERE test_id = ?";
-				jdbcTemplate.update(deleteSql, kramTest.getIdTest());
-				jdbcTemplate.update(insert(kramTest));
-			}
-			return kramTest;
-		}
-	}
 
 	private String insert(KramTest kramTest) {
 		StringBuilder sqlBuilder = new StringBuilder();
 		sqlBuilder.append("INSERT INTO answer (test_id, question_id, option_id) VALUES ");
 		for (Map.Entry<Question, Option> entry : kramTest.getAnswers().entries()) {
-			System.out.println(kramTest.getAnswers().get(entry.getKey()));
+//			System.out.println(kramTest.getAnswers().get(entry.getKey()));
 			if (entry.getValue() != null) {
 				sqlBuilder.append("(" + kramTest.getIdTest() + "," + entry.getKey().getIdQuestion() + ","
 						+ entry.getValue().getIdOption() + "),");
@@ -320,7 +284,7 @@ public class MysqlTestDao implements TestDao {
 			}
 		}
 		String sql = sqlBuilder.substring(0, sqlBuilder.length() - 1);
-		System.out.println(sql);
+//		System.out.println(sql);
 		return sql;
 	}
 	
@@ -338,7 +302,7 @@ public class MysqlTestDao implements TestDao {
 			
 			KramTest newTest = new KramTest(insert.executeAndReturnKey(valuesMap).longValue(), kramTest.getIdUser());
 			newTest.setName(kramTest.getName());
-			System.out.println("id test " + newTest.getIdTest());
+//			System.out.println("id test " + newTest.getIdTest());
 			newTest.setAnswers(kramTest.getAnswers());
 			if (newTest.getAnswers().size() != 0) {
 				String sql = insert(newTest);

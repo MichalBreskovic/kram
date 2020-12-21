@@ -138,8 +138,6 @@ public class NewTestGeneratorController {
 				selectedString.setValue(newValue);
 				subjectview.setItems(FXCollections.observableArrayList(subjectDao.getBySubstring(selectedString.getValue())));
 				selectedTopic.setValue(null);
-				
-				
 			}
 		});
 		

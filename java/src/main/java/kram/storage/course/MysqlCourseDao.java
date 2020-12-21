@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
@@ -145,7 +146,7 @@ public class MysqlCourseDao implements CourseDao {
 	}
 
 	@Override
-	public Course getById(Long id) throws EntityNotFoundException {
+	public Course getById(Long id) throws EntityNotFoundException, DataIntegrityViolationException {
 		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id) WHERE c.course_id = ?";
 		try {
 			return jdbcTemplate.query(sql, new CourseSetExtractor(), id);

@@ -84,7 +84,7 @@ public class MysqlOptionDao implements OptionDao {
 			i++;
 	    }
 		sql += ")";
-		System.out.println(sql);
+//		System.out.println(sql);
 		jdbcTemplate.update(sql);
 		return options;
 	}

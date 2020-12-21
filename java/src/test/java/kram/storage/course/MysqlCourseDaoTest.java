@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import kram.storage.DaoFactory;
 import kram.storage.EntityNotFoundException;
@@ -87,19 +88,6 @@ class MysqlCourseDaoTest {
 		assertTrue(savedCourse.getName().equals(courseDao.getById(savedCourse.getIdCourse()).getName()));
 		assertTrue(savedCourse.getIdUser()==courseDao.getById(savedCourse.getIdCourse()).getIdUser());
 		
-	}
-	@Test
-	void testAddToCourse() {
-		assertThrows(EntityNotFoundException.class, new Executable() {
-			
-			@Override
-			public void execute() throws Throwable {
-				courseDao.addToCourse(savedCourse.getIdCourse(), -1L);
-				
-			}
-		});
-		courseDao.addToCourse(savedCourse.getIdCourse(), tempStudent3.getIdUser());
-		assertTrue(userDao.getAllWaitingInCourse(savedCourse.getIdCourse()).get(0).getIdUser()==tempStudent3.getIdUser());
 	}
 	
 	

@@ -31,7 +31,7 @@ public class MysqlQuestionDao implements QuestionDao{
 			Question question = null;
 			while(rs.next()) {
 				Long idQuestion = rs.getLong("question_id");
-				System.out.println("id: " + idQuestion);
+//				System.out.println("id: " + idQuestion);
 				if(question == null) {
 					String questionTitle = rs.getString("question_title");
 					Long topicId = rs.getLong("topic_id");

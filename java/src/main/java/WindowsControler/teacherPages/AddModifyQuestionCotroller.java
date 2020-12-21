@@ -51,8 +51,6 @@ public class AddModifyQuestionCotroller {
 		this.edit = edit;
 	}
 
-
-
 	@FXML
 	private TextField option;
 	@FXML

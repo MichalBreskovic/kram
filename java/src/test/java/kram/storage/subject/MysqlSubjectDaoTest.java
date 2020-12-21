@@ -19,7 +19,7 @@ class MysqlSubjectDaoTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		newSubject = new Subject("Test subject");
+		newSubject = new Subject("Test subject", "TST");
 		savedSubject = subjectDao.saveSubject(newSubject);
 	}
 
@@ -30,7 +30,7 @@ class MysqlSubjectDaoTest {
 
 	@Test
 	void test() {
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 }

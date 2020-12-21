@@ -311,7 +311,7 @@ public class AddTestToCourseController {
 							label2.setTextFill(Color.GREEN);
 						}
 						label2.setFont(Font.font(16));
-						label2.setTextFill(Color.DODGERBLUE);
+//						label2.setTextFill(Color.DODGERBLUE);
 						label2.setText(entry.getKey().getTitle());
 						box.getChildren().add(label2);
 					}

@@ -18,6 +18,8 @@ import kram.storage.EntityNotFoundException;
 import kram.storage.SHA256;
 import kram.storage.option.Option;
 import kram.storage.option.OptionDao;
+import kram.storage.subject.Subject;
+import kram.storage.subject.SubjectDao;
 import kram.storage.user.User;
 import kram.storage.user.UserDao;
 import kram.storage.zameranie.Zameranie;
@@ -33,21 +35,26 @@ class MysqlQuestionDaoTest {
 	Map<Option,Boolean> options;
 	User newUser;
 	Zameranie newTopic;
+	Subject newSubject;
 	UserDao userDao;
 	ZameranieDao topicDao;
+	SubjectDao subjectDao;
 	
 	public MysqlQuestionDaoTest() {
 		questionDao = DaoFactory.INSTATNCE.getQuestionDao(); 
 		optionDao = DaoFactory.INSTATNCE.getOptionDao();  
 		userDao = DaoFactory.INSTATNCE.getUserDao();
 		topicDao = DaoFactory.INSTATNCE.getZameranieDao();
+		subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	}
 	
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		newUser = userDao.saveUser(new User("Peter", "piko" ,"Vysoký", SHA256.getHash("12345"), true, "a@b"));
-		newTopic = topicDao.saveZameranie(new Zameranie("CurrentTopic"));
+		newSubject = subjectDao.saveSubject(new Subject("Test Subject", "TST"));
+//		System.out.println(newSubject);
+		newTopic = topicDao.saveZameranie(new Zameranie(newSubject.getIdSubject(), "CurrentTopic"));
 		options = new HashMap<Option,Boolean>();
 		options.put(optionDao.saveOption(new Option("KramTest option1")), true);
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
@@ -63,7 +70,8 @@ class MysqlQuestionDaoTest {
 		questionDao.deleteQuestion(savedQuestion.getIdQuestion());
 		optionDao.deleteOptions(options);
 		userDao.deleteUser(newUser.getIdUser());
-		
+		topicDao.deleteZameranie(newTopic.getIdZameranie());
+		subjectDao.deleteSubject(newSubject.getIdSubject());
 	}
 
 //	@KramTest
@@ -76,9 +84,9 @@ class MysqlQuestionDaoTest {
 	
 	@Test
 	void testGetAllByUserId() {
-		questions = questionDao.getAllByUserId((long) 5);
+		questions = questionDao.getAllByUserId(newUser.getIdUser());
 		for (Question question : questions) {
-			System.out.println(question.getIdQuestion() + " " + question + " " + question.getIdTopic() + " " + question.getIdUser());
+//			System.out.println(question.getIdQuestion() + " " + question + " " + question.getIdTopic() + " " + question.getIdUser());
 		}
 	}
 	

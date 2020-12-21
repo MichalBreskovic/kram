@@ -8,7 +8,6 @@ public interface TestDao {
 
 	KramTest getById(Long id) throws EntityNotFoundException;
 	KramTest saveTest(KramTest kramTest) throws EntityNotFoundException;
-	KramTest saveTest2(KramTest kramTest) throws EntityNotFoundException;
 	KramTest saveTestToCourse(KramTest kramTest, long idCourse) throws EntityNotFoundException;
 	KramTest deleteTest(Long id) throws EntityNotFoundException;
 	

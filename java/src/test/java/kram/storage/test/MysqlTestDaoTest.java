@@ -54,9 +54,9 @@ class MysqlTestDaoTest {
 		
 		newTest = new KramTest((long) 1, (long) 1, "2020-12-15 18:21:15", "2020-12-21 18:00:00", 69);
 		newTest.setQuestions(questions);
-		for (Map.Entry<Question, Option> entry : newTest.getAnswers().entries()) {
-			System.out.println(newTest.getAnswers().get(entry.getKey()));
-		}
+//		for (Map.Entry<Question, Option> entry : newTest.getAnswers().entries()) {
+//			System.out.println(newTest.getAnswers().get(entry.getKey()));
+//		}
 //		newTest.addAnswer(question, question.getOption(choosen1.getIdOption()));
 //		newTest.addAnswer(question, question.getOption(choosen2.getIdOption()));
 		savedTest = testDao.saveTest(newTest);
@@ -65,7 +65,7 @@ class MysqlTestDaoTest {
 	@AfterEach
 	void tearDown() throws Exception {
 		testDao.deleteTest(savedTest.getIdTest());
-		System.out.println(question);
+//		System.out.println(question);
 		questionDao.deleteQuestion(question.getIdQuestion());
 		optionDao.deleteOptions(options);
 	}
