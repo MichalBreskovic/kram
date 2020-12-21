@@ -52,12 +52,12 @@ public class NewTestGeneratorController {
     private ListView<Zameranie> topicview;
     @FXML
     private Label viewtest1;
-    @FXML
-    private Button refreshSubjectSelector;
+//    @FXML
+//    private Button refreshSubjectSelector;
     @FXML
     private TextField topicSelect;
-    @FXML
-    private Button refreshTopicSelector;
+//    @FXML
+//    private Button refreshTopicSelector;
     @FXML
     private Button back;
     @FXML
@@ -72,6 +72,8 @@ public class NewTestGeneratorController {
 	}
 	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>(); 
 	private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>(); 
+	private ObjectProperty<String> selectedString = new SimpleObjectProperty<String>();
+	private ObjectProperty<String> selectedString2 = new SimpleObjectProperty<String>();
 	
 	@FXML
 	void initialize() {
@@ -129,8 +131,36 @@ public class NewTestGeneratorController {
 				
 			}
 		});
+		subjectSelect.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				selectedString.setValue(newValue);
+				subjectview.setItems(FXCollections.observableArrayList(subjectDao.getBySubstring(selectedString.getValue())));
+				selectedTopic.setValue(null);
+				
+				
+			}
+		});
 		
-		refreshSubjectSelector.setOnAction(new EventHandler<ActionEvent>() {
+		topicSelect.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (selectedSubject.getValue()!=null) {
+					selectedString2.setValue(newValue);
+					topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstringSubjectId(selectedString2.getValue(), selectedSubject.getValue().getIdSubject())));
+					selectedTopic.setValue(null);
+				}else {
+					selectedString2.setValue(newValue);
+					topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstring(selectedString2.getValue())));
+					selectedTopic.setValue(null);
+									
+				}
+			
+			}
+		});
+		/*refreshSubjectSelector.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
@@ -160,7 +190,7 @@ public class NewTestGeneratorController {
 				
 			}
 			
-		});
+		});*/
 		start.setOnAction(new EventHandler<ActionEvent>() {
 			boolean done = true;
 			@Override

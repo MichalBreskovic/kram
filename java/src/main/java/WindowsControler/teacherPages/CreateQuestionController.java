@@ -25,6 +25,7 @@ import kram.storage.user.User;
 import kram.storage.zameranie.Zameranie;
 import kram.storage.zameranie.ZameranieDao;
 
+
 public class CreateQuestionController {
 	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private ZameranieDao zameranieDao = DaoFactory.INSTATNCE.getZameranieDao();
@@ -51,14 +52,14 @@ public class CreateQuestionController {
 	@FXML
 	private TextField subjectSelect;
 
-	@FXML
-	private Button refreshSubjectSelector;
+//	@FXML
+//	private Button refreshSubjectSelector;
 
 	@FXML
 	private TextField topicSelect;
 
-	@FXML
-	private Button refreshTopicSelector;
+//	@FXML
+//	private Button refreshTopicSelector;
 
 	@FXML
 	private Button addnewsubject;
@@ -76,7 +77,8 @@ public class CreateQuestionController {
 	boolean zmena = false;
 	private ObjectProperty<Subject> selectedSubject = new SimpleObjectProperty<Subject>();
 	private ObjectProperty<Zameranie> selectedTopic = new SimpleObjectProperty<Zameranie>();
-
+	private ObjectProperty<String> selectedString = new SimpleObjectProperty<String>();
+	private ObjectProperty<String> selectedString2 = new SimpleObjectProperty<String>();
 	@FXML
 	void initialize() {
 		selectedSubject.setValue(null);
@@ -138,7 +140,36 @@ public class CreateQuestionController {
 
 			}
 		});
-		refreshSubjectSelector.setOnAction(new EventHandler<ActionEvent>() {
+		subjectSelect.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				selectedString.setValue(newValue);
+				subjectview.setItems(FXCollections.observableArrayList(subjectDao.getBySubstring(selectedString.getValue())));
+				selectedTopic.setValue(null);
+				
+				
+			}
+		});
+		
+		topicSelect.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (selectedSubject.getValue()!=null) {
+					selectedString2.setValue(newValue);
+					topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstringSubjectId(selectedString2.getValue(), selectedSubject.getValue().getIdSubject())));
+					selectedTopic.setValue(null);
+				}else {
+					selectedString2.setValue(newValue);
+					topicview.setItems(FXCollections.observableArrayList(zameranieDao.getBySubstring(selectedString2.getValue())));
+					selectedTopic.setValue(null);
+									
+				}
+			
+			}
+		});
+		/*refreshSubjectSelector.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
@@ -163,7 +194,7 @@ public class CreateQuestionController {
 
 			}
 
-		});
+		});*/
 		
 
 		addnewtopic.setOnAction(new EventHandler<ActionEvent>() {

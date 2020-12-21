@@ -123,10 +123,10 @@ public class MysqlZameranieDao implements ZameranieDao {
 	@Override
 	public List<Zameranie> getBySubstringSubjectId(String sub, long subjectId) throws NullPointerException {
 		if (sub == null) {
-			return getAll();
+			return getAllBySubjectId(subjectId);
 		}
 		if (sub.isBlank()) {
-			return getAll();
+			return getAllBySubjectId(subjectId);
 		}
 		String str = "%" + sub +"%";
 		String sql = "SELECT topic_id , title, subject_id FROM topic WHERE title LIKE ? and subject_id like ?";
