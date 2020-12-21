@@ -102,7 +102,7 @@ public class TestController {
 			if (questions == null) {
 				questions = new ArrayList<Question>(test.getAnswers().keySet());
 			}
-			System.out.println(questions);
+//			System.out.println(questions);
 
 			CheckBox[][] checkboxes = new CheckBox[questions.size()][8];
 			panebix.setAlignment(Pos.CENTER);
@@ -247,7 +247,7 @@ public class TestController {
 		} else {
 			panebix.setAlignment(Pos.CENTER);
 			panebix.setSpacing(20);
-			System.out.println(kramTest);
+//			System.out.println(kramTest);
 			// System.out.println(kramTest.getIdTopic());
 			// System.out.println(zameranieDao.getById(kramTest.getIdTopic()));
 			if (kramTest.getIdTopic() != 0) {
@@ -263,8 +263,8 @@ public class TestController {
 			kramTest = testdao.getById(kramTest.getIdTest());
 
 //			System.out.println(kramTest.getAnswers().keys());
-			System.out.println("this " + kramTest);
-			System.out.println(kramTest.getAnswers());
+//			System.out.println("this " + kramTest);
+//			System.out.println(kramTest.getAnswers());
 
 			for (Question entry : kramTest.getAnswers().keySet()) {
 				HBox otazkaBox = new HBox();
@@ -291,9 +291,9 @@ public class TestController {
 				moznosti.setAlignment(Pos.CENTER);
 
 				List<Option> selected = new ArrayList<Option>(kramTest.getAnswers().get(entry));
-				System.out.println(entry);
+//				System.out.println(entry);
 				// System.out.println(kramTest.getAnswers().get(entry));
-				System.out.println(selected);
+//				System.out.println(selected);
 				for (Map.Entry<Option, Boolean> moznost : entry.getOptions().entrySet()) {
 					Label text = new Label();
 					text.setTextFill(Color.DODGERBLUE);
@@ -309,7 +309,7 @@ public class TestController {
 						// System.out.println(option.getIdOption() + " " +
 						// moznost.getKey().getIdOption());
 						if (option != null && (moznost.getKey().getIdOption().equals(option.getIdOption()))) {
-							System.out.println("rovnaju sa");
+//							System.out.println("rovnaju sa");
 							if (moznost.getValue()) {
 								text.setTextFill(Color.GREEN);
 								text.setText("✓  " + moznost.getKey().getTitle());

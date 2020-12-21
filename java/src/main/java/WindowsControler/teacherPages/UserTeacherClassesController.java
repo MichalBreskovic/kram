@@ -254,7 +254,7 @@ public class UserTeacherClassesController {
 					
 					waiting.getItems().remove(selectedStudentWaiting.getValue());
 					selectedStudentWaiting.setValue(null);
-					selectedStudentAccepted.setValue(null);
+//					selectedStudentAccepted.setValue(null);
 					
 				}
 				
@@ -273,7 +273,8 @@ public class UserTeacherClassesController {
 					errorField.setText("");
 					courseDao.acceptDismissStudent(0, selectedStudentAccepted.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
 					students.getItems().remove(selectedStudentAccepted.getValue());
-					selectedStudentWaiting.setValue(null);
+					courseStudents.getItems().remove(selectedStudentAccepted.getValue());
+//					selectedStudentWaiting.setValue(null);
 					selectedStudentAccepted.setValue(null);
 					
 				}
@@ -294,7 +295,7 @@ public class UserTeacherClassesController {
 					courseDao.acceptDismissStudent(0, selectedStudentWaiting.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
 					waiting.getItems().remove(selectedStudentWaiting.getValue());
 					selectedStudentWaiting.setValue(null);
-					selectedStudentAccepted.setValue(null);
+//					selectedStudentAccepted.setValue(null);
 					
 				}
 				

@@ -175,43 +175,53 @@ public class UserPageClassController {
 				if (selectedDoneTest != null || selectedWaitingTest != null) {
 
 					if (viewTest.getText() == "DO TEST") {
+						if(selectedWaitingTest != null) {
 						errorField.setTextFill(Color.DARKGREEN);
 						errorField.setText("STARTING");
 
-						try {
-							TestController controller = new TestController(stage, user, selectedWaitingTest.getValue(),
-									false);
-							FXMLLoader fxmlLoader2 = new FXMLLoader(
-									UserPageControler.class.getResource("TestPage.fxml"));
-							fxmlLoader2.setController(controller);
-							Parent rootPane = fxmlLoader2.load();
-							Scene scene = new Scene(rootPane);
-							stage.setTitle("TEST");
-							stage.setScene(scene);
-						} catch (IOException e) {
-							e.printStackTrace();
-							System.out.println("fail again");
+							try {
+								TestController controller = new TestController(stage, user,
+										selectedWaitingTest.getValue(), false);
+								FXMLLoader fxmlLoader2 = new FXMLLoader(
+										UserPageControler.class.getResource("TestPage.fxml"));
+								fxmlLoader2.setController(controller);
+								Parent rootPane = fxmlLoader2.load();
+								Scene scene = new Scene(rootPane);
+								stage.setTitle("TEST");
+								stage.setScene(scene);
+							} catch (IOException e) {
+								e.printStackTrace();
+								System.out.println("fail again");
+							}
+						} else {
+							errorField.setTextFill(Color.RED);
+							errorField.setText("You have to have selected test");
 						}
-
+						
 					} else {
-						errorField.setTextFill(Color.DARKGREEN);
-						errorField.setText("STARTING");
-						// List<Question> otazky =new
-						// ArrayList<Question>(selectedDoneTest.getValue().getAnswers().keySet());
-
-						try {
-							TestController controller = new TestController(stage, user, selectedDoneTest.getValue(),
-									true);
-							FXMLLoader fxmlLoader2 = new FXMLLoader(
-									UserPageControler.class.getResource("TestPage.fxml"));
-							fxmlLoader2.setController(controller);
-							Parent rootPane = fxmlLoader2.load();
-							Scene scene = new Scene(rootPane);
-							stage.setTitle("TEST");
-							stage.setScene(scene);
-						} catch (IOException e) {
-							e.printStackTrace();
-//							System.out.println("fail again");
+						if(selectedDoneTest.getValue() != null) {
+							errorField.setTextFill(Color.DARKGREEN);
+							errorField.setText("STARTING");
+							// List<Question> otazky =new
+							// ArrayList<Question>(selectedDoneTest.getValue().getAnswers().keySet());
+	
+							try {
+								TestController controller = new TestController(stage, user, selectedDoneTest.getValue(),
+										true);
+								FXMLLoader fxmlLoader2 = new FXMLLoader(
+										UserPageControler.class.getResource("TestPage.fxml"));
+								fxmlLoader2.setController(controller);
+								Parent rootPane = fxmlLoader2.load();
+								Scene scene = new Scene(rootPane);
+								stage.setTitle("TEST");
+								stage.setScene(scene);
+							} catch (IOException e) {
+								e.printStackTrace();
+	//							System.out.println("fail again");
+							}
+						} else {
+							errorField.setTextFill(Color.RED);
+							errorField.setText("You have to have selected test");
 						}
 					}
 				}

@@ -137,12 +137,12 @@ public class AddModifyQuestionCotroller {
 					}
 
 					for (CheckBox b : correct) {
-						System.out.println(b.isSelected());
+//						System.out.println(b.isSelected());
 					}
 
 					int index = 0;
 					for (TextField option : options) {
-						System.out.println(option.getText() + "\t" + correct.get(index).isSelected());
+//						System.out.println(option.getText() + "\t" + correct.get(index).isSelected());
 						question.addOption(optionDao.saveOption(new Option(option.getText())),
 								correct.get(index).isSelected());
 						index++;
@@ -238,7 +238,7 @@ public class AddModifyQuestionCotroller {
 					options.get(krok).setText(entry.getKey().getTitle());
 
 				} else {
-					System.out.println(entry.getKey().getTitle());
+//					System.out.println(entry.getKey().getTitle());
 					TextField txt = new TextField();
 					CheckBox chc = new CheckBox();
 
@@ -261,7 +261,7 @@ public class AddModifyQuestionCotroller {
 					if (pocet > 2) {
 						box.getChildren().remove(pocet - 1);
 						box1.getChildren().remove(pocet - 1);
-						System.out.println(pocet);
+//						System.out.println(pocet);
 						options.remove(pocet - 1);
 						correct.remove(pocet - 1);
 						pocet--;

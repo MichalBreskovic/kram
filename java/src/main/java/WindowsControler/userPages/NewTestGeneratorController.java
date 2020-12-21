@@ -88,7 +88,7 @@ public class NewTestGeneratorController {
 			public void changed(ObservableValue<? extends Subject> observable, Subject oldValue, Subject newValue) {
 				selectedSubject.setValue(newValue);
 				selectedTopic.setValue(null);
-				System.out.println(newValue);
+//				System.out.println(newValue);
 				topicview.getItems().clear();
 				if (selectedSubject.getValue()!=null) {
 					topicview.setItems(FXCollections.observableArrayList(zameranieDao.getAllBySubjectId(selectedSubject.getValue().getIdSubject())));
@@ -115,7 +115,7 @@ public class NewTestGeneratorController {
 			public void changed(ObservableValue<? extends Zameranie> observable, Zameranie oldValue, Zameranie newValue) {
 				//selectedSubject.setValue(null);
 				selectedTopic.setValue(newValue);
-				System.out.println(newValue);
+//				System.out.println(newValue);
 			}
 			
 		});

@@ -27,7 +27,8 @@ public class User {
 
 
 	public boolean equals(Object obj) {
-		return idUser.equals(obj);
+		if(obj != null) return idUser.hashCode() ==  obj.hashCode();
+	    return false;
 	}
 
 
