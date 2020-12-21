@@ -20,6 +20,7 @@ public class User {
 	
 	
 	
+
 	public int hashCode() {
 		return idUser.hashCode();
 	}
