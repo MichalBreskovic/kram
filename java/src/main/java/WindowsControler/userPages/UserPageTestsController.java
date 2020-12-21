@@ -78,8 +78,8 @@ public class UserPageTestsController {
 		selectedTopic.setValue(null);
 		username.setText(user.getName() + " " + user.getSurname());
 		testview.setItems(FXCollections.observableArrayList(testDao.getAllInfo(user.getIdUser())));
-		System.out.println(testDao.getAllInfo(user.getIdUser()));
-		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForTeacher(user.getIdUser())));
+//		System.out.println(testDao.getAllInfo(user.getIdUser()));
+		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForUser(user.getIdUser())));
 //		topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.get));
 		subjectchoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Subject>() {
 
@@ -139,7 +139,7 @@ public class UserPageTestsController {
 			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
 				
 				selectedTest.setValue(newValue);
-				System.out.println(selectedTest.getValue());
+//				System.out.println(selectedTest.getValue());
 
 			}
 

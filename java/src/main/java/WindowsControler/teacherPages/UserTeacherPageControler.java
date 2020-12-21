@@ -1,5 +1,7 @@
 package WindowsControler.teacherPages;
 
+import java.io.IOException;
+
 import WindowsControler.UserPageProfileController;
 import WindowsControler.WelcomePageControler;
 import javafx.event.ActionEvent;
@@ -19,9 +21,11 @@ import kram.storage.user.User;
 public class UserTeacherPageControler {
 	private Stage stage;
 	private User user;
+	
 	public UserTeacherPageControler(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
+		System.out.println("Teacher '" + user.getName() + "' logged in");
 	}
 
     @FXML
@@ -52,9 +56,9 @@ public class UserTeacherPageControler {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Questions");
 					stage.setScene(scene);
-				} catch (Exception e) {
+				} catch (IOException e) {
 					e.printStackTrace();
-					System.out.println("padaaaam");
+					System.err.println("padaaaam");
 				}
 				
 			}
@@ -74,7 +78,7 @@ public class UserTeacherPageControler {
 					stage.setScene(scene);
 					
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 				
 			}
@@ -93,7 +97,7 @@ public class UserTeacherPageControler {
 					stage.setTitle("Profile");
 					stage.setScene(scene);
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 				
 			}

@@ -336,7 +336,9 @@ public class MysqlTestDao implements TestDao {
 			valuesMap.put("user_id", kramTest.getIdUser().toString());
 			valuesMap.put("name", kramTest.getName().toString());
 			
-			KramTest newTest = new KramTest(insert.executeAndReturnKey(valuesMap).longValue(), kramTest.getIdUser(), kramTest.getName());
+			KramTest newTest = new KramTest(insert.executeAndReturnKey(valuesMap).longValue(), kramTest.getIdUser());
+			newTest.setName(kramTest.getName());
+			System.out.println("id test " + newTest.getIdTest());
 			newTest.setAnswers(kramTest.getAnswers());
 			if (newTest.getAnswers().size() != 0) {
 				String sql = insert(newTest);

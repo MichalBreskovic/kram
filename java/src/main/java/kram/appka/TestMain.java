@@ -25,19 +25,21 @@ public class TestMain {
 		QuestionDao questionDao = DaoFactory.INSTATNCE.getQuestionDao();
 		OptionDao optionDao = DaoFactory.INSTATNCE.getOptionDao();
 //		Mail.send("");
-		for (int i = 0; i < 100; i++) {
+		int numOfQuestions = 50;
+		for (int i = 0; i < numOfQuestions; i++) {
 			int a = (int)(Math.random()*20);
 			int b = (int)(Math.random()*30);
 			int c = a + b;
 			int d = a - b;
+			int e = a * b;
 			Map<Option,Boolean> options = new HashMap<Option,Boolean>();
 			options.put(optionDao.saveOption(new Option(c + "")), true);
 			options.put(optionDao.saveOption(new Option(d + "")), false);
-			
+			options.put(optionDao.saveOption(new Option(e + "")), false);
 //			options = optionDao.saveOptions(options);
-			questionDao.saveQuestion(new Question( a + " + " + b + " ="  , 2L, 1L, options));
+			questionDao.saveQuestion(new Question( a + " + " + b + " ="  , 1L, 1L, options));
 		}
-		System.out.println("saved 200 questions");
+		System.out.println("saved " + numOfQuestions + " questions");
 	}
 
 }

@@ -71,7 +71,6 @@ public class WelcomePageControler {
 					getStage().setScene(scene);
 					getStage().show();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -118,20 +117,22 @@ public class WelcomePageControler {
 						Scene scene = new Scene(rootPane);
 						getStage().setTitle("Welcome "+logged.getSurname());
 						getStage().setScene(scene);
-					}else {
+					} else {
 						UserPageControler controller = new UserPageControler(getStage(), logged);
 						FXMLLoader fxmlLoader2 = new FXMLLoader(UserPageControler.class.getResource("UserPage.fxml"));
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
-						getStage().setTitle("Welcome "+logged.getSurname());
+						getStage().setTitle("Welcome " + logged.getSurname());
 						getStage().setScene(scene);
 					}
 					
 					}
+				} catch (EntityNotFoundException e) {
+					System.err.println(e.getMessage());
+					errorfield.setText(e.getMessage());
 				} catch (Exception e) {
 					errorfield.setText("There is no such user");
-				
 				} 
 				
 				

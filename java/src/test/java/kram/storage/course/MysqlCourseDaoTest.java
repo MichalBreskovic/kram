@@ -62,6 +62,7 @@ class MysqlCourseDaoTest {
 	}
 
 	@Test
+
 	void testGetAll() {
 		List<Course> courses = courseDao.getAll();
         assertTrue(courses.size() > 0);
@@ -76,8 +77,9 @@ class MysqlCourseDaoTest {
         assertTrue(waitin.get(0).getName().equals(tempStudent.getName()));
 //        assertTrue(waitin.get(1).getName().equals(tempStudent2.getName()));
 
-        
+
 	}
+	
 	//not throwing entity not found due to left outer join, throwing null
 	@Test
 	void testGetById() {

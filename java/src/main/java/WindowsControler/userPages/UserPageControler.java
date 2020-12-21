@@ -31,8 +31,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class UserPageControler {
+	
 	private SubjectDao subjectDao = DaoFactory.INSTATNCE.getSubjectDao();
 	private Stage stage;
+	
+	public UserPageControler(Stage stage, User user) {
+		this.stage = stage;
+		this.user = user;
+		System.out.println("Student '" + user.getUsername() + "' logged in");
+	}
+	
 	private User user;
     @FXML
     private Button tests;
@@ -45,12 +53,7 @@ public class UserPageControler {
 
     @FXML
     private Button profile;
-	// private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
-
-	public UserPageControler(Stage stage, User user) {
-		this.stage = stage;
-		this.user = user;
-	}
+    
 	@FXML
 	void initialize() {
 		username.setText(user.getName() + " "+ user.getSurname());
@@ -66,7 +69,7 @@ public class UserPageControler {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Tests");
 					stage.setScene(scene);
-				} catch (Exception e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
@@ -85,8 +88,8 @@ public class UserPageControler {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Classes");
 					stage.setScene(scene);
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 				
 			}
@@ -104,8 +107,8 @@ public class UserPageControler {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Classes");
 					stage.setScene(scene);
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 				
 			}

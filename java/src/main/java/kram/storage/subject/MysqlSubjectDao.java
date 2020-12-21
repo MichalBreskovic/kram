@@ -52,7 +52,7 @@ public class MysqlSubjectDao implements SubjectDao {
 	}
 
 	@Override
-	public List<Subject> getAllForTeacher(long idUser) throws EntityNotFoundException{
+	public List<Subject> getAllForUser(long idUser) throws EntityNotFoundException{
 		String sql = "SELECT s.subject_id, s.title, s.short FROM subject s JOIN (SELECT t.subject_id FROM topic t JOIN question q ON (t.topic_id=q.topic_id) WHERE q.user_id LIKE ? GROUP BY t.topic_id) z WHERE z.subject_id LIKE s.subject_id group by s.subject_id";
 		try {
 			return jdbcTemplate.query(sql, new SubjectRowMapper(), idUser);
@@ -61,15 +61,15 @@ public class MysqlSubjectDao implements SubjectDao {
 		}
 	}
 	
-	@Override
-	public List<Subject> getAllByTestUserId(long idTest, long idUser) throws EntityNotFoundException{
-		String sql = "SELECT s.subject_id, s.title FROM topic AS t JOIN subject AS s USING(subject_id) JOIN test USING(topic_id) WHERE test_id = ? AND user_id = ? ORDER BY s.title";
-		try {
-			return jdbcTemplate.query(sql, new SubjectRowMapper(), idTest, idUser);
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("User with id " + idUser + " not found");
-		}
-	}
+//	@Override
+//	public List<Subject> getAllByTestUserId(long idTest, long idUser) throws EntityNotFoundException{
+//		String sql = "SELECT s.subject_id, s.title FROM topic AS t JOIN subject AS s USING(subject_id) JOIN test USING(topic_id) WHERE test_id = ? AND user_id = ? ORDER BY s.title";
+//		try {
+//			return jdbcTemplate.query(sql, new SubjectRowMapper(), idTest, idUser);
+//		} catch (DataAccessException e) {
+//			throw new EntityNotFoundException("User with id " + idUser + " not found");
+//		}
+//	}
 
 	@Override
 	public List<Subject> getBySubstring(String sub) throws EntityNotFoundException {

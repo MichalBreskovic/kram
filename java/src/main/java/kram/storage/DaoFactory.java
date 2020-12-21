@@ -2,7 +2,6 @@ package kram.storage;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import kram.storage.course.CourseDao;
@@ -31,7 +30,7 @@ public enum DaoFactory {
 	private TestDao testDao;
 	private CourseDao courseDao;
 	
-	private static final boolean LOCAL = false;
+	private static final boolean LOCAL = true;
 	private static final boolean TEST = true;
 	
 	public ZameranieDao getZameranieDao() {

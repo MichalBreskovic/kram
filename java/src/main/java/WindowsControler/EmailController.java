@@ -89,13 +89,14 @@ public class EmailController {
 				for (String code : codes) {
 					if(code.equals(codeField.getText())) {
 						codeNotFind = false;
-						System.out.println("Funguje");
 					}
 				}
 				if(codeNotFind) {
+					System.err.println("Incorrect registration code");
 					errorField.setTextFill(Color.RED);
 					errorField.setText("Incorrect registration code");
 				} else {
+					System.out.println("Correct code");
 					errorField.setTextFill(Color.GREEN);
 					errorField.setText("Correct code");
 			    	try {

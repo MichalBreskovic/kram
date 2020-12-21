@@ -136,12 +136,13 @@ public class UserTeacherClassesController {
 				selectedStudentWaiting.setValue(null);
 				selectedTest.setValue(null);
 				selectedStudent.setValue(null);
-				List<User> users = userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse());
-				courseStudents.setItems(FXCollections.observableArrayList(users));
-				if(selectedCourse.getValue() != null)students.setItems(FXCollections.observableArrayList(users));
-				//if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
-				if(selectedCourse.getValue() != null)waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
-				
+				if(selectedCourse.getValue() != null) { 
+					List<User> users = userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse());
+					courseStudents.setItems(FXCollections.observableArrayList(users));
+					students.setItems(FXCollections.observableArrayList(users));
+					//if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
+					waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
+				}
 			}
 
 		});
@@ -253,7 +254,7 @@ public class UserTeacherClassesController {
 					
 					waiting.getItems().remove(selectedStudentWaiting.getValue());
 					selectedStudentWaiting.setValue(null);
-					selectedStudentAccepted.setValue(null);
+//					selectedStudentAccepted.setValue(null);
 					
 				}
 				
@@ -272,7 +273,8 @@ public class UserTeacherClassesController {
 					errorField.setText("");
 					courseDao.acceptDismissStudent(0, selectedStudentAccepted.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
 					students.getItems().remove(selectedStudentAccepted.getValue());
-					selectedStudentWaiting.setValue(null);
+					courseStudents.getItems().remove(selectedStudentAccepted.getValue());
+//					selectedStudentWaiting.setValue(null);
 					selectedStudentAccepted.setValue(null);
 					
 				}
@@ -293,7 +295,7 @@ public class UserTeacherClassesController {
 					courseDao.acceptDismissStudent(0, selectedStudentWaiting.getValue().getIdUser(), selectedCourse.getValue().getIdCourse());
 					waiting.getItems().remove(selectedStudentWaiting.getValue());
 					selectedStudentWaiting.setValue(null);
-					selectedStudentAccepted.setValue(null);
+//					selectedStudentAccepted.setValue(null);
 					
 				}
 				

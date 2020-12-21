@@ -1,6 +1,8 @@
 package WindowsControler.teacherPages;
 
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,36 +22,29 @@ public class AddCourseController {
 
 	private CourseDao courseDao = DaoFactory.INSTATNCE.getCourseDao();
 
-
 	private Stage stage;
 	private User user;
-	  @FXML
-	    private Label username1;
+	
+	@FXML
+    private Label username1;
 
-	    @FXML
-	    private TextField title;
+    @FXML
+    private TextField title;
 
-	    @FXML
-	    private Button addtopic;
+    @FXML
+    private Button addtopic;
 	    
-	    @FXML
-	    private Button bck;
+    @FXML
+    private Button bck;
 
-	    @FXML
-	    private Label errorfield;
-
-
-
-
+    @FXML
+    private Label errorfield;
 
 	public AddCourseController(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
 	}
-	
-
-
-	
+		
 	@FXML
 	void initialize() {
 		title.setText(null);
@@ -57,7 +52,6 @@ public class AddCourseController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
 				if (title.getText()!=null && !title.getText().trim().isEmpty()) {
 					errorfield.setText("");
 					courseDao.saveCourse(new Course(user.getIdUser(), title.getText().toString()));
@@ -68,15 +62,15 @@ public class AddCourseController {
 						fxmlLoader2.setController(controller);
 						Parent rootPane = fxmlLoader2.load();
 						Scene scene = new Scene(rootPane);
-						//courseDao.saveCourse(new Course(user.getIdUser(), title.getText().toString()));
 						stage.setTitle("Classes");
 						stage.setScene(scene);
 						stage.show();
-					} catch (Exception e) {
-						// TODO: handle exception
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-				}else {
-					errorfield.setText("Insert name of your course");
+				} else {
+					System.err.println("Course doesn't have a name");
+					errorfield.setText("Course doesn't have a name");
 				}
 
 				
@@ -97,8 +91,8 @@ public class AddCourseController {
 					stage.setTitle("Classes");
 					stage.setScene(scene);
 					stage.show();
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 				
 			}

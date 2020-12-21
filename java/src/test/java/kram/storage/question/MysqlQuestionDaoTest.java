@@ -53,7 +53,7 @@ class MysqlQuestionDaoTest {
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
 		options.put(optionDao.saveOption(new Option("KramTest option1")), false);
-		optionDao.saveOptions(options);
+		
 		newQuestion = new Question("Je test test?", newTopic.getIdZameranie(), newUser.getIdUser(), options);
 		savedQuestion = questionDao.saveQuestion(newQuestion);
 	}

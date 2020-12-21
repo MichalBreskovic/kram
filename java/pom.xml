@@ -49,10 +49,17 @@
 	    <artifactId>mssql-jdbc</artifactId>
 	    <version>9.1.1.jre15-preview</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
 	<dependency>
-		<groupId>com.sun.mail</groupId>
-		<artifactId>javax.mail</artifactId>
-		<version>1.6.2</version>
+	    <groupId>com.sun.mail</groupId>
+	    <artifactId>javax.mail</artifactId>
+	    <version>1.6.2</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-core</artifactId>
+	    <version>5.4.2</version>
 	</dependency>
  </dependencies>
  

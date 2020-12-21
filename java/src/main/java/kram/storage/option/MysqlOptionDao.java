@@ -57,14 +57,14 @@ public class MysqlOptionDao implements OptionDao {
 		}
 	}
 
-	@Override
-	public Map<Option,Boolean> saveOptions(Map<Option,Boolean> options) throws EntityNotFoundException {
-		Map<Option,Boolean> newOptions = new HashMap<Option,Boolean>();
-		for (Map.Entry<Option, Boolean> entry : options.entrySet()) {
-			newOptions.put(saveOption(entry.getKey()),entry.getValue());
-		}
-		return newOptions;
-	}
+//	@Override
+//	public Map<Option,Boolean> saveOptions(Map<Option,Boolean> options) throws EntityNotFoundException {
+//		Map<Option,Boolean> newOptions = new HashMap<Option,Boolean>();
+//		for (Map.Entry<Option, Boolean> entry : options.entrySet()) {
+//			newOptions.put(saveOption(entry.getKey()),entry.getValue());
+//		}
+//		return newOptions;
+//	}
 	
 	@Override
 	public Option deleteOption(Long id) throws EntityNotFoundException {

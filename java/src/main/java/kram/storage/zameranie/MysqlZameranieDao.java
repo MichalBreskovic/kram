@@ -90,8 +90,7 @@ public class MysqlZameranieDao implements ZameranieDao {
 			Map<String, String> valuesMap = new HashMap<String, String>();
 			valuesMap.put("subject_id", zameranie.getIdSubject().toString());
 			valuesMap.put("title", zameranie.getTitle());
-		
-			//(Long idUser, String name, String username, String surname, String password, boolean teacher)
+			
 			Zameranie newZameranie = new Zameranie(insert.executeAndReturnKey(valuesMap).longValue(), zameranie.getIdSubject(), zameranie.getTitle());
 			return newZameranie;
 		} else {
@@ -105,7 +104,6 @@ public class MysqlZameranieDao implements ZameranieDao {
 				throw new EntityNotFoundException("User with id " + user.getIdUser() + " not found");
 			}
 			*/
-
 		}
 	@Override
 	public List<Zameranie> getBySubstring(String sub) throws NullPointerException {
@@ -132,14 +130,15 @@ public class MysqlZameranieDao implements ZameranieDao {
 		String sql = "SELECT topic_id , title, subject_id FROM topic WHERE title LIKE ? and subject_id like ?";
 		return jdbcTemplate.query(sql, new ZameranieRowMapper(),str, subjectId);
 	}
+
 	@Override
-    public Zameranie deleteZameranie(long id) throws EntityNotFoundException {
-        String deleteSql = "DELETE FROM topic WHERE topic_id = " + id;
-        Zameranie topic = getById(id);
-        int changed = jdbcTemplate.update(deleteSql);
-        if(changed == 0) {
-            throw new EntityNotFoundException("Topic with id " + id + " not found");
-        }
-        return topic;
-    }
+	public Zameranie deleteZameranie(long id) throws EntityNotFoundException {
+		String deleteSql = "DELETE FROM topic WHERE topic_id = " + id;
+		Zameranie topic = getById(id);
+		int changed = jdbcTemplate.update(deleteSql);
+		if(changed == 0) {
+			throw new EntityNotFoundException("Topic with id " + id + " not found");
+		}
+		return topic;
+	}
 }

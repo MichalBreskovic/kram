@@ -34,6 +34,7 @@ public class Mail {
 		return code;
 	}
 	
+	// https://jaxenter.com/java-app-emails-smtp-server-164144.html
 	public static String sendCode(String email) {	
 		System.out.println("Sending registration email to " + email);
 		
@@ -82,6 +83,7 @@ public class Mail {
 		}
 	}
 	
+	// https://jaxenter.com/java-app-emails-smtp-server-164144.html
 	public static String sendPassword(String email) {	
 		System.out.println("Sending password email to " + email);
 		
