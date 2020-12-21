@@ -14,12 +14,8 @@ public class User {
 	private String surname;
 	private String heslo;
 	private boolean teacher;
-	private List<KramTest> testy = new ArrayList<KramTest>();
-	private List<Question> questions = new ArrayList<Question>();
 	
 	public User() {
-		System.out.println("kons " + email);
-		System.out.println("kons this " + this.email);
 	}
 	
 	public User(Long idUser, String name, String surname) {
@@ -66,8 +62,6 @@ public class User {
 		this.heslo = heslo;
 		this.teacher = teacher;
 		this.email = email;
-		System.out.println("kons " + email);
-		System.out.println("kons this " + this.email);
 	}
 	
 	public String getUsername() {
@@ -116,22 +110,6 @@ public class User {
 	
 	public void setTeacher(boolean teacher) {
 		this.teacher = teacher;
-	}
-	
-	public List<KramTest> getTesty() {
-		return testy;
-	}
-
-	public void setTesty(List<KramTest> testy) {
-		this.testy = testy;
-	}
-	
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
 	}
 
 	public String getEmail() {

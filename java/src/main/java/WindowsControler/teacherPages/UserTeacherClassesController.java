@@ -136,12 +136,13 @@ public class UserTeacherClassesController {
 				selectedStudentWaiting.setValue(null);
 				selectedTest.setValue(null);
 				selectedStudent.setValue(null);
-				List<User> users = userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse());
-				courseStudents.setItems(FXCollections.observableArrayList(users));
-				if(selectedCourse.getValue() != null)students.setItems(FXCollections.observableArrayList(users));
-				//if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
-				if(selectedCourse.getValue() != null)waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
-				
+				if(selectedCourse.getValue() != null) { 
+					List<User> users = userDao.getAllAcceptedInCourse(selectedCourse.getValue().getIdCourse());
+					courseStudents.setItems(FXCollections.observableArrayList(users));
+					students.setItems(FXCollections.observableArrayList(users));
+					//if(selectedCourse.getValue() != null && selectedStudent.getValue() != null) testView.setItems(FXCollections.observableArrayList(testDao.getAllByCourseTeacherUserId(selectedCourse.getValue().getIdCourse(), user.getIdUser(), selectedStudent.getValue().getIdUser())));
+					waiting.setItems(FXCollections.observableArrayList(userDao.getAllWaitingInCourse(selectedCourse.getValue().getIdCourse())));
+				}
 			}
 
 		});

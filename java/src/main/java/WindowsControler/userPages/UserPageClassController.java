@@ -1,5 +1,6 @@
 package WindowsControler.userPages;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,8 +89,8 @@ public class UserPageClassController {
 			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
 				selectedDoneTest.setValue(newValue);
 				// selectedWaitingTest.setValue(null);
-				System.out.println(selectedDoneTest.getValue());
-				System.out.println(selectedWaitingTest.getValue());
+//				System.out.println(selectedDoneTest.getValue());
+//				System.out.println(selectedWaitingTest.getValue());
 				viewTest.setText("VIEW TEST");
 
 			}
@@ -113,8 +114,8 @@ public class UserPageClassController {
 			public void changed(ObservableValue<? extends KramTest> observable, KramTest oldValue, KramTest newValue) {
 				selectedWaitingTest.setValue(newValue);
 				// selectedDoneTest.setValue(null);
-				System.out.println(selectedDoneTest.getValue());
-				System.out.println(selectedWaitingTest.getValue());
+//				System.out.println(selectedDoneTest.getValue());
+//				System.out.println(selectedWaitingTest.getValue());
 				viewTest.setText("DO TEST");
 
 			}
@@ -187,7 +188,7 @@ public class UserPageClassController {
 							Scene scene = new Scene(rootPane);
 							stage.setTitle("TEST");
 							stage.setScene(scene);
-						} catch (Exception e) {
+						} catch (IOException e) {
 							e.printStackTrace();
 							System.out.println("fail again");
 						}
@@ -208,9 +209,9 @@ public class UserPageClassController {
 							Scene scene = new Scene(rootPane);
 							stage.setTitle("TEST");
 							stage.setScene(scene);
-						} catch (Exception e) {
+						} catch (IOException e) {
 							e.printStackTrace();
-							System.out.println("fail again");
+//							System.out.println("fail again");
 						}
 					}
 				}
@@ -230,8 +231,8 @@ public class UserPageClassController {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Tests");
 					stage.setScene(scene);
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
 			}
@@ -250,8 +251,8 @@ public class UserPageClassController {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Classes");
 					stage.setScene(scene);
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
 			}
@@ -270,8 +271,8 @@ public class UserPageClassController {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Classes");
 					stage.setScene(scene);
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
 			}
@@ -292,9 +293,9 @@ public class UserPageClassController {
 					stage.setTitle("Application for course");
 					stage.setScene(scene);
 
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("moûeö teraz hodinu pred zaverecnou nefungovaù ??");
+				} catch (IOException e) {
+//					e.printStackTrace();
+					System.err.println("moûeö teraz hodinu pred zaverecnou nefungovaù ??");
 				}
 				
 			}

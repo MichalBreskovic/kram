@@ -153,23 +153,30 @@ public class ForgottenPassword {
     	resend.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				try {
-					user = userDao.getByUsername(username.getValue());
-		    		codes.add(Mail.sendPassword(user.getEmail()));
-		    	} catch(RuntimeException e) {
-		    		System.out.println("Incorrect email");
-		    		errorField.setTextFill(Color.RED);
-		    		errorField.setText("Incorrect email");
-		    	}
-				int timeToWait = 60;
-				Long nextTime = System.currentTimeMillis();
-				if(nextTime - lastTime > timeToWait*1000) {
-					lastTime = nextTime;
-					errorField.setTextFill(Color.GREEN);
-					errorField.setText("Email resend");
+				if(!userDao.checkUsername(username.getValue())) {
+		    		errorField.setTextFill(Color.GREEN);
+		    		errorField.setText("Sending email");
+					try {
+						user = userDao.getByUsername(username.getValue());
+			    		codes.add(Mail.sendPassword(user.getEmail()));
+			    	} catch(RuntimeException e) {
+			    		System.out.println("Incorrect email");
+			    		errorField.setTextFill(Color.RED);
+			    		errorField.setText("Incorrect email");
+			    	}
+					int timeToWait = 60;
+					Long nextTime = System.currentTimeMillis();
+					if(nextTime - lastTime > timeToWait*1000) {
+						lastTime = nextTime;
+						errorField.setTextFill(Color.GREEN);
+						errorField.setText("Email resend");
+					} else {
+						errorField.setTextFill(Color.RED);
+						errorField.setText("You have to wait " + (timeToWait - (int)(nextTime - lastTime)/1000) + " seconds to next resend.");
+					}
 				} else {
-					errorField.setTextFill(Color.RED);
-					errorField.setText("You have to wait " + (timeToWait - (int)(nextTime - lastTime)/1000) + " seconds to next resend.");
+		    		errorField.setTextFill(Color.RED);
+		    		errorField.setText("Lol, neexistuješ");
 				}
 			}
 		});

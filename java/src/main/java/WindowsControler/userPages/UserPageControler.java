@@ -45,11 +45,11 @@ public class UserPageControler {
 
     @FXML
     private Button profile;
-	// private UserDao userDao = DaoFactory.INSTATNCE.getUserDao();
 
 	public UserPageControler(Stage stage, User user) {
 		this.stage = stage;
 		this.user = user;
+		System.out.println(user.getUsername() + " logged in");
 	}
 	@FXML
 	void initialize() {
@@ -66,7 +66,7 @@ public class UserPageControler {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Tests");
 					stage.setScene(scene);
-				} catch (Exception e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
@@ -85,8 +85,8 @@ public class UserPageControler {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Classes");
 					stage.setScene(scene);
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 				
 			}
@@ -104,8 +104,8 @@ public class UserPageControler {
 					Scene scene = new Scene(rootPane);
 					stage.setTitle("Classes");
 					stage.setScene(scene);
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 				
 			}

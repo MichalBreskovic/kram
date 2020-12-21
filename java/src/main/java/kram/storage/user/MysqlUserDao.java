@@ -44,7 +44,16 @@ public class MysqlUserDao implements UserDao {
 			return new User(user_id, name, surname);
 		}
 	}
-
+	
+	@Override
+    public List<User> getAll() throws EntityNotFoundException {
+        String sql = "SELECT user_id, name, surname, password, teacher, username, email FROM user";
+        try {
+            return jdbcTemplate.query(sql, new UserRowMapper());
+        } catch (DataAccessException e) {
+            throw new EntityNotFoundException("User not found");
+        }
+    }
 
 	@Override
 	public List<User> getAllAcceptedInCourse(Long idCourse) throws EntityNotFoundException {
@@ -106,13 +115,21 @@ public class MysqlUserDao implements UserDao {
 	}
 	
 	@Override
-	public User login(String meno, String heslo) throws EntityNotFoundException {
-		String sql = "SELECT user_id, name, surname, password, teacher, username, email FROM user where username like ? and password like ?";
-		String hashValue = SHA256.getHash(heslo);
+	public User login(String meno, String password) throws EntityNotFoundException {
+		String sql = "SELECT user_id, name, surname, password, teacher, username, email FROM user WHERE username LIKE ?";
+		password = SHA256.getHashWithouSalt(password);
 		try {
-			return jdbcTemplate.queryForObject(sql, new UserRowMapper(), meno, hashValue);
+			User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), meno);
+			String userPassword = user.getHeslo();
+			String passFront = (String) userPassword.subSequence(0, 20);
+			String passEnd = (String) userPassword.subSequence(56, userPassword.length());
+			userPassword = passFront + passEnd;
+			if(password.equals(userPassword)) return user;
+			else {
+				throw new EntityNotFoundException("Wrong password for " + meno);
+			}
 		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("User not found");
+			throw new EntityNotFoundException("User '" + meno + "' not found");
 		}
 	}
 	
@@ -143,12 +160,12 @@ public class MysqlUserDao implements UserDao {
 	}
 
 	@Override
-	public User deleteUser(Long id) throws EntityNotFoundException {
+	public void deleteUser(Long id) throws EntityNotFoundException {
 		String deleteSql = "DELETE FROM user WHERE user_id = " + id;
-		User user = getById(id);
+//		User user = getById(id);
 		int changed = jdbcTemplate.update(deleteSql);
 		if(changed == 0) throw new EntityNotFoundException("User with id " + id + " not found");
-		return user;
+//		return user;
 	}
 
 }

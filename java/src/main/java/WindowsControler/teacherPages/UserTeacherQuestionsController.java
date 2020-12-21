@@ -80,7 +80,7 @@ public class UserTeacherQuestionsController {
 	void initialize() {
 		username.setText(user.getName() + " " + user.getSurname());
 		listview.setItems(FXCollections.observableArrayList(questionDao.getAllByUserId(user.getIdUser())));
-		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForTeacher(user.getIdUser())));
+		subjectchoice.setItems(FXCollections.observableArrayList(subjectDao.getAllForUser(user.getIdUser())));
 		topicchoice.setItems(FXCollections.observableArrayList(zameranieDao.getAllForTeacher(user.getIdUser())));
 		
 		listview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {

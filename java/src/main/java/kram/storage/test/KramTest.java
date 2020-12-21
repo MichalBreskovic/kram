@@ -179,14 +179,18 @@ public class KramTest {
 	    Date firstDate = null;
 	    Date secondDate = null;
 		try {
-			firstDate = sdf.parse(start);
-		    secondDate = sdf.parse(end);
+			if(start != null) firstDate = sdf.parse(start);
+		    if(end != null) secondDate = sdf.parse(end);
+		    
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
-	    long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
-	    long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.SECONDS);
+		Long diff = 0L;
+		
+		if(firstDate != null && secondDate != null) {
+		    long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+		    diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.SECONDS);
+		}
 		
 		String output = "";
 		if(idTopic != 0) output += "Topic: " + DaoFactory.INSTATNCE.getZameranieDao().getById(idTopic).toString().toUpperCase() + " "; 
@@ -194,7 +198,7 @@ public class KramTest {
 		output += "Grade: " + hodnotenie + "% ";
 		if(start != null) output += " Start: " + start.substring(5) + " ";
 		if(end != null) output += " End: " + end.substring(5) + " ";
-		if(diff != 0) output += " Duration: " + diff + " seconds "; 
+		if(!diff.equals(0L)) output += " Duration: " + diff + " seconds "; 
 		return output;
 	}
 	

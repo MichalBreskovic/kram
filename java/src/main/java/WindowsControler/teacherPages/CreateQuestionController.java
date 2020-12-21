@@ -1,7 +1,5 @@
 package WindowsControler.teacherPages;
 
-
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;

@@ -76,25 +76,25 @@ public class MysqlCourseDao implements CourseDao {
 		}
 	}
 	
-	@Override
-	public List<Course> getAll() throws EntityNotFoundException {
-		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id)";
-		try {
-			return jdbcTemplate.query(sql, new MultipleCourseSetExtractor());
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Course not found");
-		}
-	}
+//	@Override
+//	public List<Course> getAll() throws EntityNotFoundException {
+//		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id)";
+//		try {
+//			return jdbcTemplate.query(sql, new MultipleCourseSetExtractor());
+//		} catch (DataAccessException e) {
+//			throw new EntityNotFoundException("Course not found");
+//		}
+//	}
 	
-	@Override
-	public List<Course> getAllRowMapper() throws EntityNotFoundException {
-		String sql = "select course_id, user_id, name from course ";
-		try {
-			return jdbcTemplate.query(sql, new CourseRowMapper());
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Course not found");
-		}
-	}
+//	@Override
+//	public List<Course> getAllRowMapper() throws EntityNotFoundException {
+//		String sql = "select course_id, user_id, name from course ";
+//		try {
+//			return jdbcTemplate.query(sql, new CourseRowMapper());
+//		} catch (DataAccessException e) {
+//			throw new EntityNotFoundException("Course not found");
+//		}
+//	}
 	
 	@Override
 	public List<Course> getAllRowMapperWithoutUser(Long id) throws EntityNotFoundException {
@@ -107,31 +107,29 @@ public class MysqlCourseDao implements CourseDao {
 	}
 	
 	
-	@Override
-	public List<Course> getBySubstring(String string) throws EntityNotFoundException {
-		try {
-			
-			String str = "%" + string +"%";
-			String sql = "SELECT course_id , user_id, name FROM course WHERE name LIKE ?";
-			if (string == null || string.trim().isEmpty()) {
-				return getAllRowMapper();
-			}else {
-				return jdbcTemplate.query(sql, new CourseRowMapper(),str);
-			}
-		
-			
-
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Course not found");
-		}
+//	@Override
+//	public List<Course> getBySubstring(String string) throws EntityNotFoundException {
+//		try {
+//			
+//			String str = "%" + string +"%";
+//			String sql = "SELECT course_id , user_id, name FROM course WHERE name LIKE ?";
+//			if (string == null || string.trim().isEmpty()) {
+//				return getAllRowMapper();
+//			} else {
+//				return jdbcTemplate.query(sql, new CourseRowMapper(),str);
+//			}
+//		
+//		} catch (DataAccessException e) {
+//			throw new EntityNotFoundException("Course not found");
+//		}
+//	}
 	
-	}
 	@Override
 	public List<Course> getBySubstringWithoutU(String string, Long id) throws EntityNotFoundException {
 		try {
 			
 			String str = "%" + string +"%";
-			String sql = "SELECT course_id, user_id, name FROM course WHERE course_id NOT IN (SELECT course_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) WHERE cu.user_id = ?) where name like ?";
+			String sql = "SELECT course_id, user_id, name FROM course WHERE course_id NOT IN (SELECT course_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) WHERE cu.user_id = ?) AND name LIKE ?";
 			if (string == null || string.trim().isEmpty()) {
 				return getAllRowMapperWithoutUser(id);
 			}else {
@@ -146,15 +144,15 @@ public class MysqlCourseDao implements CourseDao {
 	
 	}
 
-	@Override
-	public Course getById(Long id) throws EntityNotFoundException {
-		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id) WHERE c.course_id = ?";
-		try {
-			return jdbcTemplate.query(sql, new CourseSetExtractor(), id);
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException("Course with " + id + " not found");
-		}
-	}
+//	@Override
+//	public Course getById(Long id) throws EntityNotFoundException {
+//		String sql = "SELECT c.course_id, c.user_id AS teacher, c.name, cu.user_id AS student, ct.test_id FROM course AS c LEFT OUTER JOIN course_user AS cu USING(course_id) LEFT OUTER JOIN course_test AS ct USING(course_id) WHERE c.course_id = ?";
+//		try {
+//			return jdbcTemplate.query(sql, new CourseSetExtractor(), id);
+//		} catch (DataAccessException e) {
+//			throw new EntityNotFoundException("Course with " + id + " not found");
+//		}
+//	}
 
 	@Override
 	public List<Course> getAllByTeacherId(Long id) throws EntityNotFoundException {
@@ -263,12 +261,11 @@ public class MysqlCourseDao implements CourseDao {
 	}
 	
 	@Override
-	public Course deleteCourse(Long id) throws EntityNotFoundException {
+	public void deleteCourse(Long id) throws EntityNotFoundException {
 		String deleteSql = "DELETE FROM course WHERE course_id = ?";
-		Course course = getById(id);
+//		Course course = getById(id);
 		int changed = jdbcTemplate.update(deleteSql, id);
 		if(changed == 0) throw new EntityNotFoundException("Course with id " + id + " not found");
-		return course;
 	}
 
 }
